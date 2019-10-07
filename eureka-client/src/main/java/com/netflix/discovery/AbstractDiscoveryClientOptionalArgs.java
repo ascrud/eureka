@@ -1,15 +1,5 @@
 package com.netflix.discovery;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.inject.Provider;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-
 import com.google.inject.Inject;
 import com.netflix.appinfo.HealthCheckCallback;
 import com.netflix.appinfo.HealthCheckHandler;
@@ -17,6 +7,11 @@ import com.netflix.discovery.shared.transport.TransportClientFactory;
 import com.netflix.discovery.shared.transport.jersey.EurekaJerseyClient;
 import com.netflix.discovery.shared.transport.jersey.TransportClientFactories;
 import com.netflix.eventbus.spi.EventBus;
+
+import javax.inject.Provider;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import java.util.*;
 
 /**
  * <T> The type for client supplied filters (supports jersey1 and jersey2)

@@ -16,11 +16,11 @@
 
 package com.netflix.discovery;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 import com.google.inject.ImplementedBy;
 import com.netflix.discovery.shared.transport.EurekaTransportConfig;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Configuration information required by the eureka clients to register an
@@ -31,12 +31,12 @@ import com.netflix.discovery.shared.transport.EurekaTransportConfig;
  * {@link DefaultEurekaClientConfig}. The users just need to provide the eureka
  * server service urls. The Eureka server service urls can be configured by 2
  * mechanisms
- *
+ * <p>
  * 1) By registering the information in the DNS. 2) By specifying it in the
  * configuration.
  * </p>
- *
- *
+ * <p>
+ * <p>
  * Once the client is registered, users can look up information from
  * {@link EurekaClient} based on <em>virtual hostname</em> (also called
  * VIPAddress), the most common way of doing it or by other means to get the
@@ -49,7 +49,6 @@ import com.netflix.discovery.shared.transport.EurekaTransportConfig;
  * </p>
  *
  * @author Karthik Ranganathan
- *
  */
 @ImplementedBy(DefaultEurekaClientConfig.class)
 public interface EurekaClientConfig {
@@ -170,7 +169,7 @@ public interface EurekaClientConfig {
      * to all eureka servers.
      *
      * @return total number of allowed connections from eureka client to all
-     *         eureka servers.
+     * eureka servers.
      */
     int getEurekaServerTotalConnections();
 
@@ -179,7 +178,7 @@ public interface EurekaClientConfig {
      * to a eureka server host.
      *
      * @return total number of allowed connections from eureka client to a
-     *         eureka server.
+     * eureka server.
      */
     int getEurekaServerTotalConnectionsPerHost();
 
@@ -201,7 +200,7 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return the string indicating the context {@link java.net.URI} of the eureka
-     *         server.
+     * server.
      */
     String getEurekaServerURLContext();
 
@@ -223,7 +222,7 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return the string indicating the port where the eureka server is
-     *         listening.
+     * listening.
      */
     String getEurekaServerPort();
 
@@ -244,7 +243,7 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return the string indicating the DNS name to be queried for eureka
-     *         servers.
+     * servers.
      */
     String getEurekaServerDNSName();
 
@@ -279,14 +278,14 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return true if this instance should register with eureka, false
-     *         otherwise
+     * otherwise
      */
     boolean shouldRegisterWithEureka();
 
     /**
      * Indicates whether the client should explicitly unregister itself from the remote server
      * on client shutdown.
-     * 
+     *
      * @return true if this instance should unregister with eureka on client shutdown, false otherwise
      */
     default boolean shouldUnregisterOnShutdown() {
@@ -307,7 +306,7 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return true if the eureka client should prefer the server in the same
-     *         zone, false otherwise.
+     * zone, false otherwise.
      */
     boolean shouldPreferSameZoneEureka();
 
@@ -344,7 +343,7 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return true if the eureka client should log delta differences in the
-     *         case of reconciliation failure.
+     * case of reconciliation failure.
      */
     boolean shouldLogDeltaDiff();
 
@@ -363,7 +362,7 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return true to enable fetching delta information for registry, false to
-     *         get the full registry.
+     * get the full registry.
      */
     boolean shouldDisableDelta();
 
@@ -393,8 +392,8 @@ public interface EurekaClientConfig {
      * <em>The changes are effective at runtime at the next registry fetch cycle as specified by
      * {@link #getRegistryFetchIntervalSeconds()}</em>
      * </p>
-     * @param region the region where this instance is deployed.
      *
+     * @param region the region where this instance is deployed.
      * @return the list of available zones accessible by this instance.
      */
     String[] getAvailabilityZones(String region);
@@ -413,10 +412,10 @@ public interface EurekaClientConfig {
      * <em>The changes are effective at runtime at the next service url refresh cycle as specified by
      * {@link #getEurekaServiceUrlPollIntervalSeconds()}</em>
      * </p>
-     * @param myZone the zone in which the instance is deployed.
      *
+     * @param myZone the zone in which the instance is deployed.
      * @return the list of eureka server service urls for eureka clients to talk
-     *         to.
+     * to.
      */
     List<String> getEurekaServerServiceUrls(String myZone);
 
@@ -444,7 +443,7 @@ public interface EurekaClientConfig {
      * </p>
      *
      * @return time in seconds the connections to eureka can stay idle before it
-     *         can be closed.
+     * can be closed.
      */
     int getEurekaConnectionIdleTimeoutSeconds();
 
@@ -522,7 +521,7 @@ public interface EurekaClientConfig {
     /**
      * If set to true, the {@link EurekaClient} initialization should throw an exception at constructor time
      * if an initial registration to the remote servers is unsuccessful.
-     *
+     * <p>
      * Note that if {@link #shouldRegisterWithEureka()} is set to false, then this config is a no-op
      *
      * @return true or false for whether the client initialization should enforce an initial registration

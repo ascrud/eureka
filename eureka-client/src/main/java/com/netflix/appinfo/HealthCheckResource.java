@@ -16,31 +16,30 @@
 
 package com.netflix.appinfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A basic <em>healthcheck</em> jersey resource.
- *
+ * <p>
  * This can be used a {@link HealthCheckCallback} resource if required.
- * @author Karthik Ranganathan, Greg Kim
  *
+ * @author Karthik Ranganathan, Greg Kim
  */
 @Path("/healthcheck")
 public class HealthCheckResource {
-    private static final Logger s_logger = LoggerFactory
-            .getLogger(HealthCheckResource.class);
+
+    private static final Logger s_logger = LoggerFactory.getLogger(HealthCheckResource.class);
 
     @GET
     public Response doHealthCheck() {
         try {
-            InstanceInfo myInfo = ApplicationInfoManager.getInstance()
-                    .getInfo();
+            InstanceInfo myInfo = ApplicationInfoManager.getInstance().getInfo();
 
             switch (myInfo.getStatus()) {
                 case UP:

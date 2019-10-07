@@ -24,6 +24,8 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
     compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
 
+    compile "javax.annotation:javax.annotation-api:${annotationVersion}"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     // Eureka client uses JSON encoding by default
     provided "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jacksonVersion}"
     // Prefered jackson Stax serializer. Default Oracle has issues (adds empty namespace) and is slower

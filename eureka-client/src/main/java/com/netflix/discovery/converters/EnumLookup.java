@@ -1,14 +1,14 @@
 package com.netflix.discovery.converters;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 
 /**
  * utility class for matching a Enum value to a region of a char[] without
@@ -68,8 +68,9 @@ public class EnumLookup<T extends Enum<T>> {
     }
 
     public T find(char[] a, int offset, int length, T defaultValue) {
-        if (length < this.minLength || length > this.maxLength) return defaultValue;
-        
+        if (length < this.minLength || length > this.maxLength)
+            return defaultValue;
+
         int hash = hashCode(a, offset, length);
         int index = Arrays.binarySearch(sortedHashes, hash);
         if (index >= 0) {

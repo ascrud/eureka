@@ -6,12 +6,12 @@ package com.netflix.discovery;
  */
 public interface EurekaEventListener {
     /**
-     * Notification of an event within the {@link EurekaClient}.  
-     * 
-     * {@link EurekaEventListener#onEvent} is called from the context of an internal eureka thread 
+     * Notification of an event within the {@link EurekaClient}.
+     * <p>
+     * {@link EurekaEventListener#onEvent} is called from the context of an internal eureka thread
      * and must therefore return as quickly as possible without blocking.
-     * 
-     * @param event
+     *
+     * @param event 　event
      */
-    public void onEvent(EurekaEvent event);
+    void onEvent(EurekaEvent event);
 }

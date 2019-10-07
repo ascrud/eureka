@@ -10,12 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -90,11 +85,11 @@ public class AsyncResolver<T extends EurekaEndpoint> implements ClosableResolver
     }
 
     /**
-     * @param delegate the delegate resolver to async resolve from
-     * @param initialValue the initial value to use
+     * @param delegate               the delegate resolver to async resolve from
+     * @param initialValue           the initial value to use
      * @param executorThreadPoolSize the max number of threads for the threadpool
-     * @param refreshIntervalMs the async refresh interval
-     * @param warmUpTimeoutMs the time to wait for the initial warm up
+     * @param refreshIntervalMs      the async refresh interval
+     * @param warmUpTimeoutMs        the time to wait for the initial warm up
      */
     AsyncResolver(String name,
                   ClusterResolver<T> delegate,
@@ -138,7 +133,7 @@ public class AsyncResolver<T extends EurekaEndpoint> implements ClosableResolver
 
     @Override
     public void shutdown() {
-        if(Monitors.isObjectRegistered(name, this)) {
+        if (Monitors.isObjectRegistered(name, this)) {
             Monitors.unregisterObject(name, this);
         }
         executorService.shutdownNow();
@@ -183,7 +178,8 @@ public class AsyncResolver<T extends EurekaEndpoint> implements ClosableResolver
         return false;
     }
 
-    /* visible for testing */ void scheduleTask(long delay) {
+    /* visible for testing */
+    void scheduleTask(long delay) {
         executorService.schedule(
                 backgroundTask, delay, TimeUnit.MILLISECONDS);
     }
@@ -197,7 +193,8 @@ public class AsyncResolver<T extends EurekaEndpoint> implements ClosableResolver
     @Monitor(name = METRIC_RESOLVER_PREFIX + "endpointsSize",
             description = "How many records are the in the endpoints ref", type = DataSourceType.GAUGE)
     public long getEndpointsSize() {
-        return resultsRef.get().size();  // return directly from the ref and not the method so as to not trigger warming
+        // return directly from the ref and not the method so as to not trigger warming
+        return resultsRef.get().size();
     }
 
     private final Runnable updateTask = new Runnable() {

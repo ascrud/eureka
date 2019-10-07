@@ -1,7 +1,5 @@
 package com.netflix.discovery.shared;
 
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.http.conn.ClientConnectionRequest;
 import org.apache.http.conn.routing.HttpRoute;
@@ -11,12 +9,13 @@ import org.apache.http.impl.conn.tsccm.ConnPoolByRoute;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.HttpParams;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * A connection manager that uses {@link NamedConnectionPool}, which provides
  * connection reuse statistics, as its underlying connection pool.
  *
  * @author awang
- *
  */
 public class MonitoredConnectionManager extends ThreadSafeClientConnManager {
 

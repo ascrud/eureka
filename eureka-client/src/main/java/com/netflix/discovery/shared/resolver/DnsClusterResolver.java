@@ -16,12 +16,12 @@
 
 package com.netflix.discovery.shared.resolver;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.netflix.discovery.shared.dns.DnsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Resolves cluster addresses from DNS. If the provided name contains only CNAME entry, the cluster server pool
@@ -40,8 +40,8 @@ public class DnsClusterResolver implements ClusterResolver<EurekaEndpoint> {
 
     /**
      * @param rootClusterDNS cluster DNS name containing CNAME or A record.
-     * @param port Eureka sever port number
-     * @param relativeUri service relative URI that will be appended to server address
+     * @param port           Eureka sever port number
+     * @param relativeUri    service relative URI that will be appended to server address
      */
     public DnsClusterResolver(DnsService dnsService, String region, String rootClusterDNS, int port, boolean isSecure, String relativeUri) {
         this.region = region;

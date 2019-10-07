@@ -15,15 +15,6 @@
  */
 package com.netflix.appinfo;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,6 +32,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+
 /**
  * The class that holds information required for registration with
  * <tt>Eureka Server</tt> and to be discovered by other components.
@@ -56,6 +51,8 @@ import org.slf4j.LoggerFactory;
 @XStreamAlias("instance")
 @JsonRootName("instance")
 public class InstanceInfo {
+
+    private static final Logger logger = LoggerFactory.getLogger(InstanceInfo.class);
 
     private static final String VERSION_UNKNOWN = "unknown";
 
@@ -82,77 +79,106 @@ public class InstanceInfo {
         }
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(InstanceInfo.class);
-
     public static final int DEFAULT_PORT = 7001;
     public static final int DEFAULT_SECURE_PORT = 7002;
     public static final int DEFAULT_COUNTRY_ID = 1; // US
+
+    private static final String SID_DEFAULT = "na";
 
     // The (fixed) instanceId for this instanceInfo. This should be unique within the scope of the appName.
     private volatile String instanceId;
 
     private volatile String appName;
+
     @Auto
     private volatile String appGroupName;
 
     private volatile String ipAddr;
 
-    private static final String SID_DEFAULT = "na";
     @Deprecated
     private volatile String sid = SID_DEFAULT;
 
     private volatile int port = DEFAULT_PORT;
+
     private volatile int securePort = DEFAULT_SECURE_PORT;
 
     @Auto
     private volatile String homePageUrl;
+
     @Auto
     private volatile String statusPageUrl;
+
     @Auto
     private volatile String healthCheckUrl;
+
     @Auto
     private volatile String secureHealthCheckUrl;
+
     @Auto
     private volatile String vipAddress;
+
     @Auto
     private volatile String secureVipAddress;
+
     @XStreamOmitField
     private String statusPageRelativeUrl;
+
     @XStreamOmitField
     private String statusPageExplicitUrl;
+
     @XStreamOmitField
     private String healthCheckRelativeUrl;
+
     @XStreamOmitField
     private String healthCheckSecureExplicitUrl;
+
     @XStreamOmitField
     private String vipAddressUnresolved;
+
     @XStreamOmitField
     private String secureVipAddressUnresolved;
+
     @XStreamOmitField
     private String healthCheckExplicitUrl;
+
     @Deprecated
     private volatile int countryId = DEFAULT_COUNTRY_ID; // Defaults to US
+
     private volatile boolean isSecurePortEnabled = false;
+
     private volatile boolean isUnsecurePortEnabled = true;
+
     private volatile DataCenterInfo dataCenterInfo;
+
     private volatile String hostName;
+
     private volatile InstanceStatus status = InstanceStatus.UP;
+
     private volatile InstanceStatus overriddenStatus = InstanceStatus.UNKNOWN;
+
     @XStreamOmitField
     private volatile boolean isInstanceInfoDirty = false;
+
     private volatile LeaseInfo leaseInfo;
+
     @Auto
     private volatile Boolean isCoordinatingDiscoveryServer = Boolean.FALSE;
+
     @XStreamAlias("metadata")
     private volatile Map<String, String> metadata;
+
     @Auto
     private volatile Long lastUpdatedTimestamp;
+
     @Auto
     private volatile Long lastDirtyTimestamp;
+
     @Auto
     private volatile ActionType actionType;
+
     @Auto
     private volatile String asgName;
+
     private String version = VERSION_UNKNOWN;
 
     private InstanceInfo() {
@@ -233,7 +259,7 @@ public class InstanceInfo {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "InstanceInfo [instanceId = " + this.instanceId + ", appName = " + this.appName +
                 ", hostName = " + this.hostName + ", status = " + this.status +
                 ", ipAddr = " + this.ipAddr + ", port = " + this.port + ", securePort = " + this.securePort +
@@ -313,7 +339,6 @@ public class InstanceInfo {
         this.version = ii.version;
     }
 
-
     public enum InstanceStatus {
         UP, // Ready to receive traffic
         DOWN, // Do not send traffic- healthcheck callback failed
@@ -372,7 +397,7 @@ public class InstanceInfo {
         private static final String COLON = ":";
         private static final String HTTPS_PROTOCOL = "https://";
         private static final String HTTP_PROTOCOL = "http://";
-        private final Function<String,String> intern;
+        private final Function<String, String> intern;
 
         private static final class LazyHolder {
             private static final VipAddressResolver DEFAULT_VIP_ADDRESS_RESOLVER = new Archaius1VipAddressResolver();
@@ -386,7 +411,7 @@ public class InstanceInfo {
 
         private String namespace;
 
-        private Builder(InstanceInfo result, VipAddressResolver vipAddressResolver, Function<String,String> intern) {
+        private Builder(InstanceInfo result, VipAddressResolver vipAddressResolver, Function<String, String> intern) {
             this.vipAddressResolver = vipAddressResolver;
             this.result = result;
             this.intern = intern != null ? intern : StringCache::intern;
@@ -400,7 +425,7 @@ public class InstanceInfo {
             return new Builder(new InstanceInfo(), LazyHolder.DEFAULT_VIP_ADDRESS_RESOLVER, null);
         }
 
-        public static Builder newBuilder(Function<String,String> intern) {
+        public static Builder newBuilder(Function<String, String> intern) {
             return new Builder(new InstanceInfo(), LazyHolder.DEFAULT_VIP_ADDRESS_RESOLVER, intern);
         }
 
@@ -424,12 +449,11 @@ public class InstanceInfo {
             result.appName = intern.apply(appName.toUpperCase(Locale.ROOT));
             return this;
         }
-        
+
         public Builder setAppNameForDeser(String appName) {
             result.appName = appName;
             return this;
         }
-        
 
         public Builder setAppGroupName(String appGroupName) {
             if (appGroupName != null) {
@@ -439,6 +463,7 @@ public class InstanceInfo {
             }
             return this;
         }
+
         public Builder setAppGroupNameForDeser(String appGroupName) {
             result.appGroupName = appGroupName;
             return this;
@@ -904,12 +929,12 @@ public class InstanceInfo {
     /**
      * Return the default network address to connect to this instance. Typically this would be the fully
      * qualified public hostname.
-     *
+     * <p>
      * However the user can configure the {@link EurekaInstanceConfig} to change the default value used
      * to populate this field using the {@link EurekaInstanceConfig#getDefaultAddressResolutionOrder()} property.
-     *
+     * <p>
      * If a use case need more specific hostnames or ips, please use data from {@link #getDataCenterInfo()}.
-     *
+     * <p>
      * For legacy reasons, it is difficult to introduce a new address-type field that is agnostic to hostname/ip.
      *
      * @return the default address (by default the public hostname)
@@ -1256,7 +1281,6 @@ public class InstanceInfo {
         return lastDirtyTimestamp;
     }
 
-
     /**
      * Unset the dirty flag iff the unsetDirtyTimestamp matches the lastDirtyTimestamp. No-op if
      * lastDirtyTimestamp > unsetDirtyTimestamp
@@ -1350,8 +1374,7 @@ public class InstanceInfo {
      * Register application specific metadata to be sent to the discovery
      * server.
      *
-     * @param runtimeMetadata
-     *            Map containing key/value pairs.
+     * @param runtimeMetadata Map containing key/value pairs.
      */
     synchronized void registerRuntimeMetadata(
             Map<String, String> runtimeMetadata) {
@@ -1365,8 +1388,7 @@ public class InstanceInfo {
      * the AWS zone of the instance, and availZones is ignored.
      *
      * @param availZones the list of available zones for non-AWS deployments
-     * @param myInfo
-     *            - The InstanceInfo object of the instance.
+     * @param myInfo     - The InstanceInfo object of the instance.
      * @return - The zone in which the particular instance belongs to.
      */
     public static String getZone(String[] availZones, InstanceInfo myInfo) {

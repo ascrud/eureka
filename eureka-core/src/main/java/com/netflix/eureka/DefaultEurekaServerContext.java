@@ -46,10 +46,10 @@ public class DefaultEurekaServerContext implements EurekaServerContext {
 
     @Inject
     public DefaultEurekaServerContext(EurekaServerConfig serverConfig,
-                               ServerCodecs serverCodecs,
-                               PeerAwareInstanceRegistry registry,
-                               PeerEurekaNodes peerEurekaNodes,
-                               ApplicationInfoManager applicationInfoManager) {
+                                      ServerCodecs serverCodecs,
+                                      PeerAwareInstanceRegistry registry,
+                                      PeerEurekaNodes peerEurekaNodes,
+                                      ApplicationInfoManager applicationInfoManager) {
         this.serverConfig = serverConfig;
         this.serverCodecs = serverCodecs;
         this.registry = registry;

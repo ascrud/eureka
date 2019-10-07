@@ -16,38 +16,22 @@
 
 package com.netflix.eureka.registry;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.netflix.appinfo.AmazonInfo;
+import com.netflix.appinfo.*;
 import com.netflix.appinfo.AmazonInfo.MetaDataKey;
-import com.netflix.appinfo.ApplicationInfoManager;
-import com.netflix.appinfo.DataCenterInfo;
 import com.netflix.appinfo.DataCenterInfo.Name;
-import com.netflix.appinfo.InstanceInfo;
 import com.netflix.appinfo.InstanceInfo.InstanceStatus;
-import com.netflix.appinfo.LeaseInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.EurekaClientConfig;
 import com.netflix.discovery.shared.Application;
 import com.netflix.discovery.shared.Applications;
-import com.netflix.eureka.registry.rule.DownOrStartingRule;
-import com.netflix.eureka.registry.rule.FirstMatchWinsCompositeRule;
-import com.netflix.eureka.registry.rule.InstanceStatusOverrideRule;
-import com.netflix.eureka.registry.rule.LeaseExistsRule;
-import com.netflix.eureka.registry.rule.OverrideExistsRule;
-import com.netflix.eureka.resources.CurrentRequestVersion;
 import com.netflix.eureka.EurekaServerConfig;
 import com.netflix.eureka.Version;
 import com.netflix.eureka.cluster.PeerEurekaNode;
 import com.netflix.eureka.cluster.PeerEurekaNodes;
 import com.netflix.eureka.lease.Lease;
+import com.netflix.eureka.registry.rule.*;
 import com.netflix.eureka.resources.ASGResource.ASGStatus;
+import com.netflix.eureka.resources.CurrentRequestVersion;
 import com.netflix.eureka.resources.ServerCodecs;
 import com.netflix.eureka.util.MeasuredRate;
 import com.netflix.servo.DefaultMonitorRegistry;
@@ -59,6 +43,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.net.URI;
+import java.util.*;
 
 /**
  * Handles replication of all operations to {@link AbstractInstanceRegistry} to peer
@@ -86,7 +72,6 @@ import javax.inject.Singleton;
  * </p>
  *
  * @author Karthik Ranganathan, Greg Kim
- *
  */
 @Singleton
 public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry implements PeerAwareInstanceRegistry {
@@ -99,7 +84,11 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     private boolean peerInstancesTransferEmptyOnStartup = true;
 
     public enum Action {
-        Heartbeat, Register, Cancel, StatusUpdate, DeleteStatusOverride;
+        Heartbeat,
+        Register,
+        Cancel,
+        StatusUpdate,
+        DeleteStatusOverride;
 
         private com.netflix.servo.monitor.Timer timer = Monitors.newTimer(this.name());
 
@@ -109,6 +98,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     }
 
     private static final Comparator<Application> APP_COMPARATOR = new Comparator<Application>() {
+        @Override
         public int compare(Application l, Application r) {
             return l.getName().compareTo(r.getName());
         }
@@ -117,6 +107,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     private final MeasuredRate numberOfReplicationsLastMin;
 
     protected final EurekaClient eurekaClient;
+
     protected volatile PeerEurekaNodes peerEurekaNodes;
 
     private final InstanceStatusOverrideRule instanceStatusOverrideRule;
@@ -185,7 +176,6 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
      * The renewal threshold would be used to determine if the renewals drop
      * dramatically because of network partition and to protect expiring too
      * many instances at a time.
-     *
      */
     private void scheduleRenewalThresholdUpdateTask() {
         timer.schedule(new TimerTask() {
@@ -329,7 +319,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
      * get the registry information from the peer eureka nodes at start up.
      *
      * @return false - if the instances count from a replica transfer returned
-     *         zero and if the wait time has not elapsed, otherwise returns true
+     * zero and if the wait time has not elapsed, otherwise returns true
      */
     @Override
     public boolean shouldAllowAccess(boolean remoteRegionRequired) {
@@ -353,23 +343,21 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     }
 
     /**
+     * @return the list of replica nodes.
      * @deprecated use {@link com.netflix.eureka.cluster.PeerEurekaNodes#getPeerEurekaNodes()} directly.
-     *
+     * <p>
      * Gets the list of peer eureka nodes which is the list to replicate
      * information to.
-     *
-     * @return the list of replica nodes.
      */
     @Deprecated
     public List<PeerEurekaNode> getReplicaNodes() {
         return Collections.unmodifiableList(peerEurekaNodes.getPeerEurekaNodes());
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.eureka.registry.InstanceRegistry#cancel(java.lang.String,
-     * java.lang.String, long, boolean)
+     * @see com.netflix.eureka.registry.InstanceRegistry#cancel(String, String, boolean)
      */
     @Override
     public boolean cancel(final String appName, final String id,
@@ -393,11 +381,9 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
      * this information to all peer eureka nodes. If this is replication event
      * from other replica nodes then it is not replicated.
      *
-     * @param info
-     *            the {@link InstanceInfo} to be registered and replicated.
-     * @param isReplication
-     *            true if this is a replication event from other replica nodes,
-     *            false otherwise.
+     * @param info          the {@link InstanceInfo} to be registered and replicated.
+     * @param isReplication true if this is a replication event from other replica nodes,
+     *                      false otherwise.
      */
     @Override
     public void register(final InstanceInfo info, final boolean isReplication) {
@@ -409,12 +395,12 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
         replicateToPeers(Action.Register, info.getAppName(), info.getId(), info, null, isReplication);
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.eureka.registry.InstanceRegistry#renew(java.lang.String,
-     * java.lang.String, long, boolean)
+     * @see com.netflix.eureka.registry.InstanceRegistry#renew(String, String, boolean)
      */
+    @Override
     public boolean renew(final String appName, final String id, final boolean isReplication) {
         if (super.renew(appName, id, isReplication)) {
             replicateToPeers(Action.Heartbeat, appName, id, null, null, isReplication);
@@ -423,7 +409,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
         return false;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.eureka.registry.InstanceRegistry#statusUpdate(java.lang.String,
@@ -458,8 +444,8 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
      * event is a replication from other nodes, then it is not replicated to
      * other nodes.
      *
-     * @param asgName the asg name for which the status needs to be replicated.
-     * @param newStatus the {@link ASGStatus} information that needs to be replicated.
+     * @param asgName       the asg name for which the status needs to be replicated.
+     * @param newStatus     the {@link ASGStatus} information that needs to be replicated.
      * @param isReplication true if this is a replication event from other nodes, false otherwise.
      */
     @Override
@@ -588,7 +574,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     /**
      * Checks if an instance is registerable in this region. Instances from other regions are rejected.
      *
-     * @param instanceInfo  th instance info information of the instance
+     * @param instanceInfo th instance info information of the instance
      * @return true, if it can be registered in this server, false otherwise.
      */
     public boolean isRegisterable(InstanceInfo instanceInfo) {
@@ -611,7 +597,6 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     /**
      * Replicates all eureka actions to peer eureka nodes except for replication
      * traffic to this node.
-     *
      */
     private void replicateToPeers(Action action, String appName, String id,
                                   InstanceInfo info /* optional */,
@@ -641,7 +626,6 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     /**
      * Replicates all instance changes to peer eureka nodes except for
      * replication traffic to this node.
-     *
      */
     private void replicateInstanceActionsToPeers(Action action, String appName,
                                                  String id, InstanceInfo info, InstanceStatus newStatus,

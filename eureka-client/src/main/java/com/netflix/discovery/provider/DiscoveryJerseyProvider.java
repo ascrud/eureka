@@ -16,6 +16,13 @@
 
 package com.netflix.discovery.provider;
 
+import com.netflix.discovery.converters.wrappers.CodecWrappers;
+import com.netflix.discovery.converters.wrappers.CodecWrappers.LegacyJacksonJson;
+import com.netflix.discovery.converters.wrappers.DecoderWrapper;
+import com.netflix.discovery.converters.wrappers.EncoderWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -31,13 +38,6 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Map;
-
-import com.netflix.discovery.converters.wrappers.CodecWrappers;
-import com.netflix.discovery.converters.wrappers.CodecWrappers.LegacyJacksonJson;
-import com.netflix.discovery.converters.wrappers.DecoderWrapper;
-import com.netflix.discovery.converters.wrappers.EncoderWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A custom provider implementation for Jersey that dispatches to the

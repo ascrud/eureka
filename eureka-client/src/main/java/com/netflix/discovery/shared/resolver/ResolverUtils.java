@@ -16,14 +16,6 @@
 
 package com.netflix.discovery.shared.resolver;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.netflix.appinfo.AmazonInfo;
 import com.netflix.appinfo.DataCenterInfo;
 import com.netflix.appinfo.InstanceInfo;
@@ -33,6 +25,10 @@ import com.netflix.discovery.shared.transport.EurekaTransportConfig;
 import com.netflix.discovery.util.SystemUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Tomasz Bak
@@ -50,7 +46,7 @@ public final class ResolverUtils {
 
     /**
      * @return returns two element array with first item containing list of endpoints from client's zone,
-     *         and in the second list all the remaining ones
+     * and in the second list all the remaining ones
      */
     public static List<AwsEndpoint>[] splitByZone(List<AwsEndpoint> eurekaEndpoints, String myZone) {
         if (eurekaEndpoints.isEmpty()) {

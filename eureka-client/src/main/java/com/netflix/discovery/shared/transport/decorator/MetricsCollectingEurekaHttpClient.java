@@ -16,10 +16,6 @@
 
 package com.netflix.discovery.shared.transport.decorator;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import com.netflix.discovery.EurekaClientNames;
 import com.netflix.discovery.shared.resolver.EurekaEndpoint;
 import com.netflix.discovery.shared.transport.EurekaHttpClient;
@@ -29,14 +25,13 @@ import com.netflix.discovery.shared.transport.TransportClientFactory;
 import com.netflix.discovery.shared.transport.decorator.MetricsCollectingEurekaHttpClient.EurekaHttpClientRequestMetrics.Status;
 import com.netflix.discovery.util.ExceptionsMetric;
 import com.netflix.discovery.util.ServoUtil;
-import com.netflix.servo.monitor.BasicCounter;
-import com.netflix.servo.monitor.BasicTimer;
-import com.netflix.servo.monitor.Counter;
-import com.netflix.servo.monitor.MonitorConfig;
-import com.netflix.servo.monitor.Stopwatch;
-import com.netflix.servo.monitor.Timer;
+import com.netflix.servo.monitor.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Tomasz Bak

@@ -16,13 +16,13 @@
 
 package com.netflix.discovery.converters;
 
+import com.netflix.discovery.provider.ISerializer;
+import com.thoughtworks.xstream.XStream;
+
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import com.netflix.discovery.provider.ISerializer;
-import com.thoughtworks.xstream.XStream;
 
 /**
  * A custom <tt>jersey</tt> provider implementation for eureka.
@@ -36,19 +36,19 @@ import com.thoughtworks.xstream.XStream;
  * <p>
  *
  * @author Karthik Ranganathan, Greg Kim.
- *
  */
 public class EntityBodyConverter implements ISerializer {
 
     private static final String XML = "xml";
     private static final String JSON = "json";
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.discovery.provider.ISerializer#read(java.io.InputStream,
      * java.lang.Class, javax.ws.rs.core.MediaType)
      */
+    @Override
     public Object read(InputStream is, Class type, MediaType mediaType)
             throws IOException {
         XStream xstream = getXStreamInstance(mediaType);
@@ -61,12 +61,13 @@ public class EntityBodyConverter implements ISerializer {
         }
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.discovery.provider.ISerializer#write(java.lang.Object,
      * java.io.OutputStream, javax.ws.rs.core.MediaType)
      */
+    @Override
     public void write(Object object, OutputStream os, MediaType mediaType)
             throws IOException {
         XStream xstream = getXStreamInstance(mediaType);

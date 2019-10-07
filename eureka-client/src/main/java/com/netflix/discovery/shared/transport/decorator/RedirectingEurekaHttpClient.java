@@ -16,23 +16,19 @@
 
 package com.netflix.discovery.shared.transport.decorator;
 
+import com.netflix.discovery.shared.dns.DnsService;
+import com.netflix.discovery.shared.dns.DnsServiceImpl;
+import com.netflix.discovery.shared.resolver.DefaultEndpoint;
+import com.netflix.discovery.shared.resolver.EurekaEndpoint;
+import com.netflix.discovery.shared.transport.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.netflix.discovery.shared.dns.DnsService;
-import com.netflix.discovery.shared.dns.DnsServiceImpl;
-import com.netflix.discovery.shared.resolver.DefaultEndpoint;
-import com.netflix.discovery.shared.resolver.EurekaEndpoint;
-import com.netflix.discovery.shared.transport.EurekaHttpClient;
-import com.netflix.discovery.shared.transport.EurekaHttpResponse;
-import com.netflix.discovery.shared.transport.TransportClientFactory;
-import com.netflix.discovery.shared.transport.TransportException;
-import com.netflix.discovery.shared.transport.TransportUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * {@link EurekaHttpClient} that follows redirect links, and executes the requests against
