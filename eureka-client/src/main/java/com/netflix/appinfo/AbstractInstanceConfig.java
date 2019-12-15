@@ -15,15 +15,14 @@
  */
 package com.netflix.appinfo;
 
+import com.netflix.discovery.CommonConstants;
+import com.netflix.discovery.shared.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
-
-import com.netflix.discovery.CommonConstants;
-import com.netflix.discovery.shared.Pair;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * An abstract instance info configuration with some defaults to get the users
@@ -31,9 +30,9 @@ import org.slf4j.LoggerFactory;
  * their instance with eureka server.
  *
  * @author Karthik Ranganathan
- *
  */
 public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractInstanceConfig.class);
 
     /**
@@ -41,7 +40,7 @@ public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
      */
     @Deprecated
     public static final String DEFAULT_NAMESPACE = CommonConstants.DEFAULT_CONFIG_NAMESPACE;
-    
+
     private static final int LEASE_EXPIRATION_DURATION_SECONDS = 90;
     private static final int LEASE_RENEWAL_INTERVAL_SECONDS = 30;
     private static final boolean SECURE_PORT_ENABLED = false;

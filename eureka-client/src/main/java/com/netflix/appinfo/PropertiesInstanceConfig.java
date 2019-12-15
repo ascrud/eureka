@@ -15,15 +15,15 @@
  */
 package com.netflix.appinfo;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.netflix.config.ConfigurationManager;
 import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.discovery.CommonConstants;
 import com.netflix.discovery.internal.util.Archaius1Utils;
 import org.apache.commons.configuration.Configuration;
+
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static com.netflix.appinfo.PropertyBasedInstanceConfigConstants.*;
 
@@ -46,7 +46,6 @@ import static com.netflix.appinfo.PropertyBasedInstanceConfigConstants.*;
  * </p>
  *
  * @author Karthik Ranganathan
- *
  */
 public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig implements EurekaInstanceConfig {
 

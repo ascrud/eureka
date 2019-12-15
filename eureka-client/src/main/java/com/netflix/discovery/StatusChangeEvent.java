@@ -8,6 +8,7 @@ import com.netflix.appinfo.InstanceInfo;
  * a status change is identified from the remote Eureka server response.
  */
 public class StatusChangeEvent extends DiscoveryEvent {
+
     private final InstanceInfo.InstanceStatus current;
     private final InstanceInfo.InstanceStatus previous;
 

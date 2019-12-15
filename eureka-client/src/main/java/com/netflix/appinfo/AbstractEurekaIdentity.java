@@ -3,6 +3,7 @@ package com.netflix.appinfo;
 import javax.annotation.Nullable;
 
 public abstract class AbstractEurekaIdentity {
+
     public static final String PREFIX = "DiscoveryIdentity-";
 
     public static final String AUTH_NAME_HEADER_KEY = PREFIX + "Name";
