@@ -63,6 +63,7 @@ public class ApplicationInfoManager {
     private EurekaInstanceConfig config;
 
     public static class OptionalArgs {
+
         private InstanceStatusMapper instanceStatusMapper;
 
         @com.google.inject.Inject(optional = true)

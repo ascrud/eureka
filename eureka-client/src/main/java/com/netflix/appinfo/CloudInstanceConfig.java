@@ -59,16 +59,19 @@ public class CloudInstanceConfig extends PropertiesInstanceConfig implements Ref
         this(namespace, new Archaius1AmazonInfoConfig(namespace), null, true);
     }
 
-    /* visible for testing */ CloudInstanceConfig(AmazonInfo info) {
+    /* visible for testing */
+    CloudInstanceConfig(AmazonInfo info) {
         this(CommonConstants.DEFAULT_CONFIG_NAMESPACE, new Archaius1AmazonInfoConfig(CommonConstants.DEFAULT_CONFIG_NAMESPACE), info, false);
     }
 
-    /* visible for testing */ CloudInstanceConfig(String namespace, RefreshableAmazonInfoProvider refreshableAmazonInfoProvider) {
+    /* visible for testing */
+    CloudInstanceConfig(String namespace, RefreshableAmazonInfoProvider refreshableAmazonInfoProvider) {
         super(namespace);
         this.amazonInfoHolder = refreshableAmazonInfoProvider;
     }
 
-    /* visible for testing */ CloudInstanceConfig(String namespace, AmazonInfoConfig amazonInfoConfig, AmazonInfo initialInfo, boolean eagerInit) {
+    /* visible for testing */
+    CloudInstanceConfig(String namespace, AmazonInfoConfig amazonInfoConfig, AmazonInfo initialInfo, boolean eagerInit) {
         super(namespace);
         if (eagerInit) {
             RefreshableAmazonInfoProvider.FallbackAddressProvider fallbackAddressProvider =

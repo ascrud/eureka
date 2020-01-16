@@ -16,21 +16,11 @@
 
 package com.netflix.eureka.aws;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
-import com.amazonaws.services.ec2.model.Address;
-import com.amazonaws.services.ec2.model.AssociateAddressRequest;
-import com.amazonaws.services.ec2.model.DescribeAddressesRequest;
-import com.amazonaws.services.ec2.model.DescribeAddressesResult;
-import com.amazonaws.services.ec2.model.DisassociateAddressRequest;
+import com.amazonaws.services.ec2.model.*;
 import com.netflix.appinfo.AmazonInfo;
 import com.netflix.appinfo.AmazonInfo.MetaDataKey;
 import com.netflix.appinfo.ApplicationInfoManager;
@@ -48,6 +38,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.*;
 
 /**
  * An AWS specific <em>elastic ip</em> binding utility for binding eureka
@@ -69,10 +60,10 @@ import javax.inject.Singleton;
  * </p>
  *
  * @author Karthik Ranganathan, Greg Kim
- *
  */
 @Singleton
 public class EIPManager implements AwsBinder {
+
     private static final Logger logger = LoggerFactory.getLogger(EIPManager.class);
 
     private static final String US_EAST_1 = "us-east-1";
@@ -101,6 +92,7 @@ public class EIPManager implements AwsBinder {
     }
 
     @PostConstruct
+    @Override
     public void start() {
         try {
             handleEIPBinding();
@@ -110,6 +102,7 @@ public class EIPManager implements AwsBinder {
     }
 
     @PreDestroy
+    @Override
     public void shutdown() {
         timer.cancel();
         for (int i = 0; i < serverConfig.getEIPBindRebindRetries(); i++) {
@@ -126,7 +119,6 @@ public class EIPManager implements AwsBinder {
             }
         }
     }
-
 
     /**
      * Handles EIP binding process in AWS Cloud.
@@ -154,6 +146,7 @@ public class EIPManager implements AwsBinder {
 
     /**
      * Checks if an EIP is already bound to the instance.
+     *
      * @return true if an EIP is bound, false otherwise
      */
     public boolean isEIPBound() {
@@ -175,20 +168,20 @@ public class EIPManager implements AwsBinder {
 
     /**
      * Checks if an EIP is bound and optionally binds the EIP.
-     *
+     * <p>
      * The list of EIPs are arranged with the EIPs allocated in the zone first
      * followed by other EIPs.
-     *
+     * <p>
      * If an EIP is already bound to this instance this method simply returns. Otherwise, this method tries to find
      * an unused EIP based on information from AWS. If it cannot find any unused EIP this method, it will be retried
      * for a specified interval.
-     *
+     * <p>
      * One of the following scenarios can happen here :
-     *
-     *  1) If the instance is already bound to an EIP as deemed by AWS, no action is taken.
-     *  2) If an EIP is already bound to another instance as deemed by AWS, that EIP is skipped.
-     *  3) If an EIP is not already bound to an instance and if this instance is not bound to an EIP, then
-     *     the EIP is bound to this instance.
+     * <p>
+     * 1) If the instance is already bound to an EIP as deemed by AWS, no action is taken.
+     * 2) If an EIP is already bound to another instance as deemed by AWS, that EIP is skipped.
+     * 3) If an EIP is not already bound to an instance and if this instance is not bound to an EIP, then
+     * the EIP is bound to this instance.
      */
     public void bindEIP() {
         InstanceInfo myInfo = applicationInfoManager.getInfo();
@@ -300,10 +293,8 @@ public class EIPManager implements AwsBinder {
     /**
      * Get the list of EIPs in the order of preference depending on instance zone.
      *
-     * @param myInstanceId
-     *            the instance id for this instance
-     * @param myZone
-     *            the zone where this instance is in
+     * @param myInstanceId the instance id for this instance
+     * @param myZone       the zone where this instance is in
      * @return Collection containing the list of available EIPs
      */
     public Collection<String> getCandidateEIPs(String myInstanceId, String myZone) {
@@ -313,8 +304,8 @@ public class EIPManager implements AwsBinder {
         }
 
         Collection<String> eipCandidates = clientConfig.shouldUseDnsForFetchingServiceUrls()
-                        ? getEIPsForZoneFromDNS(myZone)
-                        : getEIPsForZoneFromConfig(myZone);
+                ? getEIPsForZoneFromDNS(myZone)
+                : getEIPsForZoneFromConfig(myZone);
 
         if (eipCandidates == null || eipCandidates.size() == 0) {
             throw new RuntimeException("Could not get any elastic ips from the EIP pool for zone :" + myZone);
@@ -326,8 +317,7 @@ public class EIPManager implements AwsBinder {
     /**
      * Get the list of EIPs from the configuration.
      *
-     * @param myZone
-     *            - the zone in which the instance resides.
+     * @param myZone - the zone in which the instance resides.
      * @return collection of EIPs to choose from for binding.
      */
     private Collection<String> getEIPsForZoneFromConfig(String myZone) {
@@ -338,8 +328,7 @@ public class EIPManager implements AwsBinder {
     /**
      * Get the list of EIPs from the ec2 urls.
      *
-     * @param ec2Urls
-     *            the ec2urls for which the EIP needs to be obtained.
+     * @param ec2Urls the ec2urls for which the EIP needs to be obtained.
      * @return collection of EIPs.
      */
     private Collection<String> getEIPsFromServiceUrls(List<String> ec2Urls) {
@@ -359,7 +348,7 @@ public class EIPManager implements AwsBinder {
                 String eip = eipStr.replaceAll("\\-", ".");
                 returnedUrls.add(eip);
             }
-            
+
             // Otherwise, if CNAME doesn't contain, do nothing.
             // Handle case where there are no cnames containing "ec2-". Reasons include:
             //  Systems without public addresses - purely attached to corp lan via AWS Direct Connect
@@ -382,10 +371,9 @@ public class EIPManager implements AwsBinder {
      * #getZoneBasedDiscoveryUrlsFromRegion(com.netflix.discovery.EurekaClientConfig, String)}.
      * </p>
      *
-     * @param myZone
-     *            the zone where this instance exist in.
+     * @param myZone the zone where this instance exist in.
      * @return the collection of EIPs that exist in the zone this instance is
-     *         in.
+     * in.
      */
     private Collection<String> getEIPsForZoneFromDNS(String myZone) {
         List<String> ec2Urls = EndpointUtils.getServiceUrlsFromDNS(
@@ -453,5 +441,7 @@ public class EIPManager implements AwsBinder {
                 }
             }
         }
-    };
+    }
+
+    ;
 }

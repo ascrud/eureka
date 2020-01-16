@@ -36,6 +36,7 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class DefaultEurekaServerContext implements EurekaServerContext {
+
     private static final Logger logger = LoggerFactory.getLogger(DefaultEurekaServerContext.class);
 
     private final EurekaServerConfig serverConfig;
