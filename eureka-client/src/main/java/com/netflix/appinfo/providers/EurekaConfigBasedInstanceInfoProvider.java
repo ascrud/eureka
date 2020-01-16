@@ -1,33 +1,28 @@
 package com.netflix.appinfo.providers;
 
-import javax.inject.Singleton;
-import javax.inject.Provider;
-import java.util.Map;
-
 import com.google.inject.Inject;
-import com.netflix.appinfo.DataCenterInfo;
-import com.netflix.appinfo.EurekaInstanceConfig;
-import com.netflix.appinfo.InstanceInfo;
+import com.netflix.appinfo.*;
 import com.netflix.appinfo.InstanceInfo.InstanceStatus;
 import com.netflix.appinfo.InstanceInfo.PortType;
-import com.netflix.appinfo.LeaseInfo;
-import com.netflix.appinfo.RefreshableInstanceConfig;
-import com.netflix.appinfo.UniqueIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Provider;
+import javax.inject.Singleton;
+import java.util.Map;
+
 /**
- * InstanceInfo provider that constructs the InstanceInfo this this instance using
+ * InstanceInfo provider that constructs the InstanceInfo this  instance using
  * EurekaInstanceConfig.
- *
+ * <p>
  * This provider is @Singleton scope as it provides the InstanceInfo for both DiscoveryClient
  * and ApplicationInfoManager, and need to provide the same InstanceInfo to both.
  *
  * @author elandau
- *
  */
 @Singleton
 public class EurekaConfigBasedInstanceInfoProvider implements Provider<InstanceInfo> {
+
     private static final Logger LOG = LoggerFactory.getLogger(EurekaConfigBasedInstanceInfoProvider.class);
 
     private final EurekaInstanceConfig config;
@@ -108,8 +103,8 @@ public class EurekaConfigBasedInstanceInfoProvider implements Provider<InstanceI
                 builder.setStatus(initialStatus);
             } else {
                 LOG.info("Setting initial instance status as: {}. This may be too early for the instance to advertise "
-                         + "itself as available. You would instead want to control this via a healthcheck handler.",
-                         InstanceStatus.UP);
+                                + "itself as available. You would instead want to control this via a healthcheck handler.",
+                        InstanceStatus.UP);
             }
 
             // Add any user-specific metadata information

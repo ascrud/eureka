@@ -1,17 +1,19 @@
 package com.netflix.appinfo.providers;
 
-import javax.inject.Provider;
-
 import com.google.inject.Inject;
 import com.netflix.appinfo.CloudInstanceConfig;
 import com.netflix.discovery.DiscoveryManager;
 import com.netflix.discovery.EurekaNamespace;
 
+import javax.inject.Provider;
+
 /**
  * This provider is necessary because the namespace is optional.
+ *
  * @author elandau
  */
 public class CloudInstanceConfigProvider implements Provider<CloudInstanceConfig> {
+
     @Inject(optional = true)
     @EurekaNamespace
     private String namespace;
