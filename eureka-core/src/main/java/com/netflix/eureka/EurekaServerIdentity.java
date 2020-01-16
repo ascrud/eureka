@@ -7,27 +7,27 @@ import com.netflix.appinfo.AbstractEurekaIdentity;
  */
 public class EurekaServerIdentity extends AbstractEurekaIdentity {
 
-    public static final String DEFAULT_SERVER_NAME = "DefaultServer";
+	public static final String DEFAULT_SERVER_NAME = "DefaultServer";
 
-    private final String serverVersion = "1.0";
-    private final String id;
+	private final String serverVersion = "1.0";
+	private final String id;
 
-    public EurekaServerIdentity(String id) {
-        this.id = id;
-    }
+	public EurekaServerIdentity(String id) {
+		this.id = id;
+	}
 
-    @Override
-    public String getName() {
-        return DEFAULT_SERVER_NAME;
-    }
+	@Override
+	public String getName() {
+		return DEFAULT_SERVER_NAME;
+	}
 
-    @Override
-    public String getVersion() {
-        return serverVersion;
-    }
+	@Override
+	public String getVersion() {
+		return serverVersion;
+	}
 
-    @Override
-    public String getId() {
-        return id;
-    }
+	@Override
+	public String getId() {
+		return id;
+	}
 }

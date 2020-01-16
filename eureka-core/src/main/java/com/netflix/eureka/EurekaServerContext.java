@@ -26,18 +26,18 @@ import com.netflix.eureka.resources.ServerCodecs;
  */
 public interface EurekaServerContext {
 
-    void initialize() throws Exception;
+	void initialize() throws Exception;
 
-    void shutdown() throws Exception;
+	void shutdown() throws Exception;
 
-    EurekaServerConfig getServerConfig();
+	EurekaServerConfig getServerConfig();
 
-    PeerEurekaNodes getPeerEurekaNodes();
+	PeerEurekaNodes getPeerEurekaNodes();
 
-    ServerCodecs getServerCodecs();
+	ServerCodecs getServerCodecs();
 
-    PeerAwareInstanceRegistry getRegistry();
+	PeerAwareInstanceRegistry getRegistry();
 
-    ApplicationInfoManager getApplicationInfoManager();
+	ApplicationInfoManager getApplicationInfoManager();
 
 }

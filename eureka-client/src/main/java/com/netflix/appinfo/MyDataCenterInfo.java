@@ -8,15 +8,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MyDataCenterInfo implements DataCenterInfo {
 
-    private final Name name;
+	private final Name name;
 
-    @JsonCreator
-    public MyDataCenterInfo(@JsonProperty("name") Name name) {
-        this.name = name;
-    }
+	@JsonCreator
+	public MyDataCenterInfo(@JsonProperty("name") Name name) {
+		this.name = name;
+	}
 
-    @Override
-    public Name getName() {
-        return name;
-    }
+	@Override
+	public Name getName() {
+		return name;
+	}
 }
