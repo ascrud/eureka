@@ -34,38 +34,38 @@ import com.netflix.eureka.registry.AbstractInstanceRegistry;
  */
 public interface LeaseManager<T> {
 
-    /**
-     * Assign a new {@link Lease} to the passed in {@link T}.
-     *
-     * @param r             - T to register
-     * @param leaseDuration leaseDuration
-     * @param isReplication - whether this is a replicated entry from another eureka node.
-     */
-    void register(T r, int leaseDuration, boolean isReplication);
+	/**
+	 * Assign a new {@link Lease} to the passed in {@link T}.
+	 *
+	 * @param r             - T to register
+	 * @param leaseDuration leaseDuration
+	 * @param isReplication - whether this is a replicated entry from another eureka node.
+	 */
+	void register(T r, int leaseDuration, boolean isReplication);
 
-    /**
-     * Cancel the {@link Lease} associated w/ the passed in <code>appName</code>
-     * and <code>id</code>.
-     *
-     * @param appName       - unique id of the application.
-     * @param id            - unique id within appName.
-     * @param isReplication - whether this is a replicated entry from another eureka node.
-     * @return true, if the operation was successful, false otherwise.
-     */
-    boolean cancel(String appName, String id, boolean isReplication);
+	/**
+	 * Cancel the {@link Lease} associated w/ the passed in <code>appName</code>
+	 * and <code>id</code>.
+	 *
+	 * @param appName       - unique id of the application.
+	 * @param id            - unique id within appName.
+	 * @param isReplication - whether this is a replicated entry from another eureka node.
+	 * @return true, if the operation was successful, false otherwise.
+	 */
+	boolean cancel(String appName, String id, boolean isReplication);
 
-    /**
-     * Renew the {@link Lease} associated w/ the passed in <code>appName</code>
-     * and <code>id</code>.
-     *
-     * @param id            - unique id within appName
-     * @param isReplication - whether this is a replicated entry from another ds node
-     * @return whether the operation of successful
-     */
-    boolean renew(String appName, String id, boolean isReplication);
+	/**
+	 * Renew the {@link Lease} associated w/ the passed in <code>appName</code>
+	 * and <code>id</code>.
+	 *
+	 * @param id            - unique id within appName
+	 * @param isReplication - whether this is a replicated entry from another ds node
+	 * @return whether the operation of successful
+	 */
+	boolean renew(String appName, String id, boolean isReplication);
 
-    /**
-     * Evict {@link T}s with expired {@link Lease}(s).
-     */
-    void evict();
+	/**
+	 * Evict {@link T}s with expired {@link Lease}(s).
+	 */
+	void evict();
 }

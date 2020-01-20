@@ -404,7 +404,8 @@ public class InstanceInfo {
 	}
 
 	public enum PortType {
-		SECURE, UNSECURE
+		SECURE,
+		UNSECURE
 	}
 
 	public static final class Builder {
@@ -1390,8 +1391,7 @@ public class InstanceInfo {
 	 *
 	 * @param runtimeMetadata Map containing key/value pairs.
 	 */
-	synchronized void registerRuntimeMetadata(
-			Map<String, String> runtimeMetadata) {
+	synchronized void registerRuntimeMetadata(Map<String, String> runtimeMetadata) {
 		metadata.putAll(runtimeMetadata);
 		setIsDirty();
 	}

@@ -37,72 +37,72 @@ import javax.inject.Singleton;
 @Singleton
 public class DefaultEurekaServerContext implements EurekaServerContext {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultEurekaServerContext.class);
+	private static final Logger logger = LoggerFactory.getLogger(DefaultEurekaServerContext.class);
 
-    private final EurekaServerConfig serverConfig;
-    private final ServerCodecs serverCodecs;
-    private final PeerAwareInstanceRegistry registry;
-    private final PeerEurekaNodes peerEurekaNodes;
-    private final ApplicationInfoManager applicationInfoManager;
+	private final EurekaServerConfig serverConfig;
+	private final ServerCodecs serverCodecs;
+	private final PeerAwareInstanceRegistry registry;
+	private final PeerEurekaNodes peerEurekaNodes;
+	private final ApplicationInfoManager applicationInfoManager;
 
-    @Inject
-    public DefaultEurekaServerContext(EurekaServerConfig serverConfig,
-                                      ServerCodecs serverCodecs,
-                                      PeerAwareInstanceRegistry registry,
-                                      PeerEurekaNodes peerEurekaNodes,
-                                      ApplicationInfoManager applicationInfoManager) {
-        this.serverConfig = serverConfig;
-        this.serverCodecs = serverCodecs;
-        this.registry = registry;
-        this.peerEurekaNodes = peerEurekaNodes;
-        this.applicationInfoManager = applicationInfoManager;
-    }
+	@Inject
+	public DefaultEurekaServerContext(EurekaServerConfig serverConfig,
+									  ServerCodecs serverCodecs,
+									  PeerAwareInstanceRegistry registry,
+									  PeerEurekaNodes peerEurekaNodes,
+									  ApplicationInfoManager applicationInfoManager) {
+		this.serverConfig = serverConfig;
+		this.serverCodecs = serverCodecs;
+		this.registry = registry;
+		this.peerEurekaNodes = peerEurekaNodes;
+		this.applicationInfoManager = applicationInfoManager;
+	}
 
-    @PostConstruct
-    @Override
-    public void initialize() {
-        logger.info("Initializing ...");
-        peerEurekaNodes.start();
-        try {
-            registry.init(peerEurekaNodes);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        logger.info("Initialized");
-    }
+	@PostConstruct
+	@Override
+	public void initialize() {
+		logger.info("Initializing ...");
+		peerEurekaNodes.start();
+		try {
+			registry.init(peerEurekaNodes);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		logger.info("Initialized");
+	}
 
-    @PreDestroy
-    @Override
-    public void shutdown() {
-        logger.info("Shutting down ...");
-        registry.shutdown();
-        peerEurekaNodes.shutdown();
-        logger.info("Shut down");
-    }
+	@PreDestroy
+	@Override
+	public void shutdown() {
+		logger.info("Shutting down ...");
+		registry.shutdown();
+		peerEurekaNodes.shutdown();
+		logger.info("Shut down");
+	}
 
-    @Override
-    public EurekaServerConfig getServerConfig() {
-        return serverConfig;
-    }
+	@Override
+	public EurekaServerConfig getServerConfig() {
+		return serverConfig;
+	}
 
-    @Override
-    public PeerEurekaNodes getPeerEurekaNodes() {
-        return peerEurekaNodes;
-    }
+	@Override
+	public PeerEurekaNodes getPeerEurekaNodes() {
+		return peerEurekaNodes;
+	}
 
-    @Override
-    public ServerCodecs getServerCodecs() {
-        return serverCodecs;
-    }
+	@Override
+	public ServerCodecs getServerCodecs() {
+		return serverCodecs;
+	}
 
-    @Override
-    public PeerAwareInstanceRegistry getRegistry() {
-        return registry;
-    }
+	@Override
+	public PeerAwareInstanceRegistry getRegistry() {
+		return registry;
+	}
 
-    @Override
-    public ApplicationInfoManager getApplicationInfoManager() {
-        return applicationInfoManager;
-    }
+	@Override
+	public ApplicationInfoManager getApplicationInfoManager() {
+		return applicationInfoManager;
+	}
 
 }
