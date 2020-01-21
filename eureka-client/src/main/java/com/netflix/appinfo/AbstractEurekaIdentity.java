@@ -2,6 +2,9 @@ package com.netflix.appinfo;
 
 import javax.annotation.Nullable;
 
+/**
+ * @author weixiaoyao
+ */
 public abstract class AbstractEurekaIdentity {
 
     public static final String PREFIX = "DiscoveryIdentity-";
