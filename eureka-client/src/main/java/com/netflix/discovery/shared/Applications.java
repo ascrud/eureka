@@ -73,6 +73,7 @@ public class Applications {
 
     private String appsHashCode;
     private Long versionDelta;
+
     @XStreamImplicit
     private final AbstractQueue<Application> applications;
     private final Map<String, Application> appNameApplicationMap;
@@ -143,7 +144,7 @@ public class Applications {
      * Gets the list of <em>instances</em> associated to a virtual host name.
      *
      * @param virtualHostName the virtual hostname for which the instances need to be
-     *                        returned.
+     *                        　returned.
      * @return list of <em>instances</em>.
      */
     public List<InstanceInfo> getInstancesByVirtualHostName(String virtualHostName) {
@@ -248,7 +249,8 @@ public class Applications {
     public static String getReconcileHashCode(Map<String, AtomicInteger> instanceCountMap) {
         StringBuilder reconcileHashCode = new StringBuilder(75);
         for (Map.Entry<String, AtomicInteger> mapEntry : instanceCountMap.entrySet()) {
-            reconcileHashCode.append(mapEntry.getKey()).append(STATUS_DELIMITER).append(mapEntry.getValue().get())
+            reconcileHashCode.append(mapEntry.getKey())
+                    .append(STATUS_DELIMITER).append(mapEntry.getValue().get())
                     .append(STATUS_DELIMITER);
         }
         return reconcileHashCode.toString();

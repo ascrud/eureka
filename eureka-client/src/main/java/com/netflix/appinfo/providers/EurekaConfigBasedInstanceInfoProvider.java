@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 import java.util.Map;
 
 /**
- * InstanceInfo provider that constructs the InstanceInfo this this instance using
+ * InstanceInfo provider that constructs the InstanceInfo this  instance using
  * EurekaInstanceConfig.
  * <p>
  * This provider is @Singleton scope as it provides the InstanceInfo for both DiscoveryClient

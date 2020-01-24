@@ -21,17 +21,17 @@ package com.netflix.eureka;
  */
 public class Names {
 
-    /**
-     * Eureka metric names consist of three parts [source].[component].[detailed name]:
-     * <ul>
-     *     <li>source - fixed to eurekaServer (and eurekaClient on the client side)</li>
-     *     <li>component - Eureka component, like REST layer, replication, etc</li>
-     *     <li>detailed name - a detailed metric name explaining its purpose</li>
-     * </ul>
-     */
-    public static final String METRIC_PREFIX = "eurekaServer.";
+	/**
+	 * Eureka metric names consist of three parts [source].[component].[detailed name]:
+	 * <ul>
+	 *     <li>source - fixed to eurekaServer (and eurekaClient on the client side)</li>
+	 *     <li>component - Eureka component, like REST layer, replication, etc</li>
+	 *     <li>detailed name - a detailed metric name explaining its purpose</li>
+	 * </ul>
+	 */
+	public static final String METRIC_PREFIX = "eurekaServer.";
 
-    public static final String METRIC_REPLICATION_PREFIX = METRIC_PREFIX + "replication.";
+	public static final String METRIC_REPLICATION_PREFIX = METRIC_PREFIX + "replication.";
 
-    public static final String REMOTE = "remote";
+	public static final String REMOTE = "remote";
 }

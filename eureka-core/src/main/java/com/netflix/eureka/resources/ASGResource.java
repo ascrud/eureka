@@ -49,7 +49,6 @@ import javax.ws.rs.core.Response;
  * </p>
  *
  * @author Karthik Ranganathan
- *
  */
 @Path("/{version}/asg")
 @Produces({"application/xml", "application/json"})
@@ -90,10 +89,9 @@ public class ASGResource {
     /**
      * Changes the status information of the ASG.
      *
-     * @param asgName the name of the ASG for which the status needs to be changed.
-     * @param newStatus the new status {@link ASGStatus} of the ASG.
+     * @param asgName       the name of the ASG for which the status needs to be changed.
+     * @param newStatus     the new status {@link ASGStatus} of the ASG.
      * @param isReplication a header parameter containing information whether this is replicated from other nodes.
-     *
      * @return response which indicates if the operation succeeded or not.
      */
     @PUT

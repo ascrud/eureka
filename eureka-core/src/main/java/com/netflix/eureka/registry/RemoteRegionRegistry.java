@@ -57,15 +57,14 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Handles all registry operations that needs to be done on a eureka service running in an other region.
- *
+ * <p>
  * The primary operations include fetching registry information from remote region and fetching delta information
  * on a periodic basis.
- *
+ * <p>
  * TODO: a lot of the networking code in this class can be replaced by newer code in
  * {@link com.netflix.discovery.DiscoveryClient}
  *
  * @author Karthik Ranganathan
- *
  */
 public class RemoteRegionRegistry implements LookupService<String> {
 
@@ -77,8 +76,10 @@ public class RemoteRegionRegistry implements LookupService<String> {
     private final URL remoteRegionURL;
 
     private final ScheduledExecutorService scheduler;
+
     // monotonically increasing generation counter to ensure stale threads do not reset registry to an older version
     private final AtomicLong fetchRegistryGeneration = new AtomicLong(0);
+
     private final Lock fetchRegistryUpdateLock = new ReentrantLock();
 
     private final AtomicReference<Applications> applications = new AtomicReference<Applications>(new Applications());
@@ -201,6 +202,7 @@ public class RemoteRegionRegistry implements LookupService<String> {
 
     /**
      * Check if this registry is ready for serving data.
+     *
      * @return true if ready, false otherwise.
      */
     public boolean isReadyForServingData() {
@@ -209,6 +211,7 @@ public class RemoteRegionRegistry implements LookupService<String> {
 
     /**
      * Fetch the registry information from the remote region.
+     *
      * @return true, if the fetch was successful, false otherwise.
      */
     private boolean fetchRegistry() {
@@ -282,9 +285,8 @@ public class RemoteRegionRegistry implements LookupService<String> {
      * Updates the delta information fetches from the eureka server into the
      * local cache.
      *
-     * @param delta
-     *            the delta information received from eureka server in the last
-     *            poll cycle.
+     * @param delta the delta information received from eureka server in the last
+     *              poll cycle.
      */
     private void updateDelta(Applications delta) {
         int deltaCount = 0;
@@ -335,8 +337,7 @@ public class RemoteRegionRegistry implements LookupService<String> {
     /**
      * Close HTTP response object and its respective resources.
      *
-     * @param response
-     *            the HttpResponse object.
+     * @param response the HttpResponse object.
      */
     private void closeResponse(ClientResponse response) {
         if (response != null) {
@@ -372,6 +373,7 @@ public class RemoteRegionRegistry implements LookupService<String> {
 
     /**
      * Fetch registry information from the remote region.
+     *
      * @param delta - true, if the fetch needs to get deltas, false otherwise
      * @return - response which has information about the data.
      */
@@ -416,7 +418,7 @@ public class RemoteRegionRegistry implements LookupService<String> {
     /**
      * Reconciles the delta information fetched to see if the hashcodes match.
      *
-     * @param delta - the delta information fetched previously for reconciliation.
+     * @param delta             - the delta information fetched previously for reconciliation.
      * @param reconcileHashCode - the hashcode for comparison.
      * @return - response
      * @throws Throwable
@@ -440,7 +442,7 @@ public class RemoteRegionRegistry implements LookupService<String> {
                     getApplications().getReconcileHashCode(),
                     delta.getAppsHashCode());
             return true;
-        }else {
+        } else {
             logger.warn("Not setting the applications map as another thread has advanced the update generation");
             return true;  // still return true
         }

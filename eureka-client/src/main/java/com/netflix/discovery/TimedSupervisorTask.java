@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author David Qiang Liu
  */
 public class TimedSupervisorTask extends TimerTask {
+
     private static final Logger logger = LoggerFactory.getLogger(TimedSupervisorTask.class);
 
     private final Counter successCounter;

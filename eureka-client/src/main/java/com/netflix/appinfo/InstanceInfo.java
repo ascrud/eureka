@@ -131,6 +131,9 @@ public class InstanceInfo {
     private String healthCheckRelativeUrl;
 
     @XStreamOmitField
+    private String healthCheckExplicitUrl;
+
+    @XStreamOmitField
     private String healthCheckSecureExplicitUrl;
 
     @XStreamOmitField
@@ -138,9 +141,6 @@ public class InstanceInfo {
 
     @XStreamOmitField
     private String secureVipAddressUnresolved;
-
-    @XStreamOmitField
-    private String healthCheckExplicitUrl;
 
     // Defaults to US
     @Deprecated
@@ -262,9 +262,13 @@ public class InstanceInfo {
 
     @Override
     public String toString() {
-        return "InstanceInfo [instanceId = " + this.instanceId + ", appName = " + this.appName +
-                ", hostName = " + this.hostName + ", status = " + this.status +
-                ", ipAddr = " + this.ipAddr + ", port = " + this.port + ", securePort = " + this.securePort +
+        return "InstanceInfo [instanceId = " + this.instanceId +
+                ", appName = " + this.appName +
+                ", hostName = " + this.hostName +
+                ", status = " + this.status +
+                ", ipAddr = " + this.ipAddr +
+                ", port = " + this.port +
+                ", securePort = " + this.securePort +
                 ", dataCenterInfo = " + this.dataCenterInfo;
     }
 
@@ -344,12 +348,21 @@ public class InstanceInfo {
          * Ready to receive traffic
          */
         UP,
-        // Do not send traffic- health－check callback failed
+        /**
+         * Do not send traffic- healthcheck callback failed
+         */
         DOWN,
-        // Just about starting- initializations to be done - do not send traffic
+        /**
+         * Just about starting- initializations to be done - do not
+         */
         STARTING,
-        // Intentionally shutdown for traffic
+        /**
+         * send traffic
+         */
         OUT_OF_SERVICE,
+        /**
+         * Intentionally shutdown for traffic
+         */
         UNKNOWN;
 
         public static InstanceStatus toEnum(String s) {
@@ -363,6 +376,18 @@ public class InstanceInfo {
             }
             return UNKNOWN;
         }
+    }
+
+    public enum PortType {
+        SECURE,
+        UNSECURE
+    }
+
+    public enum ActionType {
+        ADDED, // Added in the discovery server
+        MODIFIED, // Changed in the discovery server
+        DELETED
+        // Deleted from the discovery server
     }
 
     @Override
@@ -392,10 +417,6 @@ public class InstanceInfo {
             return false;
         }
         return true;
-    }
-
-    public enum PortType {
-        SECURE, UNSECURE
     }
 
     public static final class Builder {
@@ -492,8 +513,10 @@ public class InstanceInfo {
             result.hostName = hostName;
             if ((existingHostName != null)
                     && !(hostName.equals(existingHostName))) {
-                refreshStatusPageUrl().refreshHealthCheckUrl()
-                        .refreshVIPAddress().refreshSecureVIPAddress();
+                refreshStatusPageUrl()
+                        .refreshHealthCheckUrl()
+                        .refreshVIPAddress().
+                        refreshSecureVIPAddress();
             }
             return this;
         }
@@ -1367,21 +1390,13 @@ public class InstanceInfo {
         return version;
     }
 
-    public enum ActionType {
-        ADDED, // Added in the discovery server
-        MODIFIED, // Changed in the discovery server
-        DELETED
-        // Deleted from the discovery server
-    }
-
     /**
      * Register application specific metadata to be sent to the discovery
      * server.
      *
      * @param runtimeMetadata Map containing key/value pairs.
      */
-    synchronized void registerRuntimeMetadata(
-            Map<String, String> runtimeMetadata) {
+    synchronized void registerRuntimeMetadata(Map<String, String> runtimeMetadata) {
         metadata.putAll(runtimeMetadata);
         setIsDirty();
     }
@@ -1406,7 +1421,6 @@ public class InstanceInfo {
             if (awsInstanceZone != null) {
                 instanceZone = awsInstanceZone;
             }
-
         }
         return instanceZone;
     }

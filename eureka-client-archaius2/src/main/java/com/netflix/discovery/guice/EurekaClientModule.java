@@ -7,31 +7,31 @@ import com.netflix.appinfo.providers.EurekaInstanceConfigFactory;
 
 /**
  * How to use:
- *  - install this module to access all eureka client functionality.
- *
+ * - install this module to access all eureka client functionality.
+ * <p>
  * Custom config namespace may be registered as follows:
  * <code>
  * InjectorBuilder.fromModules(new EurekaClientModule() {
- *      protected void configureEureka() {
- *          bindEurekaInstanceConfigNamespace().toInstance("namespaceForMyInstanceConfig");
- *          bindEurekaClientConfigNamespace().toInstance("namespaceForMyClientAndTransportConfig");
- *      }
+ * protected void configureEureka() {
+ * bindEurekaInstanceConfigNamespace().toInstance("namespaceForMyInstanceConfig");
+ * bindEurekaClientConfigNamespace().toInstance("namespaceForMyClientAndTransportConfig");
+ * }
  * }).createInjector()
  * </code>
- *
+ * <p>
  * This module support the binding of a custom {@link EurekaInstanceConfigFactory} to supply your own
  * way of providing a config for the creation of an {@link com.netflix.appinfo.InstanceInfo} used for
  * eureka registration.
- *
+ * <p>
  * Custom {@link EurekaInstanceConfigFactory} may be registered as follows:
  * <code>
  * InjectorBuilder.fromModules(new EurekaClientModule() {
- *      protected void configureEureka() {
- *          bindEurekaInstanceConfigFactory().to(MyEurekaInstanceConfigFactory.class);
- *      }
+ * protected void configureEureka() {
+ * bindEurekaInstanceConfigFactory().to(MyEurekaInstanceConfigFactory.class);
+ * }
  * }).createInjector()
  * </code>
- *
+ * <p>
  * Note that this module is NOT compatible with the archaius1 based {@link com.netflix.discovery.guice.EurekaModule}
  *
  * @author David Liu

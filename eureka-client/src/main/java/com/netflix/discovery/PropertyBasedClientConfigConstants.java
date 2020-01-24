@@ -6,9 +6,11 @@ package com.netflix.discovery;
  * @author David Liu
  */
 final class PropertyBasedClientConfigConstants {
+
     static final String CLIENT_REGION_FALLBACK_KEY = "eureka.region";
 
     // NOTE: all keys are before any prefixes are applied
+
     static final String CLIENT_REGION_KEY = "region";
 
     static final String REGISTRATION_ENABLED_KEY = "registration.enabled";
@@ -57,7 +59,9 @@ final class PropertyBasedClientConfigConstants {
     static final String EUREKA_SERVER_CONNECT_TIMEOUT_KEY = "eurekaServer.connectTimeout";
     static final String EUREKA_SERVER_MAX_CONNECTIONS_KEY = "eurekaServer.maxTotalConnections";
     static final String EUREKA_SERVER_MAX_CONNECTIONS_PER_HOST_KEY = "eurekaServer.maxConnectionsPerHost";
+
     // yeah the case on eurekaserver is different, backwards compatibility requirements :(
+
     static final String EUREKA_SERVER_CONNECTION_IDLE_TIMEOUT_KEY = "eurekaserver.connectionIdleTimeoutInSeconds";
 
     static final String SHOULD_LOG_DELTA_DIFF_KEY = "printDeltaFullDiff";
@@ -65,12 +69,11 @@ final class PropertyBasedClientConfigConstants {
     static final String CONFIG_DOLLAR_REPLACEMENT_KEY = "dollarReplacement";
     static final String CONFIG_ESCAPE_CHAR_REPLACEMENT_KEY = "escapeCharReplacement";
 
-
     // additional namespaces
+
     static final String CONFIG_EXPERIMENTAL_PREFIX = "experimental";
     static final String CONFIG_AVAILABILITY_ZONE_PREFIX = "availabilityZones";
     static final String CONFIG_EUREKA_SERVER_SERVICE_URL_PREFIX = "serviceUrl";
-
 
     static class Values {
         static final String CONFIG_DOLLAR_REPLACEMENT = "_-";

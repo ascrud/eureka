@@ -70,7 +70,7 @@ public interface EurekaServerConfig {
 
     /**
      * Get the interval with which the server should check if the EIP is bound
-     * and should try to bind in the case if it is already not bound, iff the EIP
+     * and should try to bind in the case if it is already not bound, if the EIP
      * is not currently bound.
      * <p>
      * <em>The changes are effective at runtime.</em>

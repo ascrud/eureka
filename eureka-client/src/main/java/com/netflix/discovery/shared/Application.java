@@ -48,13 +48,6 @@ public class Application {
 
     private static Random shuffleRandom = new Random();
 
-    @Override
-    public String toString() {
-        return "Application [name=" + name + ", isDirty=" + isDirty
-                + ", instances=" + instances + ", shuffledInstances="
-                + shuffledInstances + ", instancesMap=" + instancesMap + "]";
-    }
-
     private String name;
 
     @XStreamOmitField
@@ -140,7 +133,6 @@ public class Application {
             return new ArrayList<InstanceInfo>(this.instances);
         }
     }
-
 
     /**
      * Get the instance info that matches the given id.
@@ -246,5 +238,12 @@ public class Application {
                 isDirty = true;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Application [name=" + name + ", isDirty=" + isDirty
+                + ", instances=" + instances + ", shuffledInstances="
+                + shuffledInstances + ", instancesMap=" + instancesMap + "]";
     }
 }

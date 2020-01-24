@@ -16,27 +16,15 @@
 
 package com.netflix.eureka;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import com.netflix.config.*;
+import com.netflix.eureka.aws.AwsBindingStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
-
-import com.netflix.config.ConfigurationManager;
-import com.netflix.config.DynamicBooleanProperty;
-import com.netflix.config.DynamicIntProperty;
-import com.netflix.config.DynamicPropertyFactory;
-import com.netflix.config.DynamicStringProperty;
-import com.netflix.config.DynamicStringSetProperty;
-import com.netflix.eureka.aws.AwsBindingStrategy;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * A default implementation of eureka server configuration as required by
@@ -61,29 +49,39 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class DefaultEurekaServerConfig implements EurekaServerConfig {
+
+    private static final Logger logger = LoggerFactory.getLogger(DefaultEurekaServerConfig.class);
+
     private static final String ARCHAIUS_DEPLOYMENT_ENVIRONMENT = "archaius.deployment.environment";
     private static final String TEST = "test";
     private static final String EUREKA_ENVIRONMENT = "eureka.environment";
-    private static final Logger logger = LoggerFactory
-            .getLogger(DefaultEurekaServerConfig.class);
+
     private static final DynamicPropertyFactory configInstance = com.netflix.config.DynamicPropertyFactory
             .getInstance();
+
     private static final DynamicStringProperty EUREKA_PROPS_FILE = DynamicPropertyFactory
             .getInstance().getStringProperty("eureka.server.props",
                     "eureka-server");
+
     private static final int TIME_TO_WAIT_FOR_REPLICATION = 30000;
 
     private String namespace = "eureka.";
 
     // These counters are checked for each HTTP request. Instantiating them per request like for the other
     // properties would be too costly.
+
     private final DynamicStringSetProperty rateLimiterPrivilegedClients =
             new DynamicStringSetProperty(namespace + "rateLimiter.privilegedClients", Collections.<String>emptySet());
-    private final DynamicBooleanProperty rateLimiterEnabled = configInstance.getBooleanProperty(namespace + "rateLimiter.enabled", false);
-    private final DynamicBooleanProperty rateLimiterThrottleStandardClients = configInstance.getBooleanProperty(namespace + "rateLimiter.throttleStandardClients", false);
-    private final DynamicIntProperty rateLimiterBurstSize = configInstance.getIntProperty(namespace + "rateLimiter.burstSize", 10);
-    private final DynamicIntProperty rateLimiterRegistryFetchAverageRate = configInstance.getIntProperty(namespace + "rateLimiter.registryFetchAverageRate", 500);
-    private final DynamicIntProperty rateLimiterFullFetchAverageRate = configInstance.getIntProperty(namespace + "rateLimiter.fullFetchAverageRate", 100);
+    private final DynamicBooleanProperty rateLimiterEnabled =
+            configInstance.getBooleanProperty(namespace + "rateLimiter.enabled", false);
+    private final DynamicBooleanProperty rateLimiterThrottleStandardClients =
+            configInstance.getBooleanProperty(namespace + "rateLimiter.throttleStandardClients", false);
+    private final DynamicIntProperty rateLimiterBurstSize =
+            configInstance.getIntProperty(namespace + "rateLimiter.burstSize", 10);
+    private final DynamicIntProperty rateLimiterRegistryFetchAverageRate =
+            configInstance.getIntProperty(namespace + "rateLimiter.registryFetchAverageRate", 500);
+    private final DynamicIntProperty rateLimiterFullFetchAverageRate =
+            configInstance.getIntProperty(namespace + "rateLimiter.fullFetchAverageRate", 100);
 
     private final DynamicStringProperty listAutoScalingGroupsRoleName =
             configInstance.getStringProperty(namespace + "listAutoScalingGroupsRoleName", "ListAutoScalingGroups");
@@ -100,10 +98,10 @@ public class DefaultEurekaServerConfig implements EurekaServerConfig {
     }
 
     private void init() {
-        String env = ConfigurationManager.getConfigInstance().getString(
-                EUREKA_ENVIRONMENT, TEST);
-        ConfigurationManager.getConfigInstance().setProperty(
-                ARCHAIUS_DEPLOYMENT_ENVIRONMENT, env);
+        String env = ConfigurationManager.getConfigInstance().
+                getString(EUREKA_ENVIRONMENT, TEST);
+        ConfigurationManager.getConfigInstance()
+                .setProperty(ARCHAIUS_DEPLOYMENT_ENVIRONMENT, env);
 
         String eurekaPropsFile = EUREKA_PROPS_FILE.get();
         try {
@@ -126,8 +124,8 @@ public class DefaultEurekaServerConfig implements EurekaServerConfig {
      */
     @Override
     public String getAWSAccessId() {
-        String aWSAccessId = configInstance.getStringProperty(
-                namespace + "awsAccessId", null).get();
+        String aWSAccessId = configInstance
+                .getStringProperty(namespace + "awsAccessId", null).get();
 
         if (null != aWSAccessId) {
             return aWSAccessId.trim();
@@ -213,6 +211,12 @@ public class DefaultEurekaServerConfig implements EurekaServerConfig {
     }
 
     @Override
+    public double getRenewalPercentThreshold() {
+        return configInstance.getDoubleProperty(
+                namespace + "renewalPercentThreshold", 0.85).get();
+    }
+
+    @Override
     public int getRenewalThresholdUpdateIntervalMs() {
         return configInstance.getIntProperty(
                 namespace + "renewalThresholdUpdateIntervalMs",
@@ -233,11 +237,6 @@ public class DefaultEurekaServerConfig implements EurekaServerConfig {
         return configured > 0 ? configured : 30;
     }
 
-    @Override
-    public double getRenewalPercentThreshold() {
-        return configInstance.getDoubleProperty(
-                namespace + "renewalPercentThreshold", 0.85).get();
-    }
 
     @Override
     public boolean shouldEnableReplicatedRequestCompression() {
@@ -682,13 +681,14 @@ public class DefaultEurekaServerConfig implements EurekaServerConfig {
     @Override
     public long getRoute53DomainTTL() {
         return configInstance.getLongProperty(
-                namespace + "route53DomainTTL", 30l)
+                namespace + "route53DomainTTL", 30L)
                 .get();
     }
 
     @Override
     public AwsBindingStrategy getBindingStrategy() {
-        return AwsBindingStrategy.valueOf(configInstance.getStringProperty(namespace + "awsBindingStrategy", AwsBindingStrategy.EIP.name()).get().toUpperCase());
+        return AwsBindingStrategy.valueOf(
+                configInstance.getStringProperty(namespace + "awsBindingStrategy", AwsBindingStrategy.EIP.name()).get().toUpperCase());
     }
 
     @Override

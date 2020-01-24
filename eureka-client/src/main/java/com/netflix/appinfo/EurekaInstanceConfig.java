@@ -132,7 +132,7 @@ public interface EurekaInstanceConfig {
      * Setting this value too long could mean that the traffic could be routed
      * to the instance even though the instance is not alive. Setting this value
      * too small could mean, the instance may be taken out of traffic because of
-     * temporary network glitches.This value to be set to atleast higher than
+     * temporary network glitches.This value to be set to at-least higher than
      * the value specified in {@link #getLeaseRenewalIntervalInSeconds()}
      * .
      * </p>
@@ -172,12 +172,12 @@ public interface EurekaInstanceConfig {
     String getSecureVirtualHostName();
 
     /**
-     * Gets the <code>AWS autoscaling group name</code> associated with this
+     * Gets the <code>AWS auto-scaling group name</code> associated with this
      * instance. This information is specifically used in an AWS environment to
      * automatically put an instance out of service after the instance is
      * launched and it has been disabled for traffic..
      *
-     * @return the autoscaling group name associated with this instance.
+     * @return the auto-scaling group name associated with this instance.
      */
     String getASGName();
 

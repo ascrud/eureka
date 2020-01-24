@@ -24,18 +24,18 @@ import java.net.URL;
  * A factory for {@link com.netflix.appinfo.EurekaInstanceConfig} that can provide either
  * {@link com.netflix.appinfo.Ec2EurekaArchaius2InstanceConfig} or
  * {@link com.netflix.appinfo.EurekaArchaius2InstanceConfig} based on some selection strategy.
- *
+ * <p>
  * If no config based override is applied, this Factory will automatically detect whether the
  * current deployment environment is EC2 or not, and create the appropriate Config instances.
- *
+ * <p>
  * Setting the property <b>eureka.instanceDeploymentEnvironment=ec2</b> will force the instantiation
  * of {@link com.netflix.appinfo.Ec2EurekaArchaius2InstanceConfig}, regardless of what the
  * automatic environment detection says.
- *
+ * <p>
  * Setting the property <b>eureka.instanceDeploymentEnvironment={a non-null, non-ec2 string}</b>
  * will force the instantiation of {@link com.netflix.appinfo.EurekaArchaius2InstanceConfig},
  * regardless of what the automatic environment detection says.
- *
+ * <p>
  * Why define the {@link com.netflix.appinfo.providers.EurekaInstanceConfigFactory} instead
  * of using {@link javax.inject.Provider} instead? Provider does not work due to the fact that
  * Guice treats Providers specially.
@@ -45,6 +45,7 @@ import java.net.URL;
 @Singleton
 @ConfigurationSource(CommonConstants.CONFIG_FILE_NAME)
 public class CompositeInstanceConfigFactory implements EurekaInstanceConfigFactory {
+
     private static final Logger logger = LoggerFactory.getLogger(CompositeInstanceConfigFactory.class);
 
     private static final String DEPLOYMENT_ENVIRONMENT_OVERRIDE_KEY = "instanceDeploymentEnvironment";

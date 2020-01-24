@@ -6,6 +6,9 @@ import com.netflix.eureka.Version;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
+/**
+ *
+ */
 public class Key {
 
     public enum KeyType {
@@ -95,8 +98,10 @@ public class Key {
 
     public String toStringCompact() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{name=").append(entityName).append(", type=").append(entityType).append(", format=").append(requestType);
-        if(regions != null) {
+        sb.append("{name=").append(entityName)
+                .append(", type=").append(entityType)
+                .append(", format=").append(requestType);
+        if (regions != null) {
             sb.append(", regions=").append(Arrays.toString(regions));
         }
         sb.append('}');

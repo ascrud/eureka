@@ -58,6 +58,7 @@ public interface LeaseManager<T> {
      * Renew the {@link Lease} associated w/ the passed in <code>appName</code>
      * and <code>id</code>.
      *
+     * @param appName       - unique id of the application.
      * @param id            - unique id within appName
      * @param isReplication - whether this is a replicated entry from another ds node
      * @return whether the operation of successful

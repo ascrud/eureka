@@ -79,6 +79,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     private static final Logger logger = LoggerFactory.getLogger(PeerAwareInstanceRegistryImpl.class);
 
     private static final String US_EAST_1 = "us-east-1";
+
     private static final int PRIME_PEER_NODES_RETRY_MS = 30000;
 
     private long startupTime = 0;
@@ -121,8 +122,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
             EurekaServerConfig serverConfig,
             EurekaClientConfig clientConfig,
             ServerCodecs serverCodecs,
-            EurekaClient eurekaClient
-    ) {
+            EurekaClient eurekaClient) {
         super(serverConfig, clientConfig, serverCodecs);
         this.eurekaClient = eurekaClient;
         this.numberOfReplicationsLastMin = new MeasuredRate(1000 * 60 * 1);

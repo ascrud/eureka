@@ -24,6 +24,16 @@ package com.netflix.discovery.shared;
  * @author Karthik Ranganathan
  */
 public class Pair<E1, E2> {
+
+    private E1 first;
+
+    private E2 second;
+
+    public Pair(E1 first, E2 second) {
+        this.first = first;
+        this.second = second;
+    }
+
     public E1 first() {
         return first;
     }
@@ -37,14 +47,6 @@ public class Pair<E1, E2> {
     }
 
     public void setSecond(E2 second) {
-        this.second = second;
-    }
-
-    private E1 first;
-    private E2 second;
-
-    public Pair(E1 first, E2 second) {
-        this.first = first;
         this.second = second;
     }
 }
