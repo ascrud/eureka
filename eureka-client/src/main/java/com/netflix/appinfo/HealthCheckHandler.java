@@ -1,7 +1,7 @@
 package com.netflix.appinfo;
 
 /**
- * This provides a more granular healthcheck contract than the existing {@link HealthCheckCallback}
+ * This provides a more granular health-check contract than the existing {@link HealthCheckCallback}
  *
  * @author Nitesh Kant
  */

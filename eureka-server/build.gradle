@@ -7,7 +7,7 @@ dependencies {
     compile "com.sun.jersey:jersey-server:$jerseyVersion"
     compile "com.sun.jersey:jersey-servlet:$jerseyVersion"
     compile 'org.slf4j:slf4j-log4j12:1.6.1'
-    runtime 'org.codehaus.jettison:jettison:1.2' 
+    runtime 'org.codehaus.jettison:jettison:1.2'
     providedCompile "javax.servlet:servlet-api:$servletVersion"
 
     testCompile project(':eureka-test-utils')
@@ -18,11 +18,11 @@ dependencies {
 
 task copyLibs(type: Copy) {
     into 'testlibs/WEB-INF/libs'
-    from configurations.runtime	
+    from configurations.runtime
 }
 
 war {
-    from (project(':eureka-resources').file('build/resources/main'))
+    from(project(':eureka-resources').file('build/resources/main'))
 }
 
 // Integration test loads eureka war, so it must be ready prior to running tests

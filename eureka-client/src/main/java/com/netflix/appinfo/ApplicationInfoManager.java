@@ -57,9 +57,11 @@ public class ApplicationInfoManager {
     private static ApplicationInfoManager instance = new ApplicationInfoManager(null, null, null);
 
     protected final Map<String, StatusChangeListener> listeners;
+
     private final InstanceStatusMapper instanceStatusMapper;
 
     private InstanceInfo instanceInfo;
+
     private EurekaInstanceConfig config;
 
     public static class OptionalArgs {

@@ -13,9 +13,11 @@ import java.util.Map;
  * @author Nitesh Kant
  */
 public class InstanceRegionChecker {
+
     private static Logger logger = LoggerFactory.getLogger(InstanceRegionChecker.class);
 
     private final AzToRegionMapper azToRegionMapper;
+
     private final String localRegion;
 
     InstanceRegionChecker(AzToRegionMapper azToRegionMapper, String localRegion) {

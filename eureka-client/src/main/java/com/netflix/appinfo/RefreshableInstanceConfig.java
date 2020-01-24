@@ -1,5 +1,8 @@
 package com.netflix.appinfo;
 
+/**
+ * @author supos
+ */
 public interface RefreshableInstanceConfig {
 
     /**

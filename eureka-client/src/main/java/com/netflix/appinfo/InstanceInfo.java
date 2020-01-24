@@ -130,6 +130,9 @@ public class InstanceInfo {
     private String healthCheckRelativeUrl;
 
     @XStreamOmitField
+    private String healthCheckExplicitUrl;
+
+    @XStreamOmitField
     private String healthCheckSecureExplicitUrl;
 
     @XStreamOmitField
@@ -137,9 +140,6 @@ public class InstanceInfo {
 
     @XStreamOmitField
     private String secureVipAddressUnresolved;
-
-    @XStreamOmitField
-    private String healthCheckExplicitUrl;
 
     @Deprecated
     private volatile int countryId = DEFAULT_COUNTRY_ID; // Defaults to US
@@ -260,9 +260,13 @@ public class InstanceInfo {
 
     @Override
     public String toString() {
-        return "InstanceInfo [instanceId = " + this.instanceId + ", appName = " + this.appName +
-                ", hostName = " + this.hostName + ", status = " + this.status +
-                ", ipAddr = " + this.ipAddr + ", port = " + this.port + ", securePort = " + this.securePort +
+        return "InstanceInfo [instanceId = " + this.instanceId +
+                ", appName = " + this.appName +
+                ", hostName = " + this.hostName +
+                ", status = " + this.status +
+                ", ipAddr = " + this.ipAddr +
+                ", port = " + this.port +
+                ", securePort = " + this.securePort +
                 ", dataCenterInfo = " + this.dataCenterInfo;
     }
 
@@ -340,11 +344,25 @@ public class InstanceInfo {
     }
 
     public enum InstanceStatus {
-        UP, // Ready to receive traffic
-        DOWN, // Do not send traffic- healthcheck callback failed
-        STARTING, // Just about starting- initializations to be done - do not
-        // send traffic
-        OUT_OF_SERVICE, // Intentionally shutdown for traffic
+        /**
+         * Ready to receive traffic
+         */
+        UP,
+        /**
+         * Do not send traffic- healthcheck callback failed
+         */
+        DOWN,
+        /**
+         * Just about starting- initializations to be done - do not
+         */
+        STARTING,
+        /**
+         * send traffic
+         */
+        OUT_OF_SERVICE,
+        /**
+         * Intentionally shutdown for traffic
+         */
         UNKNOWN;
 
         public static InstanceStatus toEnum(String s) {
@@ -358,6 +376,18 @@ public class InstanceInfo {
             }
             return UNKNOWN;
         }
+    }
+
+    public enum PortType {
+        SECURE,
+        UNSECURE
+    }
+
+    public enum ActionType {
+        ADDED, // Added in the discovery server
+        MODIFIED, // Changed in the discovery server
+        DELETED
+        // Deleted from the discovery server
     }
 
     @Override
@@ -387,10 +417,6 @@ public class InstanceInfo {
             return false;
         }
         return true;
-    }
-
-    public enum PortType {
-        SECURE, UNSECURE
     }
 
     public static final class Builder {
@@ -487,8 +513,10 @@ public class InstanceInfo {
             result.hostName = hostName;
             if ((existingHostName != null)
                     && !(hostName.equals(existingHostName))) {
-                refreshStatusPageUrl().refreshHealthCheckUrl()
-                        .refreshVIPAddress().refreshSecureVIPAddress();
+                refreshStatusPageUrl()
+                        .refreshHealthCheckUrl()
+                        .refreshVIPAddress().
+                        refreshSecureVIPAddress();
             }
             return this;
         }
@@ -924,7 +952,6 @@ public class InstanceInfo {
     public String getAppGroupName() {
         return appGroupName;
     }
-
 
     /**
      * Return the default network address to connect to this instance. Typically this would be the fully
@@ -1363,21 +1390,13 @@ public class InstanceInfo {
         return version;
     }
 
-    public enum ActionType {
-        ADDED, // Added in the discovery server
-        MODIFIED, // Changed in the discovery server
-        DELETED
-        // Deleted from the discovery server
-    }
-
     /**
      * Register application specific metadata to be sent to the discovery
      * server.
      *
      * @param runtimeMetadata Map containing key/value pairs.
      */
-    synchronized void registerRuntimeMetadata(
-            Map<String, String> runtimeMetadata) {
+    synchronized void registerRuntimeMetadata(Map<String, String> runtimeMetadata) {
         metadata.putAll(runtimeMetadata);
         setIsDirty();
     }
@@ -1402,7 +1421,6 @@ public class InstanceInfo {
             if (awsInstanceZone != null) {
                 instanceZone = awsInstanceZone;
             }
-
         }
         return instanceZone;
     }

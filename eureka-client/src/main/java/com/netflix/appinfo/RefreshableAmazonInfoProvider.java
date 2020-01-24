@@ -20,9 +20,9 @@ public class RefreshableAmazonInfoProvider implements Provider<AmazonInfo> {
      */
     public static interface FallbackAddressProvider {
         String getFallbackIp();
+
         String getFallbackHostname();
     }
-
 
     private static final Logger logger = LoggerFactory.getLogger(RefreshableAmazonInfoProvider.class);
 
@@ -95,9 +95,9 @@ public class RefreshableAmazonInfoProvider implements Provider<AmazonInfo> {
 
     /* visible for testing */ AmazonInfo getNewAmazonInfo() {
         return AmazonInfo.Builder
-                        .newBuilder()
-                        .withAmazonInfoConfig(amazonInfoConfig)
-                        .autoBuild(amazonInfoConfig.getNamespace());
+                .newBuilder()
+                .withAmazonInfoConfig(amazonInfoConfig)
+                .autoBuild(amazonInfoConfig.getNamespace());
     }
 
     /**
@@ -115,7 +115,8 @@ public class RefreshableAmazonInfoProvider implements Provider<AmazonInfo> {
      * - localIp/privateIp must exist
      * - publicHostname does not necessarily need to exist (e.g. in vpc)
      */
-    /* visible for testing */ static boolean shouldUpdate(AmazonInfo newInfo, AmazonInfo oldInfo) {
+    /* visible for testing */
+    static boolean shouldUpdate(AmazonInfo newInfo, AmazonInfo oldInfo) {
         if (newInfo.getMetadata().isEmpty()) {
             logger.warn("Newly resolved AmazonInfo is empty, skipping an update cycle");
         } else if (!newInfo.equals(oldInfo)) {

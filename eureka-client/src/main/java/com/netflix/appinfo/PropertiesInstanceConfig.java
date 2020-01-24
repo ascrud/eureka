@@ -239,6 +239,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         return configInstance.getStringProperty(namespace + APP_GROUP_KEY, appGrpNameFromEnv).get().trim();
     }
 
+    @Override
     public String getIpAddress() {
         return super.getIpAddress();
     }

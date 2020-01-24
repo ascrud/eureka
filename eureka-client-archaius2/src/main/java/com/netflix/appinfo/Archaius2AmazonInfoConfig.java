@@ -26,13 +26,11 @@ public class Archaius2AmazonInfoConfig implements AmazonInfoConfig {
         this(configInstance, CommonConstants.DEFAULT_CONFIG_NAMESPACE);
     }
 
-
     public Archaius2AmazonInfoConfig(Config configInstance, String namespace) {
         this.namespace = namespace;
         this.configInstance = configInstance;
         this.prefixedConfig = new InternalPrefixedConfig(configInstance, namespace);
     }
-
 
     @Override
     public String getNamespace() {

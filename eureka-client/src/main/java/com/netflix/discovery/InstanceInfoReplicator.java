@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author dliu
  */
 class InstanceInfoReplicator implements Runnable {
+
     private static final Logger logger = LoggerFactory.getLogger(InstanceInfoReplicator.class);
 
     private final DiscoveryClient discoveryClient;

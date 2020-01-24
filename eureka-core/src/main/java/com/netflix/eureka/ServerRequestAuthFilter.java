@@ -16,6 +16,7 @@ import java.io.IOException;
  */
 @Singleton
 public class ServerRequestAuthFilter implements Filter {
+    
     public static final String UNKNOWN = "unknown";
 
     private static final String NAME_PREFIX = "DiscoveryServerRequestAuth_Name_";

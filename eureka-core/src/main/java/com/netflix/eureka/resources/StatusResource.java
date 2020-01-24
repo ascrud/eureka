@@ -38,7 +38,9 @@ import org.slf4j.LoggerFactory;
 @Path("/{version}/status")
 @Produces({"application/xml", "application/json"})
 public class StatusResource {
+
     private static final Logger logger = LoggerFactory.getLogger(StatusResource.class);
+    
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss Z";
 
     private final StatusUtil statusUtil;

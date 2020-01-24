@@ -60,17 +60,20 @@ public class CloudInstanceConfig extends PropertiesInstanceConfig implements Ref
     }
 
     /* visible for testing */
+
     CloudInstanceConfig(AmazonInfo info) {
         this(CommonConstants.DEFAULT_CONFIG_NAMESPACE, new Archaius1AmazonInfoConfig(CommonConstants.DEFAULT_CONFIG_NAMESPACE), info, false);
     }
 
     /* visible for testing */
+
     CloudInstanceConfig(String namespace, RefreshableAmazonInfoProvider refreshableAmazonInfoProvider) {
         super(namespace);
         this.amazonInfoHolder = refreshableAmazonInfoProvider;
     }
 
     /* visible for testing */
+
     CloudInstanceConfig(String namespace, AmazonInfoConfig amazonInfoConfig, AmazonInfo initialInfo, boolean eagerInit) {
         super(namespace);
         if (eagerInit) {
@@ -160,8 +163,9 @@ public class CloudInstanceConfig extends PropertiesInstanceConfig implements Ref
     /**
      * @deprecated 2016-09-07
      */
+    /* visible for testing */
     @Deprecated
-    /* visible for testing */ static boolean shouldUpdate(AmazonInfo newInfo, AmazonInfo oldInfo) {
+    static boolean shouldUpdate(AmazonInfo newInfo, AmazonInfo oldInfo) {
         return RefreshableAmazonInfoProvider.shouldUpdate(newInfo, oldInfo);
     }
 }

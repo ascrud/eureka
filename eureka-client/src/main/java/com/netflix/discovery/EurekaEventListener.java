@@ -5,6 +5,7 @@ package com.netflix.discovery;
  * a listener by calling {@link EurekaClient#registerEventListener(EurekaEventListener)}
  */
 public interface EurekaEventListener {
+    
     /**
      * Notification of an event within the {@link EurekaClient}.
      * <p>

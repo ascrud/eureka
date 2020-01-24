@@ -18,6 +18,7 @@ import static com.netflix.discovery.PropertyBasedClientConfigConstants.*;
 @Singleton
 @ConfigurationSource(CommonConstants.CONFIG_FILE_NAME)
 public class EurekaArchaius2ClientConfig implements EurekaClientConfig {
+    
     public static final String DEFAULT_ZONE = "defaultZone";
 
     private static final String DEFAULT_NAMESPACE = "eureka";

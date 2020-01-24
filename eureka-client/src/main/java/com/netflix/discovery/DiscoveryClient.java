@@ -87,6 +87,7 @@ import static com.netflix.discovery.EurekaClientNames.METRIC_REGISTRY_PREFIX;
  */
 @Singleton
 public class DiscoveryClient implements EurekaClient {
+
     private static final Logger logger = LoggerFactory.getLogger(DiscoveryClient.class);
 
     // Constants

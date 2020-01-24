@@ -13,7 +13,6 @@ final class PropertyBasedAmazonInfoConfigConstants {
 
     static final String SHOULD_VALIDATE_INSTANCE_ID_KEY = "validateInstanceId";
 
-
     static class Values {
         static final int DEFAULT_READ_TIMEOUT = 5000;
         static final int DEFAULT_CONNECT_TIMEOUT = 2000;

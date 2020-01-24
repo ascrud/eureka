@@ -37,13 +37,12 @@ import org.slf4j.LoggerFactory;
  * A <em>jersey</em> resource that gets information about a particular instance.
  *
  * @author Karthik Ranganathan, Greg Kim
- *
  */
 @Produces({"application/xml", "application/json"})
 @Path("/{version}/instances")
 public class InstancesResource {
-    private static final Logger logger = LoggerFactory
-            .getLogger(InstancesResource.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(InstancesResource.class);
 
     private final PeerAwareInstanceRegistry registry;
 
