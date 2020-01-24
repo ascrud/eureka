@@ -19,11 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Route53 binder implementation. Will look for a free domain in the list of service url to bind itself to via Route53.

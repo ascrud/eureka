@@ -16,23 +16,18 @@
 
 package com.netflix.eureka.resources;
 
-import javax.inject.Inject;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
 import com.netflix.eureka.EurekaServerContext;
 import com.netflix.eureka.EurekaServerContextHolder;
-import com.netflix.eureka.cluster.PeerEurekaNode;
 import com.netflix.eureka.aws.AwsAsgUtil;
+import com.netflix.eureka.cluster.PeerEurekaNode;
 import com.netflix.eureka.registry.AwsInstanceRegistry;
 import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 /**
  * A <em>jersey</em> resource for handling updates to {@link ASGStatus}.
@@ -59,6 +54,7 @@ import org.slf4j.LoggerFactory;
 @Path("/{version}/asg")
 @Produces({"application/xml", "application/json"})
 public class ASGResource {
+
     private static final Logger logger = LoggerFactory.getLogger(ASGResource.class);
 
     public enum ASGStatus {

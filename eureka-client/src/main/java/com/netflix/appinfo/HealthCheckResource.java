@@ -34,7 +34,7 @@ import javax.ws.rs.core.Response.Status;
 @Path("/healthcheck")
 public class HealthCheckResource {
 
-    private static final Logger s_logger = LoggerFactory.getLogger(HealthCheckResource.class);
+    private static final Logger logger = LoggerFactory.getLogger(HealthCheckResource.class);
 
     @GET
     public Response doHealthCheck() {
@@ -56,7 +56,7 @@ public class HealthCheckResource {
                     return Response.status(Status.INTERNAL_SERVER_ERROR).build();
             }
         } catch (Throwable th) {
-            s_logger.error("Error doing healthceck", th);
+            logger.error("Error doing healthceck", th);
             // Return status 500
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }

@@ -17,11 +17,8 @@
 package com.netflix.eureka.registry;
 
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.shared.Application;
 import com.netflix.eureka.cluster.PeerEurekaNodes;
 import com.netflix.eureka.resources.ASGResource;
-
-import java.util.List;
 
 /**
  * @author Tomasz Bak

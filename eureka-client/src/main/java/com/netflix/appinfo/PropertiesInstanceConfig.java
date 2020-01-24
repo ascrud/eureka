@@ -15,15 +15,15 @@
  */
 package com.netflix.appinfo;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.netflix.config.ConfigurationManager;
 import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.discovery.CommonConstants;
 import com.netflix.discovery.internal.util.Archaius1Utils;
 import org.apache.commons.configuration.Configuration;
+
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static com.netflix.appinfo.PropertyBasedInstanceConfigConstants.*;
 
@@ -46,7 +46,6 @@ import static com.netflix.appinfo.PropertyBasedInstanceConfigConstants.*;
  * </p>
  *
  * @author Karthik Ranganathan
- *
  */
 public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig implements EurekaInstanceConfig {
 
@@ -80,7 +79,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         this.configInstance = Archaius1Utils.initConfig(CommonConstants.CONFIG_FILE_NAME);
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#isInstanceEnabledOnit()
@@ -91,7 +90,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
                 super.isInstanceEnabledOnit()).get();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#getNonSecurePort()
@@ -101,7 +100,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         return configInstance.getIntProperty(namespace + PORT_KEY, super.getNonSecurePort()).get();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#getSecurePort()
@@ -111,7 +110,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         return configInstance.getIntProperty(namespace + SECURE_PORT_KEY, super.getSecurePort()).get();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#isNonSecurePortEnabled()
@@ -121,7 +120,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         return configInstance.getBooleanProperty(namespace + PORT_ENABLED_KEY, super.isNonSecurePortEnabled()).get();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#getSecurePortEnabled()
@@ -132,11 +131,10 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
                 super.getSecurePortEnabled()).get();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see
-     * com.netflix.appinfo.AbstractInstanceConfig#getLeaseRenewalIntervalInSeconds
+     * @see com.netflix.appinfo.AbstractInstanceConfig#getLeaseRenewalIntervalInSeconds
      * ()
      */
     @Override
@@ -145,7 +143,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
                 super.getLeaseRenewalIntervalInSeconds()).get();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#
@@ -157,7 +155,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
                 super.getLeaseExpirationDurationInSeconds()).get();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#getVirtualHostName()
@@ -172,11 +170,10 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         }
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see
-     * com.netflix.appinfo.AbstractInstanceConfig#getSecureVirtualHostName()
+     * @see com.netflix.appinfo.AbstractInstanceConfig#getSecureVirtualHostName()
      */
     @Override
     public String getSecureVirtualHostName() {
@@ -188,7 +185,7 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         }
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
      * @see com.netflix.appinfo.AbstractInstanceConfig#getASGName()
@@ -240,10 +237,10 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         return configInstance.getStringProperty(namespace + APP_GROUP_KEY, appGrpNameFromEnv).get().trim();
     }
 
+    @Override
     public String getIpAddress() {
         return super.getIpAddress();
     }
-
 
     @Override
     public String getStatusPageUrlPath() {
@@ -256,7 +253,6 @@ public abstract class PropertiesInstanceConfig extends AbstractInstanceConfig im
         return configInstance.getStringProperty(namespace + STATUS_PAGE_URL_KEY, null)
                 .get();
     }
-
 
     @Override
     public String getHomePageUrlPath() {

@@ -59,6 +59,7 @@ import static com.netflix.eureka.util.EurekaMonitors.*;
  * @author Karthik Ranganathan
  */
 public abstract class AbstractInstanceRegistry implements InstanceRegistry {
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractInstanceRegistry.class);
 
     private static final String[] EMPTY_STR_ARRAY = new String[0];

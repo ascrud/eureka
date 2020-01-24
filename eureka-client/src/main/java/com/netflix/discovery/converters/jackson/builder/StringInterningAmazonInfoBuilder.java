@@ -16,10 +16,6 @@
 
 package com.netflix.discovery.converters.jackson.builder;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -33,16 +29,20 @@ import com.netflix.discovery.util.DeserializerStringCache;
 import com.netflix.discovery.util.DeserializerStringCache.CacheScope;
 import com.netflix.discovery.util.StringCache;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Amazon instance info builder that is doing key names interning, together with
  * value interning for selected keys (see {@link StringInterningAmazonInfoBuilder#VALUE_INTERN_KEYS}).
- *
+ * <p>
  * The amount of string objects that is interned here is very limited in scope, and is done by calling
  * {@link String#intern()}, with no custom build string cache.
  *
  * @author Tomasz Bak
  */
-public class StringInterningAmazonInfoBuilder extends JsonDeserializer<AmazonInfo>{
+public class StringInterningAmazonInfoBuilder extends JsonDeserializer<AmazonInfo> {
 
     private static final Map<String, CacheScope> VALUE_INTERN_KEYS;
     private static final char[] BUF_METADATA = "metadata".toCharArray();
@@ -108,16 +108,16 @@ public class StringInterningAmazonInfoBuilder extends JsonDeserializer<AmazonInf
     @Override
     public AmazonInfo deserialize(JsonParser jp, DeserializationContext context)
             throws IOException {
-        Map<String,String> metadata = EurekaJacksonCodec.METADATA_MAP_SUPPLIER.get();
-        DeserializerStringCache intern = DeserializerStringCache.from(context);        
+        Map<String, String> metadata = EurekaJacksonCodec.METADATA_MAP_SUPPLIER.get();
+        DeserializerStringCache intern = DeserializerStringCache.from(context);
 
         if (skipToMetadata(jp)) {
             JsonToken jsonToken = jp.nextToken();
-            while((jsonToken = jp.nextToken()) != JsonToken.END_OBJECT) {
+            while ((jsonToken = jp.nextToken()) != JsonToken.END_OBJECT) {
                 String metadataKey = intern.apply(jp, CacheScope.GLOBAL_SCOPE);
                 jp.nextToken();
                 CacheScope scope = VALUE_INTERN_KEYS.get(metadataKey);
-                String metadataValue =  (scope != null) ? intern.apply(jp, scope) : intern.apply(jp, CacheScope.APPLICATION_SCOPE);
+                String metadataValue = (scope != null) ? intern.apply(jp, scope) : intern.apply(jp, CacheScope.APPLICATION_SCOPE);
                 metadata.put(metadataKey, metadataValue);
             }
             skipToEnd(jp);
@@ -129,5 +129,5 @@ public class StringInterningAmazonInfoBuilder extends JsonDeserializer<AmazonInf
 
         return new AmazonInfo(Name.Amazon.name(), metadata);
     }
-  
+
 }

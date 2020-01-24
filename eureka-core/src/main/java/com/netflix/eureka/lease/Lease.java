@@ -51,7 +51,6 @@ public class Lease<T> {
         registrationTimestamp = System.currentTimeMillis();
         lastUpdateTimestamp = registrationTimestamp;
         duration = (durationInSecs * 1000);
-
     }
 
     /**
@@ -61,7 +60,6 @@ public class Lease<T> {
      */
     public void renew() {
         lastUpdateTimestamp = System.currentTimeMillis() + duration;
-
     }
 
     /**

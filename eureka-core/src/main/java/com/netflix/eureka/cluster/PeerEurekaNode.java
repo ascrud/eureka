@@ -16,9 +16,6 @@
 
 package com.netflix.eureka.cluster;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.appinfo.InstanceInfo.InstanceStatus;
 import com.netflix.discovery.shared.transport.EurekaHttpResponse;
@@ -31,6 +28,9 @@ import com.netflix.eureka.util.batcher.TaskDispatcher;
 import com.netflix.eureka.util.batcher.TaskDispatchers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * The <code>PeerEurekaNode</code> represents a peer node to which information

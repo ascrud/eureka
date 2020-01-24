@@ -1,19 +1,15 @@
 package com.netflix.eureka.cluster;
 
+import com.netflix.eureka.EurekaServerConfig;
+import com.sun.jersey.api.client.*;
+import com.sun.jersey.api.client.filter.ClientFilter;
+
 import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-
-import com.netflix.eureka.EurekaServerConfig;
-import com.sun.jersey.api.client.AbstractClientRequestAdapter;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientRequestAdapter;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * Eureka specific GZIP content filter handler.

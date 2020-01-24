@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * Created by Nikos Michalakis on 7/13/16.
  */
 public class DownOrStartingRule implements InstanceStatusOverrideRule {
+
     private static final Logger logger = LoggerFactory.getLogger(DownOrStartingRule.class);
 
     @Override

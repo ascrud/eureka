@@ -98,8 +98,7 @@ public class DefaultEurekaClientConfig implements EurekaClientConfig {
     /**
      * (non-Javadoc)
      *
-     * @see com.netflix.discovery.EurekaClientConfig#
-     * getInstanceInfoReplicationIntervalSeconds()
+     * @see com.netflix.discovery.EurekaClientConfig#getInstanceInfoReplicationIntervalSeconds()
      */
     @Override
     public int getInstanceInfoReplicationIntervalSeconds() {
@@ -172,7 +171,7 @@ public class DefaultEurekaClientConfig implements EurekaClientConfig {
     /**
      * (non-Javadoc)
      *
-     * @see com.netflix.discovery.EurekaClientConfig#getDSServerReadTimeout()
+     * @see EurekaClientConfig#getEurekaServerReadTimeoutSeconds()
      */
     @Override
     public int getEurekaServerReadTimeoutSeconds() {
@@ -183,7 +182,7 @@ public class DefaultEurekaClientConfig implements EurekaClientConfig {
     /**
      * (non-Javadoc)
      *
-     * @see com.netflix.discovery.EurekaClientConfig#getDSServerConnectTimeout()
+     * @see EurekaClientConfig#getEurekaServerConnectTimeoutSeconds()
      */
     @Override
     public int getEurekaServerConnectTimeoutSeconds() {

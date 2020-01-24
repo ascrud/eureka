@@ -16,13 +16,15 @@
 
 package com.netflix.eureka.resources;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.appinfo.InstanceInfo.InstanceStatus;
+import com.netflix.eureka.EurekaServerConfig;
+import com.netflix.eureka.cluster.PeerEurekaNode;
+import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -35,14 +37,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.appinfo.InstanceInfo.InstanceStatus;
-import com.netflix.eureka.EurekaServerConfig;
-import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
-import com.netflix.eureka.cluster.PeerEurekaNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A <em>jersey</em> resource that handles operations for a particular instance.
  *
@@ -51,14 +45,13 @@ import org.slf4j.LoggerFactory;
  */
 @Produces({"application/xml", "application/json"})
 public class InstanceResource {
-    private static final Logger logger = LoggerFactory
-            .getLogger(InstanceResource.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(InstanceResource.class);
 
     private final PeerAwareInstanceRegistry registry;
     private final EurekaServerConfig serverConfig;
     private final String id;
     private final ApplicationResource app;
-
 
     InstanceResource(ApplicationResource app, String id, EurekaServerConfig serverConfig, PeerAwareInstanceRegistry registry) {
         this.app = app;

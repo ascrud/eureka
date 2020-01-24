@@ -16,6 +16,16 @@
 
 package com.netflix.appinfo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.netflix.discovery.converters.jackson.builder.StringInterningAmazonInfoBuilder;
+import com.netflix.discovery.internal.util.AmazonInfoUtils;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,16 +37,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.netflix.discovery.converters.jackson.builder.StringInterningAmazonInfoBuilder;
-import com.netflix.discovery.internal.util.AmazonInfoUtils;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * An AWS specific {@link DataCenterInfo} implementation.
  *
@@ -46,7 +46,6 @@ import org.slf4j.LoggerFactory;
  * </p>
  *
  * @author Karthik Ranganathan, Greg Kim
- *
  */
 @JsonDeserialize(using = StringInterningAmazonInfoBuilder.class)
 public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
@@ -140,6 +139,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
             }
         }
 
+        @Override
         public String toString() {
             return getName();
         }
@@ -257,12 +257,12 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
             @JsonProperty("metadata") HashMap<String, String> metadata) {
         this.metadata = metadata;
     }
-    
+
     public AmazonInfo(
             @JsonProperty("name") String name,
             @JsonProperty("metadata") Map<String, String> metadata) {
         this.metadata = metadata;
-    }    
+    }
 
     @Override
     public Name getName() {
@@ -282,8 +282,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
     /**
      * Set AWS metadata.
      *
-     * @param metadataMap
-     *            the map containing AWS metadata.
+     * @param metadataMap the map containing AWS metadata.
      */
     public void setMetadata(Map<String, String> metadataMap) {
         this.metadata = metadataMap;
@@ -292,8 +291,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
     /**
      * Gets the AWS metadata specified in {@link MetaDataKey}.
      *
-     * @param key
-     *            the metadata key.
+     * @param key the metadata key.
      * @return String returning the value.
      */
     public String get(MetaDataKey key) {
@@ -309,12 +307,15 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AmazonInfo)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof AmazonInfo))
+            return false;
 
         AmazonInfo that = (AmazonInfo) o;
 
-        if (metadata != null ? !metadata.equals(that.metadata) : that.metadata != null) return false;
+        if (metadata != null ? !metadata.equals(that.metadata) : that.metadata != null)
+            return false;
 
         return true;
     }

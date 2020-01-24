@@ -15,15 +15,14 @@
  */
 package com.netflix.appinfo;
 
+import com.netflix.discovery.CommonConstants;
+import com.netflix.discovery.shared.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
-
-import com.netflix.discovery.CommonConstants;
-import com.netflix.discovery.shared.Pair;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * An abstract instance info configuration with some defaults to get the users
@@ -31,9 +30,9 @@ import org.slf4j.LoggerFactory;
  * their instance with eureka server.
  *
  * @author Karthik Ranganathan
- *
  */
 public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractInstanceConfig.class);
 
     /**
@@ -41,7 +40,7 @@ public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
      */
     @Deprecated
     public static final String DEFAULT_NAMESPACE = CommonConstants.DEFAULT_CONFIG_NAMESPACE;
-    
+
     private static final int LEASE_EXPIRATION_DURATION_SECONDS = 90;
     private static final int LEASE_RENEWAL_INTERVAL_SECONDS = 30;
     private static final boolean SECURE_PORT_ENABLED = false;
@@ -65,50 +64,50 @@ public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
         this.info = info;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#isInstanceEnabledOnit()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#isInstanceEnabledOnit()
      */
     @Override
     public boolean isInstanceEnabledOnit() {
         return INSTANCE_ENABLED_ON_INIT;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getNonSecurePort()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getNonSecurePort()
      */
     @Override
     public int getNonSecurePort() {
         return NON_SECURE_PORT;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getSecurePort()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getSecurePort()
      */
     @Override
     public int getSecurePort() {
         return SECURE_PORT;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#isNonSecurePortEnabled()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#isNonSecurePortEnabled()
      */
     @Override
     public boolean isNonSecurePortEnabled() {
         return NON_SECURE_PORT_ENABLED;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getSecurePortEnabled()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getSecurePortEnabled()
      */
     @Override
     public boolean getSecurePortEnabled() {
@@ -116,52 +115,50 @@ public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
         return SECURE_PORT_ENABLED;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see
-     * com.netflix.appinfo.InstanceConfig#getLeaseRenewalIntervalInSeconds()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getLeaseRenewalIntervalInSeconds()
      */
     @Override
     public int getLeaseRenewalIntervalInSeconds() {
         return LEASE_RENEWAL_INTERVAL_SECONDS;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see
-     * com.netflix.appinfo.InstanceConfig#getLeaseExpirationDurationInSeconds()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getLeaseExpirationDurationInSeconds()
      */
     @Override
     public int getLeaseExpirationDurationInSeconds() {
         return LEASE_EXPIRATION_DURATION_SECONDS;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getVirtualHostName()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getVirtualHostName()
      */
     @Override
     public String getVirtualHostName() {
         return (getHostName(false) + ":" + getNonSecurePort());
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getSecureVirtualHostName()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getSecureVirtualHostName()
      */
     @Override
     public String getSecureVirtualHostName() {
         return (getHostName(false) + ":" + getSecurePort());
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getASGName()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getASGName()
      */
     @Override
     public String getASGName() {
@@ -169,20 +166,20 @@ public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
         return null;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getHostName()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getHostName(boolean)
      */
     @Override
     public String getHostName(boolean refresh) {
         return hostInfo.second();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getMetadataMap()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getMetadataMap()
      */
     @Override
     public Map<String, String> getMetadataMap() {
@@ -190,10 +187,10 @@ public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
         return null;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getDataCenterInfo()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getDataCenterInfo()
      */
     @Override
     public DataCenterInfo getDataCenterInfo() {
@@ -201,10 +198,10 @@ public abstract class AbstractInstanceConfig implements EurekaInstanceConfig {
         return info;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see com.netflix.appinfo.InstanceConfig#getIpAddress()
+     * @see com.netflix.appinfo.EurekaInstanceConfig#getIpAddress()
      */
     @Override
     public String getIpAddress() {

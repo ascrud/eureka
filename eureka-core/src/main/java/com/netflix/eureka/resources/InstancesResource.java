@@ -42,8 +42,8 @@ import org.slf4j.LoggerFactory;
 @Produces({"application/xml", "application/json"})
 @Path("/{version}/instances")
 public class InstancesResource {
-    private static final Logger logger = LoggerFactory
-            .getLogger(InstancesResource.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(InstancesResource.class);
 
     private final PeerAwareInstanceRegistry registry;
 

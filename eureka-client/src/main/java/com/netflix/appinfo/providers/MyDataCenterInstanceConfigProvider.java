@@ -9,6 +9,7 @@ import com.netflix.discovery.DiscoveryManager;
 import com.netflix.discovery.EurekaNamespace;
 
 public class MyDataCenterInstanceConfigProvider implements Provider<EurekaInstanceConfig> {
+
     @Inject(optional = true)
     @EurekaNamespace
     private String namespace;

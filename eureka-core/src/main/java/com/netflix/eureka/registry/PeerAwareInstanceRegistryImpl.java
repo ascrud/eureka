@@ -75,6 +75,7 @@ import java.util.*;
  */
 @Singleton
 public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry implements PeerAwareInstanceRegistry {
+
     private static final Logger logger = LoggerFactory.getLogger(PeerAwareInstanceRegistryImpl.class);
 
     private static final String US_EAST_1 = "us-east-1";

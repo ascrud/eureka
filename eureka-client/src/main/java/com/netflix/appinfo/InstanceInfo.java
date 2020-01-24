@@ -81,7 +81,8 @@ public class InstanceInfo {
 
     public static final int DEFAULT_PORT = 7001;
     public static final int DEFAULT_SECURE_PORT = 7002;
-    public static final int DEFAULT_COUNTRY_ID = 1; // US
+    // US
+    public static final int DEFAULT_COUNTRY_ID = 1;
 
     private static final String SID_DEFAULT = "na";
 
@@ -141,8 +142,9 @@ public class InstanceInfo {
     @XStreamOmitField
     private String healthCheckExplicitUrl;
 
+    // Defaults to US
     @Deprecated
-    private volatile int countryId = DEFAULT_COUNTRY_ID; // Defaults to US
+    private volatile int countryId = DEFAULT_COUNTRY_ID;
 
     private volatile boolean isSecurePortEnabled = false;
 
@@ -182,7 +184,7 @@ public class InstanceInfo {
     private String version = VERSION_UNKNOWN;
 
     private InstanceInfo() {
-        this.metadata = new ConcurrentHashMap<String, String>();
+        this.metadata = new ConcurrentHashMap<>();
         this.lastUpdatedTimestamp = System.currentTimeMillis();
         this.lastDirtyTimestamp = lastUpdatedTimestamp;
     }
@@ -288,10 +290,8 @@ public class InstanceInfo {
         this.appGroupName = ii.appGroupName;
         this.ipAddr = ii.ipAddr;
         this.sid = ii.sid;
-
         this.port = ii.port;
         this.securePort = ii.securePort;
-
         this.homePageUrl = ii.homePageUrl;
         this.statusPageUrl = ii.statusPageUrl;
         this.healthCheckUrl = ii.healthCheckUrl;
@@ -340,11 +340,16 @@ public class InstanceInfo {
     }
 
     public enum InstanceStatus {
-        UP, // Ready to receive traffic
-        DOWN, // Do not send traffic- healthcheck callback failed
-        STARTING, // Just about starting- initializations to be done - do not
-        // send traffic
-        OUT_OF_SERVICE, // Intentionally shutdown for traffic
+        /**
+         * Ready to receive traffic
+         */
+        UP,
+        // Do not send traffic- health－check callback failed
+        DOWN,
+        // Just about starting- initializations to be done - do not send traffic
+        STARTING,
+        // Intentionally shutdown for traffic
+        OUT_OF_SERVICE,
         UNKNOWN;
 
         public static InstanceStatus toEnum(String s) {
@@ -924,7 +929,6 @@ public class InstanceInfo {
     public String getAppGroupName() {
         return appGroupName;
     }
-
 
     /**
      * Return the default network address to connect to this instance. Typically this would be the fully

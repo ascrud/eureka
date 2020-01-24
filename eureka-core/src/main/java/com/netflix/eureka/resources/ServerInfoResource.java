@@ -19,6 +19,7 @@ import java.util.Map;
 @Produces("application/json")
 @Path("/serverinfo")
 public class ServerInfoResource {
+
     private final PeerAwareInstanceRegistry registry;
 
     @Inject
