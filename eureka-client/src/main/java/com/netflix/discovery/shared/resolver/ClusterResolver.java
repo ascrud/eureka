@@ -23,7 +23,17 @@ import java.util.List;
  */
 public interface ClusterResolver<T extends EurekaEndpoint> {
 
+    /**
+     * getRegion
+     *
+     * @return
+     */
     String getRegion();
 
+    /**
+     * getClusterEndpoints
+     *
+     * @return
+     */
     List<T> getClusterEndpoints();
 }

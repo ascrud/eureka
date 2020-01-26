@@ -21,5 +21,10 @@ package com.netflix.discovery.shared.resolver;
  */
 public interface ClusterResolverFactory<T extends EurekaEndpoint> {
 
+    /**
+     * createClusterResolver
+     *
+     * @return
+     */
     ClusterResolver<T> createClusterResolver();
 }

@@ -26,16 +26,22 @@ import com.netflix.discovery.shared.Applications;
  *
  * <p>
  * This is normally not required, but for applications that cannot exist without
- * the registry information it can provide some additional reslience.
+ * the registry information it can provide some additional resilience.
  * </p>
  *
  * @author Karthik Ranganathan
- *
  */
 @ImplementedBy(NotImplementedRegistryImpl.class)
 public interface BackupRegistry {
 
+    /**
+     * @return
+     */
     Applications fetchRegistry();
 
+    /**
+     * @param includeRemoteRegions
+     * @return
+     */
     Applications fetchRegistry(String[] includeRemoteRegions);
 }

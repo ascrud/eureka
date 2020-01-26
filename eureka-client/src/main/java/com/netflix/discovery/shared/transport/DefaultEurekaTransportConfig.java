@@ -8,6 +8,7 @@ import static com.netflix.discovery.shared.transport.PropertyBasedTransportConfi
  * @author David Liu
  */
 public class DefaultEurekaTransportConfig implements EurekaTransportConfig {
+
     private static final String SUB_NAMESPACE = TRANSPORT_CONFIG_SUB_NAMESPACE + ".";
 
     private final String namespace;

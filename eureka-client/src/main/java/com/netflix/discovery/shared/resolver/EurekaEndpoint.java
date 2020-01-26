@@ -18,6 +18,9 @@ package com.netflix.discovery.shared.resolver;
 
 public interface EurekaEndpoint extends Comparable<Object> {
 
+    /**
+     * @return
+     */
     String getServiceUrl();
 
     /**

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.netflix.discovery.shared.LookupService</OriginalElement>
+  <nodes>
+    <node x="284.0" y="164.0">com.netflix.eureka.registry.PeerAwareInstanceRegistry</node>
+    <node x="423.75" y="0.0">com.netflix.discovery.shared.LookupService</node>
+    <node x="657.0" y="82.0">com.netflix.discovery.EurekaClient</node>
+    <node x="643.5" y="164.0">com.netflix.discovery.DiscoveryClient</node>
+    <node x="172.4" y="82.0">com.netflix.eureka.registry.InstanceRegistry</node>
+    <node x="0.0" y="164.0">com.netflix.eureka.registry.AbstractInstanceRegistry</node>
+    <node x="121.25" y="246.0">com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl</node>
+    <node x="142.39999999999998" y="0.0">com.netflix.eureka.lease.LeaseManager</node>
+    <node x="384.4" y="82.0">com.netflix.eureka.registry.RemoteRegionRegistry</node>
+    <node x="166.25" y="328.0">com.netflix.eureka.registry.AwsInstanceRegistry</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.netflix.discovery.EurekaClient" target="com.netflix.discovery.shared.LookupService">
+      <point x="0.0" y="-16.0" />
+      <point x="735.0" y="57.0" />
+      <point x="561.25" y="57.0" />
+      <point x="55.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl" target="com.netflix.eureka.registry.AbstractInstanceRegistry">
+      <point x="-77.25" y="-16.0" />
+      <point x="198.5" y="221.0" />
+      <point x="132.0" y="221.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.PeerAwareInstanceRegistry" target="com.netflix.eureka.registry.InstanceRegistry">
+      <point x="0.0" y="-16.0" />
+      <point x="420.5" y="139.0" />
+      <point x="316.4" y="139.0" />
+      <point x="48.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.InstanceRegistry" target="com.netflix.discovery.shared.LookupService">
+      <point x="48.0" y="-16.0" />
+      <point x="316.4" y="57.0" />
+      <point x="451.25" y="57.0" />
+      <point x="-55.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.DiscoveryClient" target="com.netflix.discovery.EurekaClient">
+      <point x="0.0" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.InstanceRegistry" target="com.netflix.eureka.lease.LeaseManager">
+      <point x="-48.0" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl" target="com.netflix.eureka.registry.PeerAwareInstanceRegistry">
+      <point x="77.25" y="-16.0" />
+      <point x="353.0" y="221.0" />
+      <point x="420.5" y="221.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.RemoteRegionRegistry" target="com.netflix.discovery.shared.LookupService">
+      <point x="0.0" y="-16.0" />
+      <point x="498.4" y="57.0" />
+      <point x="506.25" y="57.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.AwsInstanceRegistry" target="com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl">
+      <point x="0.0" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.eureka.registry.AbstractInstanceRegistry" target="com.netflix.eureka.registry.InstanceRegistry">
+      <point x="0.0" y="-16.0" />
+      <point x="132.0" y="139.0" />
+      <point x="220.4" y="139.0" />
+      <point x="-48.0" y="16.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="242.5" y="16.0" />
+  <SelectedNodes>
+    <node>com.netflix.discovery.shared.LookupService</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

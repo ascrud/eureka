@@ -87,11 +87,11 @@ public class DnsTxtRecordClusterResolver implements ClusterResolver<AwsEndpoint>
     private final String relativeUri;
 
     /**
-     * @param rootClusterDNS top level domain name, in the two level hierarchy (see {@link DnsTxtRecordClusterResolver} documentation).
+     * @param rootClusterDNS     top level domain name, in the two level hierarchy (see {@link DnsTxtRecordClusterResolver} documentation).
      * @param extractZoneFromDNS if set to true, zone information will be extract from zone DNS name. It assumed that the zone
-     *                           name is the name part immediately followint 'txt.' suffix.
-     * @param port Eureka sever port number
-     * @param relativeUri service relative URI that will be appended to server address
+     *                           name is the name part immediately following 'txt.' suffix.
+     * @param port               Eureka sever port number
+     * @param relativeUri        service relative URI that will be appended to server address
      */
     public DnsTxtRecordClusterResolver(String region, String rootClusterDNS, boolean extractZoneFromDNS, int port, boolean isSecure, String relativeUri) {
         this.region = region;
@@ -110,6 +110,7 @@ public class DnsTxtRecordClusterResolver implements ClusterResolver<AwsEndpoint>
     @Override
     public List<AwsEndpoint> getClusterEndpoints() {
         List<AwsEndpoint> eurekaEndpoints = resolve(region, rootClusterDNS, extractZoneFromDNS, port, isSecure, relativeUri);
+
         logger.debug("Resolved {} to {}", rootClusterDNS, eurekaEndpoints);
 
         return eurekaEndpoints;

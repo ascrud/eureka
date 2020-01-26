@@ -477,6 +477,7 @@ public class DiscoveryClient implements EurekaClient {
                 : transportClientFactories.newTransportClientFactory(additionalFilters, providedJerseyClient);
 
         ApplicationsResolver.ApplicationsSource applicationsSource = new ApplicationsResolver.ApplicationsSource() {
+
             @Override
             public Applications getApplications(int stalenessThreshold, TimeUnit timeUnit) {
                 long thresholdInMs = TimeUnit.MILLISECONDS.convert(stalenessThreshold, timeUnit);

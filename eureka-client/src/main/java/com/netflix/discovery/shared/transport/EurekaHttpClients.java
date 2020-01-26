@@ -184,6 +184,7 @@ public final class EurekaHttpClients {
         );
 
         ClusterResolver<AwsEndpoint> compositeResolver = new ClusterResolver<AwsEndpoint>() {
+
             @Override
             public String getRegion() {
                 return clientConfig.getRegion();

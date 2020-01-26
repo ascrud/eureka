@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.netflix.appinfo.EurekaInstanceConfig</OriginalElement>
+  <nodes>
+    <node x="126.71875000000011" y="328.0">com.netflix.appinfo.Ec2EurekaArchaius2InstanceConfig</node>
+    <node x="706.0" y="82.0">com.netflix.appinfo.EurekaInstanceConfig</node>
+    <node x="622.0" y="246.0">com.netflix.appinfo.PropertiesInstanceConfig</node>
+    <node x="0.0" y="246.0">com.netflix.appinfo.EurekaArchaius2InstanceConfig</node>
+    <node x="737.5" y="0.0">com.google.inject.ImplementedBy</node>
+    <node x="756.125" y="328.0">com.netflix.appinfo.MyDataCenterInstanceConfig</node>
+    <node x="505.21875000000006" y="328.0">com.netflix.appinfo.CloudInstanceConfig</node>
+    <node x="329.0" y="246.0">com.netflix.appinfo.RefreshableInstanceConfig</node>
+    <node x="93.0" y="164.0">com.netflix.appinfo.AbstractInstanceConfig</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.netflix.appinfo.MyDataCenterInstanceConfig" target="com.netflix.appinfo.EurekaInstanceConfig">
+      <point x="70.49999999999997" y="-16.0" />
+      <point x="967.625" y="303.0" />
+      <point x="955.71875" y="303.0" />
+      <point x="955.71875" y="139.0" />
+      <point x="896.0" y="139.0" />
+      <point x="76.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.EurekaArchaius2InstanceConfig" target="com.netflix.appinfo.AbstractInstanceConfig">
+      <point x="0.0" y="-16.0" />
+      <point x="-61.5" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.EurekaInstanceConfig" target="com.google.inject.ImplementedBy">
+      <point x="0.0" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.PropertiesInstanceConfig" target="com.netflix.appinfo.EurekaInstanceConfig">
+      <point x="66.0" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.PropertiesInstanceConfig" target="com.netflix.appinfo.AbstractInstanceConfig">
+      <point x="-66.0" y="-16.0" />
+      <point x="688.0" y="221.0" />
+      <point x="277.5" y="221.0" />
+      <point x="61.5" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.AbstractInstanceConfig" target="com.netflix.appinfo.EurekaInstanceConfig">
+      <point x="0.0" y="-16.0" />
+      <point x="216.0" y="139.0" />
+      <point x="744.0" y="139.0" />
+      <point x="-76.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.CloudInstanceConfig" target="com.netflix.appinfo.PropertiesInstanceConfig">
+      <point x="54.75" y="-16.0" />
+      <point x="669.46875" y="303.0" />
+      <point x="688.0" y="303.0" />
+      <point x="-66.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.Ec2EurekaArchaius2InstanceConfig" target="com.netflix.appinfo.RefreshableInstanceConfig">
+      <point x="84.0" y="-16.0" />
+      <point x="378.7187500000001" y="303.0" />
+      <point x="397.25" y="303.0" />
+      <point x="-68.25" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.CloudInstanceConfig" target="com.netflix.appinfo.RefreshableInstanceConfig">
+      <point x="-54.75" y="-16.0" />
+      <point x="559.96875" y="303.0" />
+      <point x="533.75" y="303.0" />
+      <point x="68.25" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.Ec2EurekaArchaius2InstanceConfig" target="com.netflix.appinfo.EurekaArchaius2InstanceConfig">
+      <point x="-84.0" y="-16.0" />
+      <point x="210.7187500000001" y="303.0" />
+      <point x="154.5" y="303.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.appinfo.MyDataCenterInstanceConfig" target="com.netflix.appinfo.PropertiesInstanceConfig">
+      <point x="-70.5" y="-16.0" />
+      <point x="826.625" y="303.0" />
+      <point x="820.0" y="303.0" />
+      <point x="66.0" y="16.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="662.0" y="180.0" />
+  <SelectedNodes>
+    <node>com.netflix.appinfo.EurekaInstanceConfig</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -17,9 +17,11 @@ import java.util.Map;
  * @author David Liu
  */
 public class ConfigClusterResolver implements ClusterResolver<AwsEndpoint> {
+
     private static final Logger logger = LoggerFactory.getLogger(ConfigClusterResolver.class);
 
     private final EurekaClientConfig clientConfig;
+
     private final InstanceInfo myInstanceInfo;
 
     public ConfigClusterResolver(EurekaClientConfig clientConfig, InstanceInfo myInstanceInfo) {

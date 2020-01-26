@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author David Liu
  */
 public class ApplicationsResolver implements ClusterResolver<AwsEndpoint> {
+
     private static final Logger logger = LoggerFactory.getLogger(ApplicationsResolver.class);
 
     private final EurekaClientConfig clientConfig;
@@ -71,6 +72,7 @@ public class ApplicationsResolver implements ClusterResolver<AwsEndpoint> {
     }
 
     public interface ApplicationsSource {
+
         /**
          * @return the known set of Applications, or null if the data is beyond the stalenss threshold
          */

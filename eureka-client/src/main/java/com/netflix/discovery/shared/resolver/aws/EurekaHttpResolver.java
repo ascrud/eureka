@@ -25,6 +25,7 @@ import java.util.List;
  * @author David Liu
  */
 public class EurekaHttpResolver implements ClusterResolver<AwsEndpoint> {
+
     private static final Logger logger = LoggerFactory.getLogger(EurekaHttpResolver.class);
 
     private final EurekaClientConfig clientConfig;
@@ -51,10 +52,10 @@ public class EurekaHttpResolver implements ClusterResolver<AwsEndpoint> {
         );
     }
 
-    /* visible for testing */ EurekaHttpResolver(EurekaClientConfig clientConfig,
-                                                 EurekaTransportConfig transportConfig,
-                                                 EurekaHttpClientFactory clientFactory,
-                                                 String vipAddress) {
+    /* visible for testing */EurekaHttpResolver(EurekaClientConfig clientConfig,
+                                                EurekaTransportConfig transportConfig,
+                                                EurekaHttpClientFactory clientFactory,
+                                                String vipAddress) {
         this.clientConfig = clientConfig;
         this.transportConfig = transportConfig;
         this.clientFactory = clientFactory;
@@ -77,7 +78,8 @@ public class EurekaHttpResolver implements ClusterResolver<AwsEndpoint> {
             if (validResponse(response)) {
                 Applications applications = response.getEntity();
                 if (applications != null) {
-                    applications.shuffleInstances(true);  // filter out non-UP instances
+                    // filter out non-UP instances
+                    applications.shuffleInstances(true);
                     List<InstanceInfo> validInstanceInfos = applications.getInstancesByVirtualHostName(vipAddress);
                     for (InstanceInfo instanceInfo : validInstanceInfos) {
                         AwsEndpoint endpoint = ResolverUtils.instanceInfoToEndpoint(clientConfig, transportConfig, instanceInfo);

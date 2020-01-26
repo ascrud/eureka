@@ -16,7 +16,9 @@ import static com.netflix.discovery.shared.transport.PropertyBasedTransportConfi
 @Singleton
 @ConfigurationSource(CommonConstants.CONFIG_FILE_NAME)
 public class EurekaArchaius2TransportConfig implements EurekaTransportConfig {
+
     private final Config configInstance;
+
     private final InternalPrefixedConfig prefixedConfig;
 
     @Inject

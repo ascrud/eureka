@@ -19,6 +19,7 @@ import java.util.TreeSet;
  * It *does not yet* clean up the moved code.
  */
 public class EndpointUtils {
+
     private static final Logger logger = LoggerFactory.getLogger(EndpointUtils.class);
 
     public static final String DEFAULT_REGION = "default";
@@ -29,10 +30,17 @@ public class EndpointUtils {
     }
 
     public static interface ServiceUrlRandomizer {
+
+        /**
+         * randomize
+         *
+         * @param urlList
+         */
         void randomize(List<String> urlList);
     }
 
     public static class InstanceInfoBasedUrlRandomizer implements ServiceUrlRandomizer {
+
         private final InstanceInfo instanceInfo;
 
         public InstanceInfoBasedUrlRandomizer(InstanceInfo instanceInfo) {

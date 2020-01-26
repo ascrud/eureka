@@ -56,8 +56,11 @@ import java.util.stream.Collectors;
 public class Applications {
 
     private static class VipIndexSupport {
+
         final AbstractQueue<InstanceInfo> instances = new ConcurrentLinkedQueue<>();
+
         final AtomicLong roundRobinIndex = new AtomicLong(0);
+
         final AtomicReference<List<InstanceInfo>> vipList = new AtomicReference<List<InstanceInfo>>(Collections.emptyList());
 
         public AtomicLong getRoundRobinIndex() {
@@ -72,12 +75,16 @@ public class Applications {
     private static final String STATUS_DELIMITER = "_";
 
     private String appsHashCode;
+
     private Long versionDelta;
 
     @XStreamImplicit
     private final AbstractQueue<Application> applications;
+
     private final Map<String, Application> appNameApplicationMap;
+
     private final Map<String, VipIndexSupport> virtualHostNameAppMap;
+
     private final Map<String, VipIndexSupport> secureVirtualHostNameAppMap;
 
     /**
@@ -182,8 +189,9 @@ public class Applications {
         this.versionDelta = version;
     }
 
+    // Handled directly due to legacy name formatting
     @Deprecated
-    @JsonIgnore // Handled directly due to legacy name formatting
+    @JsonIgnore
     public Long getVersion() {
         return this.versionDelta;
     }

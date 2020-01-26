@@ -228,4 +228,31 @@ public class EurekaArchaius2ClientConfig implements EurekaClientConfig {}
 | getExperimental| |
 | getTransportConfig| |
 
+## EurekaTransportConfig
 
+```java
+public interface EurekaTransportConfig { }
+
+public class DefaultEurekaTransportConfig implements EurekaTransportConfig {
+
+}
+
+@Singleton
+@ConfigurationSource(CommonConstants.CONFIG_FILE_NAME)
+public class EurekaArchaius2TransportConfig implements EurekaTransportConfig {}
+
+```
+
+| Property | Configuration |Default Value| 
+| :------| :------ |:------ |
+|getSessionedClientReconnectIntervalSeconds |sessionedClientReconnectIntervalSeconds | 20 * 60 |
+|getRetryableClientQuarantineRefreshPercentage|retryableClientQuarantineRefreshPercentage | 0.66 |
+|getApplicationsResolverDataStalenessThresholdSeconds | applicationsResolverDataStalenessThresholdSeconds | 5 * 60  |
+|applicationsResolverUseIp |applicationsResolverUseIp | false |
+|getAsyncResolverRefreshIntervalMs|asyncResolverRefreshIntervalMs | 5 * 60 * 1000 |
+|getAsyncResolverWarmUpTimeoutMs | asyncResolverWarmupTimeoutMs | 5000 |
+|getAsyncExecutorThreadPoolSize| asyncExecutorThreadPoolSize |  5 |
+|getWriteClusterVip | writeClusterVip | null |
+|getReadClusterVip | readClusterVip | null  |
+|getBootstrapResolverStrategy | bootstrapResolverStrategy|  null |
+|useBootstrapResolverForQuery | useBootstrapResolverForQuery | true |

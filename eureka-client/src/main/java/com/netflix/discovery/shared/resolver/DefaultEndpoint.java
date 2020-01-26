@@ -57,8 +57,7 @@ public class DefaultEndpoint implements EurekaEndpoint {
                 .append("://")
                 .append(networkAddress);
         if (port >= 0) {
-            sb.append(':')
-                    .append(port);
+            sb.append(':').append(port);
         }
         if (relativeUri != null) {
             if (!relativeUri.startsWith("/")) {

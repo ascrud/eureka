@@ -8,7 +8,7 @@ package com.netflix.discovery.shared.transport;
 public interface EurekaTransportConfig {
 
     /**
-     * @return the reconnect inverval to use for sessioned clients
+     * @return the reconnect interval to use for sessioned clients
      */
     int getSessionedClientReconnectIntervalSeconds();
 
