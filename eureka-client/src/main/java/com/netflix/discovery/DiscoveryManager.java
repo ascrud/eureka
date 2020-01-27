@@ -38,11 +38,15 @@ import org.slf4j.LoggerFactory;
  */
 @Deprecated
 public class DiscoveryManager {
+
     private static final Logger logger = LoggerFactory.getLogger(DiscoveryManager.class);
+
     private DiscoveryClient discoveryClient;
 
     private EurekaInstanceConfig eurekaInstanceConfig;
+
     private EurekaClientConfig eurekaClientConfig;
+
     private static final DiscoveryManager s_instance = new DiscoveryManager();
 
     private DiscoveryManager() {

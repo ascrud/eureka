@@ -12,6 +12,7 @@ import static com.netflix.appinfo.PropertyBasedAmazonInfoConfigConstants.*;
 public class Archaius1AmazonInfoConfig implements AmazonInfoConfig {
 
     private final DynamicPropertyFactory configInstance;
+
     private final String namespace;
 
     public Archaius1AmazonInfoConfig(String namespace) {
@@ -21,7 +22,6 @@ public class Archaius1AmazonInfoConfig implements AmazonInfoConfig {
 
         this.configInstance = Archaius1Utils.initConfig(CommonConstants.CONFIG_FILE_NAME);
     }
-
 
     @Override
     public String getNamespace() {

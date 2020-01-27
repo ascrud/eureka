@@ -1,6 +1,5 @@
 # Concepts
 
-
 ## DataCenterInfo
 
 ## AmazonInfo
@@ -9,3 +8,6 @@
 
 ## LeaseInfo
 
+## Application
+
+## Applications

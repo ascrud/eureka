@@ -29,7 +29,9 @@ class InstanceInfoReplicator implements Runnable {
     private final InstanceInfo instanceInfo;
 
     private final int replicationIntervalSeconds;
+
     private final ScheduledExecutorService scheduler;
+
     private final AtomicReference<Future> scheduledPeriodicRef;
 
     private final AtomicBoolean started;
@@ -37,7 +39,8 @@ class InstanceInfoReplicator implements Runnable {
     private final int burstSize;
     private final int allowedRatePerMinute;
 
-    InstanceInfoReplicator(DiscoveryClient discoveryClient, InstanceInfo instanceInfo, int replicationIntervalSeconds, int burstSize) {
+    InstanceInfoReplicator(DiscoveryClient discoveryClient, InstanceInfo instanceInfo,
+                           int replicationIntervalSeconds, int burstSize) {
         this.discoveryClient = discoveryClient;
         this.instanceInfo = instanceInfo;
         this.scheduler = Executors.newScheduledThreadPool(1,
@@ -59,7 +62,8 @@ class InstanceInfoReplicator implements Runnable {
 
     public void start(int initialDelayMs) {
         if (started.compareAndSet(false, true)) {
-            instanceInfo.setIsDirty();  // for initial register
+            // for initial register
+            instanceInfo.setIsDirty();
             Future next = scheduler.schedule(this, initialDelayMs, TimeUnit.SECONDS);
             scheduledPeriodicRef.set(next);
         }

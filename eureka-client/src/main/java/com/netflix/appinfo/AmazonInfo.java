@@ -54,7 +54,8 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
     private static final String AWS_METADATA_URL = "http://169.254.169.254/" + AWS_API_VERSION + "/meta-data/";
 
     public enum MetaDataKey {
-        instanceId("instance-id"),  // always have this first as we use it as a fail fast mechanism
+        // always have this first as we use it as a fail fast mechanism
+        instanceId("instance-id"),
         amiId("ami-id"),
         instanceType("instance-type"),
         localIpv4("local-ipv4"),
@@ -64,7 +65,8 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
         publicIpv4("public-ipv4"),
         spotTerminationTime("termination-time", "spot/"),
         spotInstanceAction("instance-action", "spot/"),
-        mac("mac"),  // mac is declared above vpcId so will be found before vpcId (where it is needed)
+        // mac is declared above vpcId so will be found before vpcId (where it is needed)
+        mac("mac"),
         vpcId("vpc-id", "network/interfaces/macs/") {
             @Override
             public URL getURL(String prepend, String mac) throws MalformedURLException {
@@ -129,7 +131,8 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
                 String line = br.readLine();
                 toReturn = line;
 
-                while (line != null) {  // need to read all the buffer for a clean connection close
+                while (line != null) {
+                    // need to read all the buffer for a clean connection close
                     line = br.readLine();
                 }
 
@@ -145,9 +148,10 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
         }
     }
 
-
     public static final class Builder {
+
         private static final Logger logger = LoggerFactory.getLogger(Builder.class);
+
         private static final int SLEEP_TIME_MS = 100;
 
         @XStreamOmitField

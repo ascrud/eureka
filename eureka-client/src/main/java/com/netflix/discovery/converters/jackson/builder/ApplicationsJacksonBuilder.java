@@ -16,8 +16,6 @@
 
 package com.netflix.discovery.converters.jackson.builder;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.netflix.discovery.converters.KeyFormatter;
@@ -25,6 +23,8 @@ import com.netflix.discovery.shared.Application;
 import com.netflix.discovery.shared.Applications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Support custom formatting of {@link Applications#appsHashCode} and {@link Applications#versionDelta}. The

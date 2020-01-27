@@ -50,13 +50,15 @@ import java.util.Map;
 @Produces({"application/json", "application/xml"})
 @Consumes("*/*")
 public class DiscoveryJerseyProvider implements MessageBodyWriter<Object>, MessageBodyReader<Object> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DiscoveryJerseyProvider.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(DiscoveryJerseyProvider.class);
 
     private final EncoderWrapper jsonEncoder;
     private final DecoderWrapper jsonDecoder;
 
     // XML support is maintained for legacy/custom clients. These codecs are used only on the server side only, while
     // Eureka client is using JSON only.
+
     private final EncoderWrapper xmlEncoder;
     private final DecoderWrapper xmlDecoder;
 
@@ -67,8 +69,8 @@ public class DiscoveryJerseyProvider implements MessageBodyWriter<Object>, Messa
     public DiscoveryJerseyProvider(EncoderWrapper jsonEncoder, DecoderWrapper jsonDecoder) {
         this.jsonEncoder = jsonEncoder == null ? CodecWrappers.getEncoder(LegacyJacksonJson.class) : jsonEncoder;
         this.jsonDecoder = jsonDecoder == null ? CodecWrappers.getDecoder(LegacyJacksonJson.class) : jsonDecoder;
-        LOGGER.info("Using JSON encoding codec {}", this.jsonEncoder.codecName());
-        LOGGER.info("Using JSON decoding codec {}", this.jsonDecoder.codecName());
+        logger.info("Using JSON encoding codec {}", this.jsonEncoder.codecName());
+        logger.info("Using JSON decoding codec {}", this.jsonDecoder.codecName());
 
         if (jsonEncoder instanceof CodecWrappers.JacksonJsonMini) {
             throw new UnsupportedOperationException("Encoder: " + jsonEncoder.codecName() + "is not supported for the client");
@@ -77,8 +79,8 @@ public class DiscoveryJerseyProvider implements MessageBodyWriter<Object>, Messa
         this.xmlEncoder = CodecWrappers.getEncoder(CodecWrappers.XStreamXml.class);
         this.xmlDecoder = CodecWrappers.getDecoder(CodecWrappers.XStreamXml.class);
 
-        LOGGER.info("Using XML encoding codec {}", this.xmlEncoder.codecName());
-        LOGGER.info("Using XML decoding codec {}", this.xmlDecoder.codecName());
+        logger.info("Using XML encoding codec {}", this.xmlEncoder.codecName());
+        logger.info("Using XML decoding codec {}", this.xmlDecoder.codecName());
     }
 
     @Override
@@ -102,11 +104,12 @@ public class DiscoveryJerseyProvider implements MessageBodyWriter<Object>, Messa
         try {
             return decoder.decode(inputStream, serializableClass);
         } catch (Throwable e) {
-            if (e instanceof Error) { // See issue: https://github.com/Netflix/eureka/issues/72 on why we catch Error here.
+            if (e instanceof Error) {
+                // See issue: https://github.com/Netflix/eureka/issues/72 on why we catch Error here.
                 closeInputOnError(inputStream);
                 throw new WebApplicationException(e, createErrorReply(500, e, mediaType));
             }
-            LOGGER.debug("Cannot parse request body", e);
+            logger.debug("Cannot parse request body", e);
             throw new WebApplicationException(e, createErrorReply(400, "cannot parse request body", mediaType));
         }
     }
@@ -175,7 +178,7 @@ public class DiscoveryJerseyProvider implements MessageBodyWriter<Object>, Messa
                 return true;
             }
         } catch (Throwable th) {
-            LOGGER.warn("Exception in checking for annotations", th);
+            logger.warn("Exception in checking for annotations", th);
         }
         return false;
     }
@@ -200,11 +203,11 @@ public class DiscoveryJerseyProvider implements MessageBodyWriter<Object>, Messa
 
     private static void closeInputOnError(InputStream inputStream) {
         if (inputStream != null) {
-            LOGGER.error("Unexpected error occurred during de-serialization of discovery data, done connection cleanup");
+            logger.error("Unexpected error occurred during de-serialization of discovery data, done connection cleanup");
             try {
                 inputStream.close();
             } catch (IOException e) {
-                LOGGER.debug("Cannot close input", e);
+                logger.debug("Cannot close input", e);
             }
         }
     }

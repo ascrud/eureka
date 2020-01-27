@@ -16,10 +16,6 @@
 
 package com.netflix.discovery.converters.jackson.serializer;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
@@ -28,6 +24,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.shared.Application;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Deserialize {@link Application} from XML directly due to issues with Jackson 2.6.x

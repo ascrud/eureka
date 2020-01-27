@@ -63,11 +63,15 @@ public class DefaultEurekaClientConfig implements EurekaClientConfig {
      */
     @Deprecated
     public static final String DEFAULT_NAMESPACE = CommonConstants.DEFAULT_CONFIG_NAMESPACE + ".";
+
     public static final String DEFAULT_ZONE = "defaultZone";
+
     public static final String URL_SEPARATOR = "\\s*,\\s*";
 
     private final String namespace;
+
     private final DynamicPropertyFactory configInstance;
+
     private final EurekaTransportConfig transportConfig;
 
     public DefaultEurekaClientConfig() {

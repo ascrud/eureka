@@ -10,6 +10,8 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
+ * 确定InstanceInfo对应的region
+ *
  * @author Nitesh Kant
  */
 public class InstanceRegionChecker {
@@ -46,7 +48,8 @@ public class InstanceRegionChecker {
     }
 
     public boolean isLocalRegion(@Nullable String instanceRegion) {
-        return null == instanceRegion || instanceRegion.equals(localRegion); // no region == local
+        // no region == local
+        return null == instanceRegion || instanceRegion.equals(localRegion);
     }
 
     public String getLocalRegion() {

@@ -20,6 +20,7 @@ public class DNSBasedAzToRegionMapper extends AbstractAzToRegionMapper {
 
     @Override
     protected Set<String> getZonesForARegion(String region) {
+
         Map<String, List<String>> zoneBasedDiscoveryUrlsFromRegion = EndpointUtils
                 .getZoneBasedDiscoveryUrlsFromRegion(clientConfig, region);
         if (null != zoneBasedDiscoveryUrlsFromRegion) {

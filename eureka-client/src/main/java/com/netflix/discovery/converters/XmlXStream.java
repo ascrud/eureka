@@ -35,7 +35,6 @@ import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
  *
  * @author Karthik Ranganathan, Greg Kim
  */
-
 public class XmlXStream extends XStream {
 
     private static final XmlXStream s_instance = new XmlXStream();

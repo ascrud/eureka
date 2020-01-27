@@ -19,7 +19,7 @@ import javax.inject.Singleton;
 @Singleton
 public class Ec2EurekaArchaius2InstanceConfig extends EurekaArchaius2InstanceConfig implements RefreshableInstanceConfig {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Ec2EurekaArchaius2InstanceConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(Ec2EurekaArchaius2InstanceConfig.class);
 
     private static final String[] DEFAULT_AWS_ADDRESS_RESOLUTION_ORDER = new String[]{
             MetaDataKey.publicHostname.name(),
@@ -113,7 +113,7 @@ public class Ec2EurekaArchaius2InstanceConfig extends EurekaArchaius2InstanceCon
                     break;
                 }
             } catch (Exception e) {
-                LOG.error("failed to resolve default address for key {}, skipping", name, e);
+                logger.error("failed to resolve default address for key {}, skipping", name, e);
             }
         }
 

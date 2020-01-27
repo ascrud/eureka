@@ -140,6 +140,9 @@ public final class CodecWrappers {
     // wrapper definitions
     // ========================
 
+    /**
+     * JacksonJson编码解码器
+     */
     public static class JacksonJson implements CodecWrapper {
 
         protected final EurekaJsonJacksonCodec codec = new EurekaJsonJacksonCodec();
@@ -175,6 +178,9 @@ public final class CodecWrappers {
         }
     }
 
+    /**
+     * JacksonJsonMini编码解码器
+     */
     public static class JacksonJsonMini implements CodecWrapper {
 
         protected final EurekaJsonJacksonCodec codec = new EurekaJsonJacksonCodec(KeyFormatter.defaultKeyFormatter(), true);
@@ -315,6 +321,9 @@ public final class CodecWrappers {
         }
     }
 
+    /**
+     * XStreamJson
+     */
     public static class XStreamJson implements CodecWrapper {
 
         protected final JsonXStream codec = JsonXStream.getInstance();
@@ -351,6 +360,8 @@ public final class CodecWrappers {
     }
 
     /**
+     * XStreamXml
+     *
      * @author David Liu
      */
     public static class XStreamXml implements CodecWrapper {

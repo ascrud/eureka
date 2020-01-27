@@ -182,10 +182,20 @@ public class Application {
 
     public void shuffleAndStoreInstances(Map<String, Applications> remoteRegionsRegistry,
                                          EurekaClientConfig clientConfig, InstanceRegionChecker instanceRegionChecker) {
-        _shuffleAndStoreInstances(clientConfig.shouldFilterOnlyUpInstances(), true, remoteRegionsRegistry, clientConfig,
+        _shuffleAndStoreInstances(clientConfig.shouldFilterOnlyUpInstances(), true,
+                remoteRegionsRegistry, clientConfig,
                 instanceRegionChecker);
     }
 
+    /**
+     * Shuffles the list of instances in the application
+     *
+     * @param filterUpInstances
+     * @param indexByRemoteRegions
+     * @param remoteRegionsRegistry
+     * @param clientConfig
+     * @param instanceRegionChecker
+     */
     private void _shuffleAndStoreInstances(boolean filterUpInstances, boolean indexByRemoteRegions,
                                            @Nullable Map<String, Applications> remoteRegionsRegistry,
                                            @Nullable EurekaClientConfig clientConfig,
@@ -194,8 +204,8 @@ public class Application {
         synchronized (instances) {
             instanceInfoList = new ArrayList<InstanceInfo>(instances);
         }
-        boolean remoteIndexingActive = indexByRemoteRegions && null != instanceRegionChecker && null != clientConfig
-                && null != remoteRegionsRegistry;
+        boolean remoteIndexingActive = indexByRemoteRegions && null != instanceRegionChecker
+                && null != clientConfig && null != remoteRegionsRegistry;
         if (remoteIndexingActive || filterUpInstances) {
             Iterator<InstanceInfo> it = instanceInfoList.iterator();
             while (it.hasNext()) {
@@ -230,6 +240,12 @@ public class Application {
         this.shuffledInstances.set(instanceInfoList);
     }
 
+    /**
+     * Remove the given instance info the list.
+     *
+     * @param i           the instance info object to be removed.
+     * @param markAsDirty whether mark the application dirty
+     */
     private void removeInstance(InstanceInfo i, boolean markAsDirty) {
         instancesMap.remove(i.getId());
         synchronized (instances) {

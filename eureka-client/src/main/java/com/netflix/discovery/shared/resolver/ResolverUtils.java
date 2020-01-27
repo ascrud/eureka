@@ -56,6 +56,7 @@ public final class ResolverUtils {
             return new List[]{Collections.emptyList(), new ArrayList<>(eurekaEndpoints)};
         }
         List<AwsEndpoint> myZoneList = new ArrayList<>(eurekaEndpoints.size());
+
         List<AwsEndpoint> remainingZonesList = new ArrayList<>(eurekaEndpoints.size());
 
         for (AwsEndpoint endpoint : eurekaEndpoints) {
@@ -129,7 +130,8 @@ public final class ResolverUtils {
             networkAddress = instanceInfo.getHostName();
         }
 
-        if (networkAddress == null) {  // final check
+        if (networkAddress == null) {
+            // final check
             logger.error("Cannot resolve InstanceInfo {} to a proper resolver endpoint, skipping", instanceInfo);
             return null;
         }

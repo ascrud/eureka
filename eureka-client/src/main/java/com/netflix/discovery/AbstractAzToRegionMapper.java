@@ -28,14 +28,22 @@ public abstract class AbstractAzToRegionMapper implements AzToRegionMapper {
      * will not be used.
      */
     private final Multimap<String, String> defaultRegionVsAzMap =
-            Multimaps.newListMultimap(new HashMap<String, Collection<String>>(), new Supplier<List<String>>() {
-                @Override
-                public List<String> get() {
-                    return new ArrayList<String>();
-                }
-            });
+            Multimaps.newListMultimap(new HashMap<String, Collection<String>>(),
+                    new Supplier<List<String>>() {
+                        @Override
+                        public List<String> get() {
+                            return new ArrayList<String>();
+                        }
+                    });
 
+    /**
+     * AzVsRegionMap
+     */
     private final Map<String, String> availabilityZoneVsRegion = new ConcurrentHashMap<String, String>();
+
+    /**
+     * 保存需要Fetch的region
+     */
     private String[] regionsToFetch;
 
     protected AbstractAzToRegionMapper(EurekaClientConfig clientConfig) {
@@ -47,15 +55,22 @@ public abstract class AbstractAzToRegionMapper implements AzToRegionMapper {
     public synchronized void setRegionsToFetch(String[] regionsToFetch) {
         if (null != regionsToFetch) {
             this.regionsToFetch = regionsToFetch;
+
             logger.info("Fetching availability zone to region mapping for regions {}", (Object) regionsToFetch);
+
+            // 清空AzVsRegion Map
             availabilityZoneVsRegion.clear();
+
             for (String remoteRegion : regionsToFetch) {
+
                 Set<String> availabilityZones = getZonesForARegion(remoteRegion);
                 if (null == availabilityZones
                         || (availabilityZones.size() == 1 && availabilityZones.contains(DEFAULT_ZONE))
                         || availabilityZones.isEmpty()) {
+                    // remoteRegion无相应的availabilityZones
                     logger.info("No availability zone information available for remote region: {}"
                             + ". Now checking in the default mapping.", remoteRegion);
+                    // 从默认RegionVsAzMap中设置AzVsRegionMap
                     if (defaultRegionVsAzMap.containsKey(remoteRegion)) {
                         Collection<String> defaultAvailabilityZones = defaultRegionVsAzMap.get(remoteRegion);
                         for (String defaultAvailabilityZone : defaultAvailabilityZones) {
@@ -125,6 +140,9 @@ public abstract class AbstractAzToRegionMapper implements AzToRegionMapper {
         return null;
     }
 
+    /**
+     * 填充默认的RegionVsAz Map
+     */
     private void populateDefaultAZToRegionMap() {
         defaultRegionVsAzMap.put("us-east-1", "us-east-1a");
         defaultRegionVsAzMap.put("us-east-1", "us-east-1c");

@@ -265,6 +265,7 @@ public class ApplicationInfoManager {
     }
 
     public static interface StatusChangeListener {
+        
         String getId();
 
         void notify(StatusChangeEvent statusChangeEvent);

@@ -44,6 +44,7 @@ public class ReloadingClusterResolver<T extends EurekaEndpoint> implements Clust
     private static final long MAX_RELOAD_INTERVAL_MULTIPLIER = 5;
 
     private final ClusterResolverFactory<T> factory;
+
     private final long reloadIntervalMs;
     private final long maxReloadIntervalMs;
 
@@ -53,6 +54,7 @@ public class ReloadingClusterResolver<T extends EurekaEndpoint> implements Clust
     private volatile long currentReloadIntervalMs;
 
     // Metric timestamp, tracking last time when data were effectively changed.
+
     private volatile long lastReloadTimestamp = -1;
 
     public ReloadingClusterResolver(final ClusterResolverFactory<T> factory, final long reloadIntervalMs) {

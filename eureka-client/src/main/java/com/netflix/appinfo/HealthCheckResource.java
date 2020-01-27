@@ -56,7 +56,7 @@ public class HealthCheckResource {
                     return Response.status(Status.INTERNAL_SERVER_ERROR).build();
             }
         } catch (Throwable th) {
-            logger.error("Error doing healthceck", th);
+            logger.error("Error doing healthcheck", th);
             // Return status 500
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }

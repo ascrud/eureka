@@ -1,9 +1,9 @@
 package com.netflix.discovery.converters;
 
+import com.netflix.discovery.EurekaClientConfig;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import com.netflix.discovery.EurekaClientConfig;
 
 /**
  * Due to backwards compatibility some names in JSON/XML documents have to be formatted

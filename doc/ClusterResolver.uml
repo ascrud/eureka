@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.netflix.discovery.shared.resolver.ClusterResolver</OriginalElement>
+  <nodes>
+    <node x="1154.25" y="0.0">com.netflix.discovery.shared.resolver.EurekaEndpoint</node>
+    <node x="1772.0" y="194.0">com.netflix.discovery.shared.resolver.LegacyClusterResolver</node>
+    <node x="1149.75" y="82.0">com.netflix.discovery.shared.resolver.ClusterResolver</node>
+    <node x="1515.0" y="194.0">com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver</node>
+    <node x="1267.0" y="194.0">com.netflix.discovery.shared.resolver.aws.ApplicationsResolver</node>
+    <node x="2340.0" y="194.0">com.netflix.discovery.shared.resolver.StaticClusterResolver</node>
+    <node x="956.0000000000001" y="194.0">com.netflix.discovery.shared.resolver.aws.DnsTxtRecordClusterResolver</node>
+    <node x="496.0000000000001" y="194.0">com.netflix.discovery.shared.resolver.aws.EurekaHttpResolver</node>
+    <node x="0.0" y="194.0">com.netflix.discovery.shared.resolver.ClosableResolver</node>
+    <node x="1247.3694444444445" y="276.0">com.netflix.discovery.shared.resolver.AsyncResolver</node>
+    <node x="726.0000000000001" y="194.0">com.netflix.discovery.shared.resolver.DnsClusterResolver</node>
+    <node x="2029.0" y="194.0">com.netflix.discovery.shared.resolver.aws.ZoneAffinityClusterResolver</node>
+    <node x="212.0" y="194.0">com.netflix.discovery.shared.resolver.ReloadingClusterResolver</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.netflix.discovery.shared.resolver.AsyncResolver" target="com.netflix.discovery.shared.resolver.EurekaEndpoint">
+      <point x="41.25" y="-16.0" />
+      <point x="1371.1194444444445" y="251.0" />
+      <point x="2587.5" y="251.0" />
+      <point x="2587.5" y="52.0" />
+      <point x="1310.85" y="52.0" />
+      <point x="69.59999999999991" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.ReloadingClusterResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="66.0" y="-16.0" />
+      <point x="410.0" y="144.0" />
+      <point x="1177.2000000000003" y="144.0" />
+      <point x="-64.04999999999995" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.ReloadingClusterResolver" target="com.netflix.discovery.shared.resolver.EurekaEndpoint">
+      <point x="-66.0" y="-16.0" />
+      <point x="278.0" y="62.0" />
+      <point x="1206.4500000000003" y="62.0" />
+      <point x="-34.799999999999955" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.StaticClusterResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="-59.25" y="-16.0" />
+      <point x="2399.25" y="134.0" />
+      <point x="1323.6000000000004" y="134.0" />
+      <point x="82.35000000000014" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="0.0" y="-16.0" />
+      <point x="1633.5" y="164.0" />
+      <point x="1268.7000000000003" y="164.0" />
+      <point x="27.450000000000045" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.LegacyClusterResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="0.0" y="-16.0" />
+      <point x="1890.5" y="154.0" />
+      <point x="1287.0" y="154.0" />
+      <point x="45.75" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.aws.ZoneAffinityClusterResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="0.0" y="-16.0" />
+      <point x="2174.5" y="144.0" />
+      <point x="1305.3000000000002" y="144.0" />
+      <point x="64.05000000000018" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.aws.ApplicationsResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="0.0" y="-16.0" />
+      <point x="1381.0" y="174.0" />
+      <point x="1250.4" y="174.0" />
+      <point x="9.150000000000091" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.StaticClusterResolver" target="com.netflix.discovery.shared.resolver.EurekaEndpoint">
+      <point x="59.25" y="-16.0" />
+      <point x="2517.75" y="62.0" />
+      <point x="1276.0500000000002" y="62.0" />
+      <point x="34.799999999999955" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.aws.EurekaHttpResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="0.0" y="-16.0" />
+      <point x="601.0000000000001" y="154.0" />
+      <point x="1195.5" y="154.0" />
+      <point x="-45.75" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.aws.DnsTxtRecordClusterResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="0.0" y="-16.0" />
+      <point x="1101.5" y="174.0" />
+      <point x="1232.1" y="174.0" />
+      <point x="-9.150000000000091" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.ClosableResolver" target="com.netflix.discovery.shared.resolver.EurekaEndpoint">
+      <point x="-48.0" y="-16.0" />
+      <point x="48.0" y="52.0" />
+      <point x="1171.65" y="52.0" />
+      <point x="-69.59999999999991" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.DnsClusterResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="0.0" y="-16.0" />
+      <point x="831.0000000000001" y="164.0" />
+      <point x="1213.8000000000002" y="164.0" />
+      <point x="-27.450000000000045" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.AsyncResolver" target="com.netflix.discovery.shared.resolver.ClosableResolver">
+      <point x="-41.25" y="-16.0" />
+      <point x="1288.6194444444445" y="251.0" />
+      <point x="96.0" y="251.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.ClosableResolver" target="com.netflix.discovery.shared.resolver.ClusterResolver">
+      <point x="48.0" y="-16.0" />
+      <point x="144.0" y="134.0" />
+      <point x="1158.9" y="134.0" />
+      <point x="-82.34999999999991" y="16.0" />
+    </edge>
+    <edge source="com.netflix.discovery.shared.resolver.ClusterResolver" target="com.netflix.discovery.shared.resolver.EurekaEndpoint">
+      <point x="0.0" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.47392638036809814" x="1294.0" y="154.0" />
+  <SelectedNodes>
+    <node>com.netflix.discovery.shared.resolver.ClusterResolver</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

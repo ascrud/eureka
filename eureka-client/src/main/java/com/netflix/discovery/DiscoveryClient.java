@@ -104,9 +104,12 @@ public class DiscoveryClient implements EurekaClient {
 
     // Timers
     private static final String PREFIX = "DiscoveryClient_";
+
     private final Counter RECONCILE_HASH_CODES_MISMATCH = Monitors.newCounter(PREFIX + "ReconcileHashCodeMismatch");
+
     private final com.netflix.servo.monitor.Timer FETCH_REGISTRY_TIMER = Monitors
             .newTimer(PREFIX + "FetchRegistry");
+
     private final Counter REREGISTER_COUNTER = Monitors.newCounter(PREFIX
             + "Reregister");
 
@@ -163,7 +166,9 @@ public class DiscoveryClient implements EurekaClient {
     private final long initTimestampMs;
 
     private static final class EurekaTransport {
+
         private ClosableResolver bootstrapResolver;
+
         private TransportClientFactory transportClientFactory;
 
         private EurekaHttpClient registrationClient;

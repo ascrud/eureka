@@ -3,9 +3,11 @@ package com.netflix.discovery;
 /**
  * Listener for receiving {@link EurekaClient} events such as {@link StatusChangeEvent}.  Register
  * a listener by calling {@link EurekaClient#registerEventListener(EurekaEventListener)}
+ *
+ * @author weixiaoyao
  */
 public interface EurekaEventListener {
-    
+
     /**
      * Notification of an event within the {@link EurekaClient}.
      * <p>

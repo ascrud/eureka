@@ -1,7 +1,7 @@
 package com.netflix.discovery.converters.wrappers;
 
 /**
- * Interface for more useable reference
+ * Interface for more usable reference
  *
  * @author David Liu
  */

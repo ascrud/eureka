@@ -40,6 +40,7 @@ import com.netflix.discovery.shared.Applications;
 public class EurekaJsonJacksonCodec extends AbstractEurekaJacksonCodec {
 
     private final ObjectMapper wrappedJsonMapper;
+    
     private final ObjectMapper unwrappedJsonMapper;
 
     private final Map<Class<?>, ObjectMapper> mappers = new ConcurrentHashMap<>();

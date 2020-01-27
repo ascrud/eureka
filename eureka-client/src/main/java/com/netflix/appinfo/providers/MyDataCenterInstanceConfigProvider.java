@@ -8,6 +8,9 @@ import com.netflix.discovery.EurekaNamespace;
 
 import javax.inject.Provider;
 
+/**
+ * MyDataCenterInstanceConfigProvider
+ */
 public class MyDataCenterInstanceConfigProvider implements Provider<EurekaInstanceConfig> {
 
     @Inject(optional = true)

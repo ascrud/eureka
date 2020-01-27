@@ -16,13 +16,13 @@
 
 package com.netflix.discovery.converters.jackson.mixin;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.converters.jackson.serializer.ApplicationXmlDeserializer;
+
+import java.util.List;
 
 /**
  * {@link InstanceInfo} objects are unwrapped in XML document. The necessary Jackson instrumentation is provided here.

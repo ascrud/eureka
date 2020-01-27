@@ -16,14 +16,14 @@
 
 package com.netflix.discovery.converters.jackson.serializer;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.netflix.appinfo.InstanceInfo;
+
+import java.io.IOException;
 
 /**
  * Due to issues with properly mapping  port XML sub-document, handle deserialization directly.

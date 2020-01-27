@@ -23,14 +23,17 @@ import static com.netflix.discovery.EurekaClientNames.METRIC_RESOLVER_PREFIX;
  * @author David Liu
  */
 public class AsyncResolver<T extends EurekaEndpoint> implements ClosableResolver<T> {
+
     private static final Logger logger = LoggerFactory.getLogger(AsyncResolver.class);
 
     // Note that warm up is best effort. If the resolver is accessed by multiple threads pre warmup,
     // only the first thread will block for the warmup (up to the configurable timeout).
+
     private final AtomicBoolean warmedUp = new AtomicBoolean(false);
     private final AtomicBoolean scheduled = new AtomicBoolean(false);
 
-    private final String name;    // a name for metric purposes
+    // a name for metric purposes
+    private final String name;
     private final ClusterResolver<T> delegate;
     private final ScheduledExecutorService executorService;
     private final ThreadPoolExecutor threadPoolExecutor;
@@ -41,6 +44,7 @@ public class AsyncResolver<T extends EurekaEndpoint> implements ClosableResolver
     private final int warmUpTimeoutMs;
 
     // Metric timestamp, tracking last time when data were effectively changed.
+
     private volatile long lastLoadTimestamp = -1;
 
     /**
@@ -140,7 +144,6 @@ public class AsyncResolver<T extends EurekaEndpoint> implements ClosableResolver
         threadPoolExecutor.shutdownNow();
         backgroundTask.cancel();
     }
-
 
     @Override
     public String getRegion() {

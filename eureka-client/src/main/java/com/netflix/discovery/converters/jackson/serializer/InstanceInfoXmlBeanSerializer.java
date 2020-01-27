@@ -30,6 +30,7 @@ import com.netflix.appinfo.InstanceInfo.PortType;
  * Custom bean serializer to deal with legacy port layout (check {@link InstanceInfo.PortWrapper} for more information).
  */
 public class InstanceInfoXmlBeanSerializer extends XmlBeanSerializer {
+    
     public InstanceInfoXmlBeanSerializer(BeanSerializerBase src) {
         super(src);
     }

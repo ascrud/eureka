@@ -73,7 +73,6 @@ public final class EurekaEntityComparators {
         return first.getMetadata().entrySet().containsAll(second.getMetadata().entrySet());
     }
 
-
     public static boolean equal(LeaseInfo first, LeaseInfo second) {
         if (first == second) {
             return true;
@@ -184,7 +183,7 @@ public final class EurekaEntityComparators {
         if (first.getLastDirtyTimestamp() != null ? !first.getLastDirtyTimestamp().equals(second.getLastDirtyTimestamp()) : second.getLastDirtyTimestamp() != null) {
             return false;
         }
-        if (first.getLastUpdatedTimestamp()!= second.getLastUpdatedTimestamp()) {
+        if (first.getLastUpdatedTimestamp() != second.getLastUpdatedTimestamp()) {
             return false;
         }
         if (first.isCoordinatingDiscoveryServer() != null ? !first.isCoordinatingDiscoveryServer().equals(second.isCoordinatingDiscoveryServer()) : second.isCoordinatingDiscoveryServer() != null) {
@@ -192,7 +191,6 @@ public final class EurekaEntityComparators {
         }
         return true;
     }
-
 
     private static boolean idEqual(InstanceInfo first, InstanceInfo second) {
         return first.getId().equals(second.getId());
@@ -242,7 +240,7 @@ public final class EurekaEntityComparators {
         if (first.getStatus() != null ? !first.getStatus().equals(second.getStatus()) : second.getStatus() != null) {
             return false;
         }
-        if (first.getLastUpdatedTimestamp()!= second.getLastUpdatedTimestamp()) {
+        if (first.getLastUpdatedTimestamp() != second.getLastUpdatedTimestamp()) {
             return false;
         }
         return true;

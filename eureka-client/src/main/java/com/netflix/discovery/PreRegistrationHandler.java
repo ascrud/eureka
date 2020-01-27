@@ -6,5 +6,9 @@ package com.netflix.discovery;
  * to execute before registration.
  */
 public interface PreRegistrationHandler {
+
+    /**
+     *
+     */
     void beforeRegistration();
 }

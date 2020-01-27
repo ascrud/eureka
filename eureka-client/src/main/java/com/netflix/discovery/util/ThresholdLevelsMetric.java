@@ -32,9 +32,9 @@ import org.slf4j.LoggerFactory;
  */
 public class ThresholdLevelsMetric {
 
-    public static final ThresholdLevelsMetric NO_OP_METRIC = new NoOpThresholdLevelMetric();
-
     private static final Logger logger = LoggerFactory.getLogger(ThresholdLevelsMetric.class);
+
+    public static final ThresholdLevelsMetric NO_OP_METRIC = new NoOpThresholdLevelMetric();
 
     private final long[] levels;
     private final LongGauge[] gauges;

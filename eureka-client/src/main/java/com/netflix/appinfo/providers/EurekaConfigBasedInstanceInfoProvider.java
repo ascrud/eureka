@@ -23,7 +23,7 @@ import java.util.Map;
 @Singleton
 public class EurekaConfigBasedInstanceInfoProvider implements Provider<InstanceInfo> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EurekaConfigBasedInstanceInfoProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(EurekaConfigBasedInstanceInfoProvider.class);
 
     private final EurekaInstanceConfig config;
 
@@ -98,10 +98,10 @@ public class EurekaConfigBasedInstanceInfoProvider implements Provider<InstanceI
             // Start off with the STARTING state to avoid traffic
             if (!config.isInstanceEnabledOnit()) {
                 InstanceStatus initialStatus = InstanceStatus.STARTING;
-                LOG.info("Setting initial instance status as: {}", initialStatus);
+                logger.info("Setting initial instance status as: {}", initialStatus);
                 builder.setStatus(initialStatus);
             } else {
-                LOG.info("Setting initial instance status as: {}. This may be too early for the instance to advertise "
+                logger.info("Setting initial instance status as: {}. This may be too early for the instance to advertise "
                                 + "itself as available. You would instead want to control this via a healthcheck handler.",
                         InstanceStatus.UP);
             }

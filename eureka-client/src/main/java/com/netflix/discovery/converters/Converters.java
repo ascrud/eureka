@@ -16,15 +16,6 @@
 
 package com.netflix.discovery.converters;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.netflix.appinfo.AmazonInfo;
 import com.netflix.appinfo.DataCenterInfo;
 import com.netflix.appinfo.DataCenterInfo.Name;
@@ -45,6 +36,15 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * The custom {@link com.netflix.discovery.provider.Serializer} for serializing and deserializing the registry
  * information from and to the eureka server.
@@ -63,6 +63,7 @@ import org.slf4j.LoggerFactory;
  * @author Karthik Ranganathan, Greg Kim
  */
 public final class Converters {
+
     private static final String UNMARSHAL_ERROR = "UNMARSHAL_ERROR";
     public static final String NODE_LEASE = "leaseInfo";
     public static final String NODE_METADATA = "metadata";

@@ -16,10 +16,6 @@
 
 package com.netflix.discovery.converters.jackson.serializer;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -27,6 +23,10 @@ import com.fasterxml.jackson.databind.ser.BeanSerializer;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.appinfo.InstanceInfo.PortType;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Custom bean serializer to deal with legacy port layout (check {@link InstanceInfo.PortWrapper} for more information).

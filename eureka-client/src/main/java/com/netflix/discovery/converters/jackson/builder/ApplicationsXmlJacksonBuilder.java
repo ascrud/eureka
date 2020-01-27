@@ -16,10 +16,10 @@
 
 package com.netflix.discovery.converters.jackson.builder;
 
-import java.util.List;
-
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.netflix.discovery.shared.Application;
+
+import java.util.List;
 
 /**
  * Add XML specific annotation to {@link ApplicationsJacksonBuilder}.

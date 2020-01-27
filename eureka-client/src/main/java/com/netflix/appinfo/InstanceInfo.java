@@ -61,11 +61,14 @@ public class InstanceInfo {
      * makes its mapping complicated. This class represents the wire format for port information.
      */
     public static class PortWrapper {
+
         private final boolean enabled;
+
         private final int port;
 
         @JsonCreator
-        public PortWrapper(@JsonProperty("@enabled") boolean enabled, @JsonProperty("$") int port) {
+        public PortWrapper(@JsonProperty("@enabled") boolean enabled,
+                           @JsonProperty("$") int port) {
             this.enabled = enabled;
             this.port = port;
         }
@@ -81,6 +84,7 @@ public class InstanceInfo {
 
     public static final int DEFAULT_PORT = 7001;
     public static final int DEFAULT_SECURE_PORT = 7002;
+
     // US
     public static final int DEFAULT_COUNTRY_ID = 1;
 
@@ -260,18 +264,6 @@ public class InstanceInfo {
         }
     }
 
-    @Override
-    public String toString() {
-        return "InstanceInfo [instanceId = " + this.instanceId +
-                ", appName = " + this.appName +
-                ", hostName = " + this.hostName +
-                ", status = " + this.status +
-                ", ipAddr = " + this.ipAddr +
-                ", port = " + this.port +
-                ", securePort = " + this.securePort +
-                ", dataCenterInfo = " + this.dataCenterInfo;
-    }
-
     private Map<String, String> removeMetadataMapLegacyValues(Map<String, String> metadata) {
         if (InstanceInfoSerializer.METADATA_COMPATIBILITY_VALUE.equals(metadata.get(InstanceInfoSerializer.METADATA_COMPATIBILITY_KEY))) {
             // TODO this else if can be removed once the server no longer uses legacy json
@@ -384,10 +376,12 @@ public class InstanceInfo {
     }
 
     public enum ActionType {
-        ADDED, // Added in the discovery server
-        MODIFIED, // Changed in the discovery server
-        DELETED
+        // Added in the discovery server
+        ADDED,
+        // Changed in the discovery server
+        MODIFIED,
         // Deleted from the discovery server
+        DELETED
     }
 
     @Override
@@ -419,7 +413,20 @@ public class InstanceInfo {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "InstanceInfo [instanceId = " + this.instanceId +
+                ", appName = " + this.appName +
+                ", hostName = " + this.hostName +
+                ", status = " + this.status +
+                ", ipAddr = " + this.ipAddr +
+                ", port = " + this.port +
+                ", securePort = " + this.securePort +
+                ", dataCenterInfo = " + this.dataCenterInfo;
+    }
+
     public static final class Builder {
+
         private static final String COLON = ":";
         private static final String HTTPS_PROTOCOL = "https://";
         private static final String HTTP_PROTOCOL = "http://";
