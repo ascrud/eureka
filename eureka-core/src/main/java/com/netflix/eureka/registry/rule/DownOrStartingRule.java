@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 /**
  * This rule matches if the instance is DOWN or STARTING.
  * <p>
- * Created by Nikos Michalakis on 7/13/16.
+ *
+ * @author Nikos Michalakis
+ * @date 7/13/16
  */
 public class DownOrStartingRule implements InstanceStatusOverrideRule {
 

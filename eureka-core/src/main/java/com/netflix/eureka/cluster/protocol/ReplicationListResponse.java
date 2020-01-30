@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Serializer("jackson") // For backwards compatibility with DiscoveryJerseyProvider
 public class ReplicationListResponse {
+
     private List<ReplicationInstanceResponse> responseList;
 
     public ReplicationListResponse() {

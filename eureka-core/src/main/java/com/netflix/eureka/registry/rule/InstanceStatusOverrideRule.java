@@ -11,7 +11,9 @@ import com.netflix.eureka.registry.AbstractInstanceRegistry;
  * It is designed to be used by
  * {@link AbstractInstanceRegistry#getOverriddenInstanceStatus(InstanceInfo, Lease, boolean)}
  * <p>
- * Created by Nikos Michalakis on 7/13/16.
+ *
+ * @author Nikos Michalakis
+ * @date 7/13/16
  */
 public interface InstanceStatusOverrideRule {
 

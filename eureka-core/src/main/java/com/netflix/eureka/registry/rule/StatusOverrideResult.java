@@ -1,12 +1,13 @@
 package com.netflix.eureka.registry.rule;
 
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.eureka.registry.rule.InstanceStatusOverrideRule;
 
 /**
  * Container for a result computed by an {@link InstanceStatusOverrideRule}.
  * <p>
- * Created by Nikos Michalakis on 7/13/16.
+ *
+ * @author Nikos Michalakis
+ * @date 7/13/16
  */
 public class StatusOverrideResult {
 
@@ -16,10 +17,14 @@ public class StatusOverrideResult {
         return new StatusOverrideResult(true, status);
     }
 
-    // Does the rule match?
+    /**
+     * Does the rule match?
+     */
     private final boolean matches;
 
-    // The status computed by the rule.
+    /**
+     * The status computed by the rule.
+     */
     private final InstanceInfo.InstanceStatus status;
 
     private StatusOverrideResult(boolean matches, InstanceInfo.InstanceStatus status) {

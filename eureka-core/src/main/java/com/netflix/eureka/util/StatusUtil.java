@@ -9,12 +9,13 @@ import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-
 /**
+ * 实例状态工具类
+ *
  * @author David Liu
  */
 public class StatusUtil {
+
     private static final Logger logger = LoggerFactory.getLogger(StatusUtil.class);
 
     private final String myAppName;
@@ -50,11 +51,13 @@ public class StatusUtil {
                 downReplicas.append(node.getServiceUrl()).append(',');
             }
         }
-
+        // 注册的replicas
         builder.add("registered-replicas", replicaHostNames.toString());
+        // 可用的replicas
         builder.add("available-replicas", upReplicas.toString());
+        // 不可用的replicas
         builder.add("unavailable-replicas", downReplicas.toString());
-        
+
         // Only set the healthy flag if a threshold has been configured.
         if (peerEurekaNodes.getMinNumberOfAvailablePeers() > -1) {
             builder.isHealthy(upReplicasCount >= peerEurekaNodes.getMinNumberOfAvailablePeers());
@@ -65,6 +68,12 @@ public class StatusUtil {
         return builder.build();
     }
 
+    /**
+     * Replica是否可用
+     *
+     * @param url
+     * @return
+     */
     private boolean isReplicaAvailable(String url) {
 
         try {

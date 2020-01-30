@@ -99,6 +99,9 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
         }
     }
 
+    /**
+     * Application比较器，根据名称
+     */
     private static final Comparator<Application> APP_COMPARATOR = new Comparator<Application>() {
         @Override
         public int compare(Application l, Application r) {
@@ -106,12 +109,18 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
         }
     };
 
+    /**
+     * 上一分钟来自对等节点复制的续约数统计
+     */
     private final MeasuredRate numberOfReplicationsLastMin;
 
     protected final EurekaClient eurekaClient;
 
     protected volatile PeerEurekaNodes peerEurekaNodes;
 
+    /**
+     * 实例状态覆盖规则
+     */
     private final InstanceStatusOverrideRule instanceStatusOverrideRule;
 
     private Timer timer = new Timer(
@@ -128,8 +137,10 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
         this.numberOfReplicationsLastMin = new MeasuredRate(1000 * 60 * 1);
         // We first check if the instance is STARTING or DOWN, then we check explicit overrides,
         // then we check the status of a potentially existing lease.
-        this.instanceStatusOverrideRule = new FirstMatchWinsCompositeRule(new DownOrStartingRule(),
-                new OverrideExistsRule(overriddenInstanceStatusMap), new LeaseExistsRule());
+        this.instanceStatusOverrideRule = new FirstMatchWinsCompositeRule(
+                new DownOrStartingRule(),
+                new OverrideExistsRule(overriddenInstanceStatusMap),
+                new LeaseExistsRule());
     }
 
     @Override
@@ -137,6 +148,10 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
         return this.instanceStatusOverrideRule;
     }
 
+    /**
+     * @param peerEurekaNodes peerEurekaNodes
+     * @throws Exception
+     */
     @Override
     public void init(PeerEurekaNodes peerEurekaNodes) throws Exception {
         this.numberOfReplicationsLastMin.start();
@@ -212,6 +227,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
                 for (InstanceInfo instance : app.getInstances()) {
                     try {
                         if (isRegisterable(instance)) {
+                            // 注册实例
                             register(instance, instance.getLeaseInfo().getDurationInSecs(), true);
                             count++;
                         }
@@ -361,8 +377,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
      * @see com.netflix.eureka.registry.InstanceRegistry#cancel(String, String, boolean)
      */
     @Override
-    public boolean cancel(final String appName, final String id,
-                          final boolean isReplication) {
+    public boolean cancel(final String appName, final String id, final boolean isReplication) {
         if (super.cancel(appName, id, isReplication)) {
             replicateToPeers(Action.Cancel, appName, id, null, null, isReplication);
             synchronized (lock) {
@@ -393,6 +408,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
             leaseDuration = info.getLeaseInfo().getDurationInSecs();
         }
         super.register(info, leaseDuration, isReplication);
+        // 复制到其他对等节点
         replicateToPeers(Action.Register, info.getAppName(), info.getId(), info, null, isReplication);
     }
 
@@ -562,7 +578,7 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
     @com.netflix.servo.annotations.Monitor(name = "isBelowRenewThreshold", description = "0 = false, 1 = true",
             type = com.netflix.servo.annotations.DataSourceType.GAUGE)
     @Override
-    public int isBelowRenewThresold() {
+    public int isBelowRenewThreshold() {
         if ((getNumOfRenewsInLastMin() <= numberOfRenewsPerMinThreshold)
                 &&
                 ((this.startupTime > 0) && (System.currentTimeMillis() > this.startupTime + (serverConfig.getWaitTimeInMsWhenSyncEmpty())))) {
@@ -592,7 +608,8 @@ public class PeerAwareInstanceRegistryImpl extends AbstractInstanceRegistry impl
                 return true;
             }
         }
-        return true; // Everything non-amazon is registrable.
+        // Everything non-amazon is registrable.
+        return true;
     }
 
     /**

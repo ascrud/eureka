@@ -9,8 +9,8 @@
     <node x="943.0" y="256.0">com.netflix.discovery.converters.wrappers.CodecWrappers.XStreamJson</node>
     <node x="0.0" y="256.0">com.netflix.discovery.converters.wrappers.CodecWrappers.LegacyJacksonJson</node>
     <node x="471.49999999999994" y="82.0">com.netflix.discovery.converters.wrappers.DecoderWrapper</node>
-    <node x="749.0" y="256.0">com.netflix.discovery.converters.wrappers.CodecWrappers.JacksonXmlMini</node>
     <node x="559.5" y="0.0">com.netflix.discovery.converters.wrappers.CodecWrapperBase</node>
+    <node x="749.0" y="256.0">com.netflix.discovery.converters.wrappers.CodecWrappers.JacksonXmlMini</node>
     <node x="665.5" y="82.0">com.netflix.discovery.converters.wrappers.EncoderWrapper</node>
     <node x="582.0" y="256.0">com.netflix.discovery.converters.wrappers.CodecWrappers.JacksonJson</node>
     <node x="378.99999999999994" y="256.0">com.netflix.discovery.converters.wrappers.CodecWrappers.JacksonJsonMini</node>
@@ -45,6 +45,12 @@
       <point x="588.6428571428571" y="216.0" />
       <point x="-66.85714285714289" y="16.0" />
     </edge>
+    <edge source="com.netflix.discovery.converters.wrappers.EncoderWrapper" target="com.netflix.discovery.converters.wrappers.CodecWrapperBase">
+      <point x="-5.6843418860808015E-14" y="-16.0" />
+      <point x="752.4999999999999" y="57.0" />
+      <point x="703.5" y="57.0" />
+      <point x="48.0" y="16.0" />
+    </edge>
     <edge source="com.netflix.discovery.converters.wrappers.DecoderWrapper" target="com.netflix.discovery.converters.wrappers.CodecWrapperBase">
       <point x="0.0" y="-16.0" />
       <point x="558.5" y="57.0" />
@@ -63,11 +69,11 @@
       <point x="633.2142857142858" y="236.0" />
       <point x="-22.28571428571422" y="16.0" />
     </edge>
-    <edge source="com.netflix.discovery.converters.wrappers.EncoderWrapper" target="com.netflix.discovery.converters.wrappers.CodecWrapperBase">
-      <point x="-5.6843418860808015E-14" y="-16.0" />
-      <point x="752.4999999999999" y="57.0" />
-      <point x="703.5" y="57.0" />
-      <point x="48.0" y="16.0" />
+    <edge source="com.netflix.discovery.converters.wrappers.CodecWrappers.XStreamXml" target="com.netflix.discovery.converters.wrappers.CodecWrapper">
+      <point x="0.0" y="-16.0" />
+      <point x="1179.0" y="216.0" />
+      <point x="722.3571428571429" y="216.0" />
+      <point x="66.85714285714289" y="16.0" />
     </edge>
     <edge source="com.netflix.discovery.converters.wrappers.CodecWrapper" target="com.netflix.discovery.converters.wrappers.DecoderWrapper">
       <point x="-39.0" y="-16.0" />
@@ -75,15 +81,11 @@
       <point x="558.5" y="139.0" />
       <point x="0.0" y="16.0" />
     </edge>
-    <edge source="com.netflix.discovery.converters.wrappers.CodecWrappers.XStreamXml" target="com.netflix.discovery.converters.wrappers.CodecWrapper">
-      <point x="0.0" y="-16.0" />
-      <point x="1179.0" y="216.0" />
-      <point x="722.3571428571429" y="216.0" />
-      <point x="66.85714285714289" y="16.0" />
-    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="455.5" y="57.5" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="1.0" x="624.0" y="144.0" />
+  <SelectedNodes>
+    <node>com.netflix.discovery.converters.wrappers.CodecWrapperBase</node>
+  </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>

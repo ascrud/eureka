@@ -64,11 +64,21 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
 
     private static final String[] EMPTY_STR_ARRAY = new String[0];
 
+    /**
+     * 第一层hash map的key是app name，也就是应用名字
+     * 第二层hash map的key是instance id，也就是实例id
+     */
     private final ConcurrentHashMap<String, Map<String, Lease<InstanceInfo>>> registry
             = new ConcurrentHashMap<String, Map<String, Lease<InstanceInfo>>>();
 
+    /**
+     * regionNameVSRemoteRegistry Map
+     */
     protected Map<String, RemoteRegionRegistry> regionNameVSRemoteRegistry = new HashMap<String, RemoteRegionRegistry>();
 
+    /**
+     * 状态覆盖实例-状态MAP
+     */
     protected final ConcurrentMap<String, InstanceStatus> overriddenInstanceStatusMap = CacheBuilder
             .newBuilder().initialCapacity(500)
             .expireAfterAccess(1, TimeUnit.HOURS)
@@ -78,6 +88,10 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
 
     private final CircularQueue<Pair<Long, String>> recentRegisteredQueue;
     private final CircularQueue<Pair<Long, String>> recentCanceledQueue;
+
+    /**
+     * 最近租约变更记录队列
+     */
     private ConcurrentLinkedQueue<RecentlyChangedItem> recentlyChangedQueue = new ConcurrentLinkedQueue<RecentlyChangedItem>();
 
     private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
@@ -85,10 +99,24 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
     private final Lock write = readWriteLock.writeLock();
     protected final Object lock = new Object();
 
+    /**
+     * 增量保留定时器
+     */
     private Timer deltaRetentionTimer = new Timer("Eureka-DeltaRetentionTimer", true);
+
+    /**
+     * 剔除任务定时器
+     */
     private Timer evictionTimer = new Timer("Eureka-EvictionTimer", true);
+
+    /**
+     * 上一分钟续约数统计
+     */
     private final MeasuredRate renewsLastMin;
 
+    /**
+     * 剔除任务
+     */
     private final AtomicReference<EvictionTask> evictionTaskRef = new AtomicReference<EvictionTask>();
 
     protected String[] allKnownRemoteRegions = EMPTY_STR_ARRAY;
@@ -195,6 +223,7 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
                     gMap = gNewMap;
                 }
             }
+            // 存在的租约信息
             Lease<InstanceInfo> existingLease = gMap.get(registrant.getId());
             // Retain the last dirty timestamp without overwriting it, if there is already a lease
             if (existingLease != null && (existingLease.getHolder() != null)) {
@@ -217,6 +246,7 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
                     if (this.expectedNumberOfClientsSendingRenews > 0) {
                         // Since the client wants to register it, increase the number of clients sending renews
                         this.expectedNumberOfClientsSendingRenews = this.expectedNumberOfClientsSendingRenews + 1;
+                        // 更新每分钟续约阈值
                         updateRenewsPerMinThreshold();
                     }
                 }
@@ -227,6 +257,7 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
                 lease.setServiceUpTimestamp(existingLease.getServiceUpTimestamp());
             }
             gMap.put(registrant.getId(), lease);
+            // 添加到最近注册的实例队列
             recentRegisteredQueue.add(new Pair<Long, String>(
                     System.currentTimeMillis(),
                     registrant.getAppName() + "(" + registrant.getId() + ")"));
@@ -256,6 +287,7 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
             registrant.setActionType(ActionType.ADDED);
             recentlyChangedQueue.add(new RecentlyChangedItem(lease));
             registrant.setLastUpdatedTimestamp();
+
             invalidateCache(registrant.getAppName(), registrant.getVIPAddress(), registrant.getSecureVipAddress());
             logger.info("Registered instance {}/{} with status {} (replication={})",
                     registrant.getAppName(), registrant.getId(), registrant.getStatus(), isReplication);
@@ -1135,11 +1167,6 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
         return numberOfRenewsPerMinThreshold;
     }
 
-    /**
-     * Get the N instances that are most recently registered.
-     *
-     * @return
-     */
     @Override
     public List<Pair<Long, String>> getLastNRegisteredInstances() {
         List<Pair<Long, String>> list = new ArrayList<Pair<Long, String>>(recentRegisteredQueue);
@@ -1147,11 +1174,6 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
         return list;
     }
 
-    /**
-     * Get the N instances that have most recently canceled.
-     *
-     * @return
-     */
     @Override
     public List<Pair<Long, String>> getLastNCanceledInstances() {
         List<Pair<Long, String>> list = new ArrayList<Pair<Long, String>>(recentCanceledQueue);
@@ -1170,6 +1192,9 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
                 * serverConfig.getRenewalPercentThreshold());
     }
 
+    /**
+     * 最近变更的服务租约
+     */
     private static final class RecentlyChangedItem {
         private long lastUpdateTime;
         private Lease<InstanceInfo> leaseInfo;
@@ -1214,9 +1239,14 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
         return overriddenInstanceStatusMap.size();
     }
 
-    /* visible for testing */ class EvictionTask extends TimerTask {
+    /* visible for testing */
 
-        private final AtomicLong lastExecutionNanosRef = new AtomicLong(0l);
+    /**
+     * 剔除任务
+     */
+    class EvictionTask extends TimerTask {
+
+        private final AtomicLong lastExecutionNanosRef = new AtomicLong(0L);
 
         @Override
         public void run() {
@@ -1230,6 +1260,7 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
         }
 
         /**
+         * 获取补偿时间
          * compute a compensation time defined as the actual time this task was executed since the prev iteration,
          * vs the configured amount of time for execution. This is useful for cases where changes in time (due to
          * clock skew or gc for example) causes the actual eviction task to execute later than the desired time
@@ -1238,13 +1269,13 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
         long getCompensationTimeMs() {
             long currNanos = getCurrentTimeNano();
             long lastNanos = lastExecutionNanosRef.getAndSet(currNanos);
-            if (lastNanos == 0l) {
-                return 0l;
+            if (lastNanos == 0L) {
+                return 0L;
             }
 
             long elapsedMs = TimeUnit.NANOSECONDS.toMillis(currNanos - lastNanos);
             long compensationTime = elapsedMs - serverConfig.getEvictionIntervalTimerInMs();
-            return compensationTime <= 0l ? 0l : compensationTime;
+            return compensationTime <= 0L ? 0L : compensationTime;
         }
 
         long getCurrentTimeNano() {  // for testing
@@ -1253,9 +1284,11 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
 
     }
 
-    /* visible for testing */ static class CircularQueue<E> extends AbstractQueue<E> {
+    /* visible for testing */
+    static class CircularQueue<E> extends AbstractQueue<E> {
 
         private final ArrayBlockingQueue<E> delegate;
+
         private final int capacity;
 
         public CircularQueue(int capacity) {
@@ -1307,6 +1340,12 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
      */
     protected abstract InstanceStatusOverrideRule getInstanceInfoOverrideRule();
 
+    /**
+     * @param r
+     * @param existingLease
+     * @param isReplication
+     * @return
+     */
     protected InstanceInfo.InstanceStatus getOverriddenInstanceStatus(InstanceInfo r,
                                                                       Lease<InstanceInfo> existingLease,
                                                                       boolean isReplication) {

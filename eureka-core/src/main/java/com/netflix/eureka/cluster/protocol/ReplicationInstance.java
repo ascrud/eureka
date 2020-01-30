@@ -9,6 +9,7 @@ import com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl.Action;
  * The jersey resource class that generates a particular replication event
  */
 public class ReplicationInstance {
+
     private String appName;
     private String id;
     private Long lastDirtyTimestamp;

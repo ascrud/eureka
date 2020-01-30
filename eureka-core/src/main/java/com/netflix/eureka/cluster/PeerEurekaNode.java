@@ -46,6 +46,8 @@ import java.net.URL;
  */
 public class PeerEurekaNode {
 
+    private static final Logger logger = LoggerFactory.getLogger(PeerEurekaNode.class);
+
     /**
      * A time to wait before continuing work if there is network level error.
      */
@@ -66,8 +68,6 @@ public class PeerEurekaNode {
      */
     private static final int BATCH_SIZE = 250;
 
-    private static final Logger logger = LoggerFactory.getLogger(PeerEurekaNode.class);
-
     public static final String BATCH_URL_PATH = "peerreplication/batch/";
 
     public static final String HEADER_REPLICATION = "x-netflix-discovery-replication";
@@ -82,8 +82,11 @@ public class PeerEurekaNode {
     private final TaskDispatcher<String, ReplicationTask> batchingDispatcher;
     private final TaskDispatcher<String, ReplicationTask> nonBatchingDispatcher;
 
-    public PeerEurekaNode(PeerAwareInstanceRegistry registry, String targetHost, String serviceUrl, HttpReplicationClient replicationClient, EurekaServerConfig config) {
-        this(registry, targetHost, serviceUrl, replicationClient, config, BATCH_SIZE, MAX_BATCHING_DELAY_MS, RETRY_SLEEP_TIME_MS, SERVER_UNAVAILABLE_SLEEP_TIME_MS);
+    public PeerEurekaNode(PeerAwareInstanceRegistry registry, String targetHost,
+                          String serviceUrl, HttpReplicationClient replicationClient,
+                          EurekaServerConfig config) {
+        this(registry, targetHost, serviceUrl, replicationClient,
+                config, BATCH_SIZE, MAX_BATCHING_DELAY_MS, RETRY_SLEEP_TIME_MS, SERVER_UNAVAILABLE_SLEEP_TIME_MS);
     }
 
     /* For testing */ PeerEurekaNode(PeerAwareInstanceRegistry registry, String targetHost, String serviceUrl,
@@ -134,6 +137,8 @@ public class PeerEurekaNode {
         batchingDispatcher.process(
                 taskId("register", info),
                 new InstanceReplicationTask(targetHost, Action.Register, info, null, true) {
+
+                    @Override
                     public EurekaHttpResponse<Void> execute() {
                         return replicationClient.register(info);
                     }
@@ -155,6 +160,7 @@ public class PeerEurekaNode {
         batchingDispatcher.process(
                 taskId("cancel", appName, id),
                 new InstanceReplicationTask(targetHost, Action.Cancel, appName, id) {
+
                     @Override
                     public EurekaHttpResponse<Void> execute() {
                         return replicationClient.cancel(appName, id);
@@ -287,12 +293,63 @@ public class PeerEurekaNode {
     }
 
     /**
+     * Shuts down all resources used for peer replication.
+     */
+    public void shutDown() {
+        batchingDispatcher.shutdown();
+        nonBatchingDispatcher.shutdown();
+    }
+
+    /**
+     * Synchronize {@link InstanceInfo} information if the timestamp between
+     * this node and the peer eureka nodes vary.
+     */
+    private void syncInstancesIfTimestampDiffers(String appName, String id, InstanceInfo info, InstanceInfo infoFromPeer) {
+        try {
+            if (infoFromPeer != null) {
+                logger.warn("Peer wants us to take the instance information from it, since the timestamp differs,"
+                        + "Id : {} My Timestamp : {}, Peer's timestamp: {}", id, info.getLastDirtyTimestamp(), infoFromPeer.getLastDirtyTimestamp());
+
+                if (infoFromPeer.getOverriddenStatus() != null && !InstanceStatus.UNKNOWN.equals(infoFromPeer.getOverriddenStatus())) {
+                    logger.warn("Overridden Status info -id {}, mine {}, peer's {}", id, info.getOverriddenStatus(), infoFromPeer.getOverriddenStatus());
+                    registry.storeOverriddenStatusIfRequired(appName, id, infoFromPeer.getOverriddenStatus());
+                }
+                registry.register(infoFromPeer, true);
+            }
+        } catch (Throwable e) {
+            logger.warn("Exception when trying to set information from peer :", e);
+        }
+    }
+
+    /**
      * Get the service Url of the peer eureka node.
      *
      * @return the service Url of the peer eureka node.
      */
     public String getServiceUrl() {
         return serviceUrl;
+    }
+
+    public String getBatcherName() {
+        String batcherName;
+        try {
+            batcherName = new URL(serviceUrl).getHost();
+        } catch (MalformedURLException e1) {
+            batcherName = serviceUrl;
+        }
+        return "target_" + batcherName;
+    }
+
+    private static String taskId(String requestType, String appName, String id) {
+        return requestType + '#' + appName + '/' + id;
+    }
+
+    private static String taskId(String requestType, InstanceInfo info) {
+        return taskId(requestType, info.getAppName(), info.getId());
+    }
+
+    private static int getLeaseRenewalOf(InstanceInfo info) {
+        return (info.getLeaseInfo() == null ? Lease.DEFAULT_DURATION_IN_SECS : info.getLeaseInfo().getRenewalIntervalInSecs()) * 1000;
     }
 
     @Override
@@ -323,56 +380,5 @@ public class PeerEurekaNode {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Shuts down all resources used for peer replication.
-     */
-    public void shutDown() {
-        batchingDispatcher.shutdown();
-        nonBatchingDispatcher.shutdown();
-    }
-
-    /**
-     * Synchronize {@link InstanceInfo} information if the timestamp between
-     * this node and the peer eureka nodes vary.
-     */
-    private void syncInstancesIfTimestampDiffers(String appName, String id, InstanceInfo info, InstanceInfo infoFromPeer) {
-        try {
-            if (infoFromPeer != null) {
-                logger.warn("Peer wants us to take the instance information from it, since the timestamp differs,"
-                        + "Id : {} My Timestamp : {}, Peer's timestamp: {}", id, info.getLastDirtyTimestamp(), infoFromPeer.getLastDirtyTimestamp());
-
-                if (infoFromPeer.getOverriddenStatus() != null && !InstanceStatus.UNKNOWN.equals(infoFromPeer.getOverriddenStatus())) {
-                    logger.warn("Overridden Status info -id {}, mine {}, peer's {}", id, info.getOverriddenStatus(), infoFromPeer.getOverriddenStatus());
-                    registry.storeOverriddenStatusIfRequired(appName, id, infoFromPeer.getOverriddenStatus());
-                }
-                registry.register(infoFromPeer, true);
-            }
-        } catch (Throwable e) {
-            logger.warn("Exception when trying to set information from peer :", e);
-        }
-    }
-
-    public String getBatcherName() {
-        String batcherName;
-        try {
-            batcherName = new URL(serviceUrl).getHost();
-        } catch (MalformedURLException e1) {
-            batcherName = serviceUrl;
-        }
-        return "target_" + batcherName;
-    }
-
-    private static String taskId(String requestType, String appName, String id) {
-        return requestType + '#' + appName + '/' + id;
-    }
-
-    private static String taskId(String requestType, InstanceInfo info) {
-        return taskId(requestType, info.getAppName(), info.getId());
-    }
-
-    private static int getLeaseRenewalOf(InstanceInfo info) {
-        return (info.getLeaseInfo() == null ? Lease.DEFAULT_DURATION_IN_SECS : info.getLeaseInfo().getRenewalIntervalInSecs()) * 1000;
     }
 }

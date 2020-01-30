@@ -21,12 +21,7 @@ import com.netflix.discovery.EurekaClientConfig;
 import com.netflix.eureka.EurekaServerConfig;
 import com.netflix.eureka.aws.AwsAsgUtil;
 import com.netflix.eureka.cluster.PeerEurekaNodes;
-import com.netflix.eureka.registry.rule.AsgEnabledRule;
-import com.netflix.eureka.registry.rule.DownOrStartingRule;
-import com.netflix.eureka.registry.rule.FirstMatchWinsCompositeRule;
-import com.netflix.eureka.registry.rule.InstanceStatusOverrideRule;
-import com.netflix.eureka.registry.rule.LeaseExistsRule;
-import com.netflix.eureka.registry.rule.OverrideExistsRule;
+import com.netflix.eureka.registry.rule.*;
 import com.netflix.eureka.resources.ServerCodecs;
 
 import javax.inject.Inject;

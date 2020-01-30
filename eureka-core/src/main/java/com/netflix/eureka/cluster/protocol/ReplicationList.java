@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Serializer("jackson") // For backwards compatibility with DiscoveryJerseyProvider
 public class ReplicationList {
+
     private final List<ReplicationInstance> replicationList;
 
     public ReplicationList() {

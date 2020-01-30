@@ -71,7 +71,7 @@
       <point x="-48.0" y="16.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="242.5" y="16.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="413.5" y="180.0" />
   <SelectedNodes>
     <node>com.netflix.discovery.shared.LookupService</node>
   </SelectedNodes>

@@ -16,33 +16,24 @@
 
 package com.netflix.eureka.resources;
 
+import com.netflix.appinfo.EurekaAccept;
+import com.netflix.eureka.EurekaServerConfig;
+import com.netflix.eureka.EurekaServerContext;
+import com.netflix.eureka.EurekaServerContextHolder;
+import com.netflix.eureka.Version;
+import com.netflix.eureka.registry.*;
+import com.netflix.eureka.registry.Key.KeyType;
+import com.netflix.eureka.util.EurekaMonitors;
+
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import java.util.Arrays;
-
-import com.netflix.appinfo.EurekaAccept;
-import com.netflix.eureka.EurekaServerContext;
-import com.netflix.eureka.EurekaServerContextHolder;
-import com.netflix.eureka.registry.AbstractInstanceRegistry;
-import com.netflix.eureka.EurekaServerConfig;
-import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
-import com.netflix.eureka.Version;
-import com.netflix.eureka.registry.ResponseCache;
-import com.netflix.eureka.registry.Key.KeyType;
-import com.netflix.eureka.registry.ResponseCacheImpl;
-import com.netflix.eureka.registry.Key;
-import com.netflix.eureka.util.EurekaMonitors;
 
 /**
  * A <em>jersey</em> resource that handles request related to all
@@ -53,6 +44,7 @@ import com.netflix.eureka.util.EurekaMonitors;
 @Path("/{version}/apps")
 @Produces({"application/xml", "application/json"})
 public class ApplicationsResource {
+
     private static final String HEADER_ACCEPT = "Accept";
     private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
     private static final String HEADER_CONTENT_ENCODING = "Content-Encoding";
@@ -119,7 +111,8 @@ public class ApplicationsResource {
             EurekaMonitors.GET_ALL.increment();
         } else {
             regions = regionsStr.toLowerCase().split(",");
-            Arrays.sort(regions); // So we don't have different caches for same regions queried in different order.
+            // So we don't have different caches for same regions queried in different order.
+            Arrays.sort(regions);
             EurekaMonitors.GET_ALL_WITH_REMOTE_REGIONS.increment();
         }
 

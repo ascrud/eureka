@@ -71,16 +71,17 @@ public class ResponseCacheImpl implements ResponseCache {
 
     public static final String ALL_APPS = "ALL_APPS";
     public static final String ALL_APPS_DELTA = "ALL_APPS_DELTA";
+    private static final String EMPTY_PAYLOAD = "";
 
     // FIXME deprecated, here for backwards compatibility.
 
     private static final AtomicLong versionDeltaLegacy = new AtomicLong(0);
     private static final AtomicLong versionDeltaWithRegionsLegacy = new AtomicLong(0);
 
-    private static final String EMPTY_PAYLOAD = "";
-    private final java.util.Timer timer = new java.util.Timer("Eureka-CacheFillTimer", true);
     private final AtomicLong versionDelta = new AtomicLong(0);
     private final AtomicLong versionDeltaWithRegions = new AtomicLong(0);
+
+    private final java.util.Timer timer = new java.util.Timer("Eureka-CacheFillTimer", true);
 
     private final Timer serializeAllAppsTimer = Monitors.newTimer("serialize-all");
     private final Timer serializeDeltaAppsTimer = Monitors.newTimer("serialize-all-delta");
@@ -98,12 +99,14 @@ public class ResponseCacheImpl implements ResponseCache {
      * around till expiry. Github issue: https://github.com/Netflix/eureka/issues/118
      */
     private final Multimap<Key, Key> regionSpecificKeys =
-            Multimaps.newListMultimap(new ConcurrentHashMap<Key, Collection<Key>>(), new Supplier<List<Key>>() {
-                @Override
-                public List<Key> get() {
-                    return new CopyOnWriteArrayList<Key>();
-                }
-            });
+            Multimaps.newListMultimap(
+                    new ConcurrentHashMap<Key, Collection<Key>>(),
+                    new Supplier<List<Key>>() {
+                        @Override
+                        public List<Key> get() {
+                            return new CopyOnWriteArrayList<Key>();
+                        }
+                    });
 
     private final ConcurrentMap<Key, Value> readOnlyCacheMap = new ConcurrentHashMap<Key, Value>();
 
@@ -121,7 +124,8 @@ public class ResponseCacheImpl implements ResponseCache {
 
         long responseCacheUpdateIntervalMs = serverConfig.getResponseCacheUpdateIntervalMs();
         this.readWriteCacheMap =
-                CacheBuilder.newBuilder().initialCapacity(serverConfig.getInitialCapacityOfResponseCache())
+                CacheBuilder.newBuilder()
+                        .initialCapacity(serverConfig.getInitialCapacityOfResponseCache())
                         .expireAfterWrite(serverConfig.getResponseCacheAutoExpirationInSeconds(), TimeUnit.SECONDS)
                         .removalListener(new RemovalListener<Key, Value>() {
                             @Override
@@ -219,6 +223,7 @@ public class ResponseCacheImpl implements ResponseCache {
      * @return compressed payload which contains information about the
      * applications.
      */
+    @Override
     public byte[] getGZIP(Key key) {
         Value payload = getValue(key, shouldUseReadOnlyResponseCache);
         if (payload == null) {
@@ -261,6 +266,7 @@ public class ResponseCacheImpl implements ResponseCache {
      */
     public void invalidate(Key... keys) {
         for (Key key : keys) {
+
             logger.debug("Invalidating the response cache key : {} {} {} {}, {}",
                     key.getEntityType(), key.getName(), key.getVersion(), key.getType(), key.getEurekaAccept());
 
@@ -387,7 +393,7 @@ public class ResponseCacheImpl implements ResponseCache {
         }
     }
 
-    /*
+    /**
      * Generate pay load for the given key.
      */
     private Value generatePayload(Key key) {

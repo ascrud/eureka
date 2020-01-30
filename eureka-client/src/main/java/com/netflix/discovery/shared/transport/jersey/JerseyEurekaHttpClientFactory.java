@@ -43,14 +43,9 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.CoreProtocolPNames;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import java.util.*;
 
 import static com.netflix.discovery.util.DiscoveryBuildInfo.buildVersion;
 
@@ -120,11 +115,11 @@ public class JerseyEurekaHttpClientFactory implements TransportClientFactory {
             apacheClient.destroy();
         }
     }
-    
+
     public static JerseyEurekaHttpClientFactory create(EurekaClientConfig clientConfig,
-            Collection<ClientFilter> additionalFilters,
-            InstanceInfo myInstanceInfo,
-            AbstractEurekaIdentity clientIdentity) {
+                                                       Collection<ClientFilter> additionalFilters,
+                                                       InstanceInfo myInstanceInfo,
+                                                       AbstractEurekaIdentity clientIdentity) {
         return create(clientConfig, additionalFilters, myInstanceInfo, clientIdentity, Optional.empty(), Optional.empty());
     }
 
@@ -142,7 +137,7 @@ public class JerseyEurekaHttpClientFactory implements TransportClientFactory {
                 .withUserAgent("Java-EurekaClient")
                 .withClientConfig(clientConfig)
                 .withClientIdentity(clientIdentity);
-        
+
         sslContext.ifPresent(clientBuilder::withSSLContext);
         hostnameVerifier.ifPresent(clientBuilder::withHostnameVerifier);
 
@@ -215,14 +210,14 @@ public class JerseyEurekaHttpClientFactory implements TransportClientFactory {
                     .withConnectionIdleTimeout((int) connectionIdleTimeout)
                     .withEncoderWrapper(encoderWrapper)
                     .withDecoderWrapper(decoderWrapper)
-                    .withProxy(proxyHost,String.valueOf(proxyPort),proxyUserName,proxyPassword);
+                    .withProxy(proxyHost, String.valueOf(proxyPort), proxyUserName, proxyPassword);
 
             if (systemSSL) {
                 clientBuilder.withSystemSSLConfiguration();
             } else if (sslContext != null) {
                 clientBuilder.withCustomSSL(sslContext);
             }
-            
+
             if (hostnameVerifier != null) {
                 clientBuilder.withHostnameVerifier(hostnameVerifier);
             }

@@ -57,9 +57,6 @@ public class ApplicationResource {
         this.responseCache = registry.getResponseCache();
     }
 
-    public String getAppName() {
-        return appName;
-    }
 
     /**
      * Gets information about a particular {@link com.netflix.discovery.shared.Application}.
@@ -129,7 +126,7 @@ public class ApplicationResource {
     public Response addInstance(InstanceInfo info,
                                 @HeaderParam(PeerEurekaNode.HEADER_REPLICATION) String isReplication) {
         logger.debug("Registering instance {} (replication={})", info.getId(), isReplication);
-        // validate that the instanceinfo contains all the necessary required fields
+        // validate that the instanceInfo contains all the necessary required fields
         if (isBlank(info.getId())) {
             return Response.status(400).entity("Missing instanceId").build();
         } else if (isBlank(info.getHostName())) {
@@ -168,7 +165,12 @@ public class ApplicationResource {
         }
 
         registry.register(info, "true".equals(isReplication));
-        return Response.status(204).build();  // 204 to be backwards compatible
+        // 204 to be backwards compatible
+        return Response.status(204).build();
+    }
+
+    public String getAppName() {
+        return appName;
     }
 
     /**

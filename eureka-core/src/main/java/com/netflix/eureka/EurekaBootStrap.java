@@ -81,7 +81,7 @@ public class EurekaBootStrap implements ServletContextListener {
     private EurekaClient eurekaClient;
 
     /**
-     * Construct a default instance of Eureka boostrap
+     * Construct a default instance of Eureka bootstrap
      */
     public EurekaBootStrap() {
         this(null);
@@ -104,6 +104,7 @@ public class EurekaBootStrap implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         try {
+
             initEurekaEnvironment();
             initEurekaServerContext();
 
@@ -116,6 +117,7 @@ public class EurekaBootStrap implements ServletContextListener {
     }
 
     /**
+     * 初始化Eureka环境及配置
      * Users can override to initialize the environment themselves.
      */
     protected void initEurekaEnvironment() throws Exception {
@@ -136,9 +138,11 @@ public class EurekaBootStrap implements ServletContextListener {
     }
 
     /**
+     * 初始化EurekaServerContext
      * init hook for server context. Override for custom logic.
      */
     protected void initEurekaServerContext() throws Exception {
+
         EurekaServerConfig eurekaServerConfig = new DefaultEurekaServerConfig();
 
         // For backward compatibility
@@ -152,6 +156,8 @@ public class EurekaBootStrap implements ServletContextListener {
         ApplicationInfoManager applicationInfoManager = null;
 
         if (eurekaClient == null) {
+            // 创建eurekaClient
+            // EurekaInstanceConfig
             EurekaInstanceConfig instanceConfig = isCloud(ConfigurationManager.getDeploymentContext())
                     ? new CloudInstanceConfig()
                     : new MyDataCenterInstanceConfig();
@@ -201,7 +207,9 @@ public class EurekaBootStrap implements ServletContextListener {
         );
 
         EurekaServerContextHolder.initialize(serverContext);
+        logger.info("Initialized EurekaServerContextHolder");
 
+        logger.info("Initializing server context");
         serverContext.initialize();
         logger.info("Initialized server context");
 
@@ -213,7 +221,19 @@ public class EurekaBootStrap implements ServletContextListener {
         EurekaMonitors.registerAllStats();
     }
 
-    protected PeerEurekaNodes getPeerEurekaNodes(PeerAwareInstanceRegistry registry, EurekaServerConfig eurekaServerConfig, EurekaClientConfig eurekaClientConfig, ServerCodecs serverCodecs, ApplicationInfoManager applicationInfoManager) {
+    /**
+     * 获取PeerEurekaNodes
+     *
+     * @param registry               registry
+     * @param eurekaServerConfig     eurekaServerConfig
+     * @param eurekaClientConfig     eurekaClientConfig
+     * @param serverCodecs           serverCodecs
+     * @param applicationInfoManager applicationInfoManager
+     * @return
+     */
+    protected PeerEurekaNodes getPeerEurekaNodes(PeerAwareInstanceRegistry registry, EurekaServerConfig eurekaServerConfig,
+                                                 EurekaClientConfig eurekaClientConfig, ServerCodecs serverCodecs,
+                                                 ApplicationInfoManager applicationInfoManager) {
         PeerEurekaNodes peerEurekaNodes = new PeerEurekaNodes(
                 registry,
                 eurekaServerConfig,
@@ -234,6 +254,7 @@ public class EurekaBootStrap implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent event) {
         try {
             logger.info("{} Shutting down Eureka Server..", new Date());
+
             ServletContext sc = event.getServletContext();
             sc.removeAttribute(EurekaServerContext.class.getName());
 

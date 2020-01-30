@@ -37,6 +37,8 @@ public class PeerEurekaNodes {
     protected final ServerCodecs serverCodecs;
     private final ApplicationInfoManager applicationInfoManager;
 
+    // PeerEurekaNode列表
+
     private volatile List<PeerEurekaNode> peerEurekaNodes = Collections.emptyList();
     private volatile Set<String> peerEurekaNodeUrls = Collections.emptySet();
 
@@ -69,6 +71,7 @@ public class PeerEurekaNodes {
     }
 
     public void start() {
+        logger.info("Starting ...");
         taskExecutor = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactory() {
                     @Override
@@ -80,7 +83,9 @@ public class PeerEurekaNodes {
                 }
         );
         try {
+            // 更新PeerEurekaNode
             updatePeerEurekaNodes(resolvePeerUrls());
+            // 创建更新PeerEurekaNode线程
             Runnable peersUpdateTask = new Runnable() {
                 @Override
                 public void run() {
@@ -92,6 +97,7 @@ public class PeerEurekaNodes {
 
                 }
             };
+
             taskExecutor.scheduleWithFixedDelay(
                     peersUpdateTask,
                     serverConfig.getPeerEurekaNodesUpdateIntervalMs(),
@@ -104,6 +110,7 @@ public class PeerEurekaNodes {
         for (PeerEurekaNode node : peerEurekaNodes) {
             logger.info("Replica node URL:  {}", node.getServiceUrl());
         }
+        logger.info("Started ...");
     }
 
     public void shutdown() {
@@ -119,6 +126,7 @@ public class PeerEurekaNodes {
     }
 
     /**
+     * 解析除自己的副本节点URL
      * Resolve peer URLs.
      *
      * @return peer URLs with node's own URL filtered out
@@ -157,7 +165,8 @@ public class PeerEurekaNodes {
         Set<String> toAdd = new HashSet<>(newPeerUrls);
         toAdd.removeAll(peerEurekaNodeUrls);
 
-        if (toShutdown.isEmpty() && toAdd.isEmpty()) { // No change
+        if (toShutdown.isEmpty() && toAdd.isEmpty()) {
+            // No change
             return;
         }
 

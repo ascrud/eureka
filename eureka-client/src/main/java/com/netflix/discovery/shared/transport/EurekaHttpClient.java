@@ -21,7 +21,7 @@ public interface EurekaHttpClient {
     EurekaHttpResponse<Void> register(InstanceInfo info);
 
     /**
-     * cancel
+     * cancel an instance by appName and instance id
      *
      * @param appName
      * @param id

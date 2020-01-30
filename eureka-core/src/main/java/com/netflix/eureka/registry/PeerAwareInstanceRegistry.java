@@ -25,12 +25,20 @@ import com.netflix.eureka.resources.ASGResource;
  */
 public interface PeerAwareInstanceRegistry extends InstanceRegistry {
 
+    /**
+     * 初始化
+     *
+     * @param peerEurekaNodes peerEurekaNodes
+     * @throws Exception
+     */
     void init(PeerEurekaNodes peerEurekaNodes) throws Exception;
 
     /**
      * Populates the registry information from a peer eureka node. This
      * operation fails over to other nodes until the list is exhausted if the
      * communication fails.
+     *
+     * @return the count of syncUp node
      */
     int syncUp();
 
@@ -41,12 +49,26 @@ public interface PeerAwareInstanceRegistry extends InstanceRegistry {
      * {@link com.netflix.eureka.EurekaServerConfig#getWaitTimeInMsWhenSyncEmpty()}, if it cannot
      * get the registry information from the peer eureka nodes at start up.
      *
+     * @param remoteRegionRequired
      * @return false - if the instances count from a replica transfer returned
      * zero and if the wait time has not elapsed, otherwise returns true
      */
     boolean shouldAllowAccess(boolean remoteRegionRequired);
 
+    /**
+     * 注册
+     *
+     * @param info
+     * @param isReplication
+     */
     void register(InstanceInfo info, boolean isReplication);
 
+    /**
+     * 状态更新
+     *
+     * @param asgName
+     * @param newStatus
+     * @param isReplication
+     */
     void statusUpdate(final String asgName, final ASGResource.ASGStatus newStatus, final boolean isReplication);
 }

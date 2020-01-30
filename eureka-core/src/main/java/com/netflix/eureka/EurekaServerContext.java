@@ -22,6 +22,8 @@ import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
 import com.netflix.eureka.resources.ServerCodecs;
 
 /**
+ * EurekaServer 上下文
+ *
  * @author David Liu
  */
 public interface EurekaServerContext {

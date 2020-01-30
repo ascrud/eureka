@@ -1,18 +1,17 @@
 package com.netflix.eureka.util;
 
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.config.ConfigurationManager;
+import com.netflix.discovery.provider.Serializer;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.netflix.appinfo.ApplicationInfoManager;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.config.ConfigurationManager;
-import com.netflix.discovery.provider.Serializer;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
  * An utility class for exposing status information of an instance.
@@ -22,7 +21,65 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 @Serializer("com.netflix.discovery.converters.EntityBodyConverter")
 @XStreamAlias("status")
 public class StatusInfo {
+
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss Z";
+
+    private Map<String, String> generalStats = new HashMap<String, String>();
+    private Map<String, String> applicationStats;
+    private InstanceInfo instanceInfo;
+
+    private Boolean isHeathly;
+
+    private StatusInfo() {
+    }
+
+    public InstanceInfo getInstanceInfo() {
+        return instanceInfo;
+    }
+
+    public boolean isHealthy() {
+        return isHeathly.booleanValue();
+    }
+
+    public Map<String, String> getGeneralStats() {
+        return generalStats;
+    }
+
+    public Map<String, String> getApplicationStats() {
+        return applicationStats;
+    }
+
+    /**
+     * Output the amount of time that has elapsed since the given date in the
+     * format x days, xx:xx.
+     *
+     * @return A string representing the formatted interval.
+     */
+    public static String getUpTime() {
+        long diff = ManagementFactory.getRuntimeMXBean().getUptime();
+        diff /= 1000 * 60;
+        long minutes = diff % 60;
+        diff /= 60;
+        long hours = diff % 24;
+        diff /= 24;
+        long days = diff;
+        StringBuilder buf = new StringBuilder();
+        if (days == 1) {
+            buf.append("1 day ");
+        } else if (days > 1) {
+            buf.append(Long.valueOf(days).toString()).append(" days ");
+        }
+        DecimalFormat format = new DecimalFormat();
+        format.setMinimumIntegerDigits(2);
+        buf.append(format.format(hours)).append(":")
+                .append(format.format(minutes));
+        return buf.toString();
+    }
+
+    public static String getCurrentTimeAsString() {
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+        return format.format(new Date());
+    }
 
     public static final class Builder {
 
@@ -86,61 +143,5 @@ public class StatusInfo {
 
             return result;
         }
-    }
-
-    private Map<String, String> generalStats = new HashMap<String, String>();
-    private Map<String, String> applicationStats;
-    private InstanceInfo instanceInfo;
-    private Boolean isHeathly;
-
-    private StatusInfo() {
-    }
-
-    public InstanceInfo getInstanceInfo() {
-        return instanceInfo;
-    }
-
-    public boolean isHealthy() {
-        return isHeathly.booleanValue();
-    }
-
-    public Map<String, String> getGeneralStats() {
-        return generalStats;
-    }
-
-    public Map<String, String> getApplicationStats() {
-        return applicationStats;
-    }
-
-    /**
-     * Output the amount of time that has elapsed since the given date in the
-     * format x days, xx:xx.
-     *
-     * @return A string representing the formatted interval.
-     */
-    public static String getUpTime() {
-        long diff = ManagementFactory.getRuntimeMXBean().getUptime();
-        diff /= 1000 * 60;
-        long minutes = diff % 60;
-        diff /= 60;
-        long hours = diff % 24;
-        diff /= 24;
-        long days = diff;
-        StringBuilder buf = new StringBuilder();
-        if (days == 1) {
-            buf.append("1 day ");
-        } else if (days > 1) {
-            buf.append(Long.valueOf(days).toString()).append(" days ");
-        }
-        DecimalFormat format = new DecimalFormat();
-        format.setMinimumIntegerDigits(2);
-        buf.append(format.format(hours)).append(":")
-                .append(format.format(minutes));
-        return buf.toString();
-    }
-
-    public static String getCurrentTimeAsString() {
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
-        return format.format(new Date());
     }
 }
